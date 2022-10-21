@@ -1,7 +1,7 @@
 module.exports = {
 	root: true,
 	parser: '@typescript-eslint/parser',
-	extends: ['standard'],
+	extends: ['standard-with-typescript', 'eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
 	plugins: ['svelte3', '@typescript-eslint'],
 	ignorePatterns: ['*.cjs'],
 	overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
@@ -10,7 +10,8 @@ module.exports = {
 	},
 	parserOptions: {
 		sourceType: 'module',
-		ecmaVersion: 2020
+    ecmaVersion: 2020,
+    project: './tsconfig.json'
 	},
 	env: {
 		browser: true,
