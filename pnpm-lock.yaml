@@ -1,0 +1,16 @@
+lockfileVersion: 5.4
+
+specifiers:
+  svelte-materialify: ^0.3.11
+
+dependencies:
+  svelte-materialify: 0.3.11
+
+packages:
+
+  /svelte-materialify/0.3.11:
+    resolution: {integrity: sha512-MLtZtdSOHditOdJOYqlB8s7NxIFRbYKXJzij5s9gz5WVbJFVEqdX2TqOleg4wYeMOujtOCm+/x3RP5YGyzRxIQ==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+    peerDependencies:
+      svelte: '>=3.29.4'
+    dev: false

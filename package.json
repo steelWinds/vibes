@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"svelte-materialify": "^0.3.11"
+	}
+}
