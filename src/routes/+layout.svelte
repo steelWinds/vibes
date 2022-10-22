@@ -11,6 +11,7 @@
     tw-h-screen
     tw-w-screen
     tw-overflow-hidden
+    tw-relative
   "
 >
 	<slot />
