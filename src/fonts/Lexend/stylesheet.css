@@ -1,7 +1,6 @@
 @font-face {
 	font-family: 'Lexend';
-	src: url('Lexend-Black.woff2') format('woff2'),
-		url('Lexend-Black.woff') format('woff'),
+	src: url('Lexend-Black.woff2') format('woff2'), url('Lexend-Black.woff') format('woff'),
 		url('Lexend-Black.ttf') format('truetype');
 	font-weight: 900;
 	font-style: normal;
@@ -10,8 +9,7 @@
 
 @font-face {
 	font-family: 'Lexend';
-	src: url('Lexend-ExtraLight.woff2') format('woff2'),
-		url('Lexend-ExtraLight.woff') format('woff'),
+	src: url('Lexend-ExtraLight.woff2') format('woff2'), url('Lexend-ExtraLight.woff') format('woff'),
 		url('Lexend-ExtraLight.ttf') format('truetype');
 	font-weight: 200;
 	font-style: normal;
@@ -20,8 +18,7 @@
 
 @font-face {
 	font-family: 'Lexend';
-	src: url('Lexend-Bold.woff2') format('woff2'),
-		url('Lexend-Bold.woff') format('woff'),
+	src: url('Lexend-Bold.woff2') format('woff2'), url('Lexend-Bold.woff') format('woff'),
 		url('Lexend-Bold.ttf') format('truetype');
 	font-weight: bold;
 	font-style: normal;
@@ -30,8 +27,7 @@
 
 @font-face {
 	font-family: 'Lexend';
-	src: url('Lexend-ExtraBold.woff2') format('woff2'),
-		url('Lexend-ExtraBold.woff') format('woff'),
+	src: url('Lexend-ExtraBold.woff2') format('woff2'), url('Lexend-ExtraBold.woff') format('woff'),
 		url('Lexend-ExtraBold.ttf') format('truetype');
 	font-weight: bold;
 	font-style: normal;
@@ -40,8 +36,7 @@
 
 @font-face {
 	font-family: 'Lexend';
-	src: url('Lexend-Light.woff2') format('woff2'),
-		url('Lexend-Light.woff') format('woff'),
+	src: url('Lexend-Light.woff2') format('woff2'), url('Lexend-Light.woff') format('woff'),
 		url('Lexend-Light.ttf') format('truetype');
 	font-weight: 300;
 	font-style: normal;
@@ -50,8 +45,7 @@
 
 @font-face {
 	font-family: 'Lexend';
-	src: url('Lexend-Regular.woff2') format('woff2'),
-		url('Lexend-Regular.woff') format('woff'),
+	src: url('Lexend-Regular.woff2') format('woff2'), url('Lexend-Regular.woff') format('woff'),
 		url('Lexend-Regular.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
@@ -60,8 +54,7 @@
 
 @font-face {
 	font-family: 'Lexend';
-	src: url('Lexend-Medium.woff2') format('woff2'),
-		url('Lexend-Medium.woff') format('woff'),
+	src: url('Lexend-Medium.woff2') format('woff2'), url('Lexend-Medium.woff') format('woff'),
 		url('Lexend-Medium.ttf') format('truetype');
 	font-weight: 500;
 	font-style: normal;
@@ -70,8 +63,7 @@
 
 @font-face {
 	font-family: 'Lexend';
-	src: url('Lexend-Thin.woff2') format('woff2'),
-		url('Lexend-Thin.woff') format('woff'),
+	src: url('Lexend-Thin.woff2') format('woff2'), url('Lexend-Thin.woff') format('woff'),
 		url('Lexend-Thin.ttf') format('truetype');
 	font-weight: 100;
 	font-style: normal;
@@ -80,8 +72,7 @@
 
 @font-face {
 	font-family: 'Lexend';
-	src: url('Lexend-SemiBold.woff2') format('woff2'),
-		url('Lexend-SemiBold.woff') format('woff'),
+	src: url('Lexend-SemiBold.woff2') format('woff2'), url('Lexend-SemiBold.woff') format('woff'),
 		url('Lexend-SemiBold.ttf') format('truetype');
 	font-weight: 600;
 	font-style: normal;

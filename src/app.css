@@ -10,9 +10,9 @@
 }
 
 .custom {
-  &.hidden {
-    &:after {
-      transform: translate(-50%, -50%) scale(1);
-    }
-  }
+	&.hidden {
+		&:after {
+			transform: translate(-50%, -50%) scale(1);
+		}
+	}
 }

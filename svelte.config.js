@@ -12,10 +12,10 @@ const config = {
 	],
 
 	kit: {
-    adapter: adapter(),
-    alias: {
-      '@/*': 'src/*'
-    }
+		adapter: adapter(),
+		alias: {
+			'@/*': 'src/*'
+		}
 	}
 };
 

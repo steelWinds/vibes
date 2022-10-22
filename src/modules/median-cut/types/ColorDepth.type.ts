@@ -1,6 +1,6 @@
 type ColorDepth = {
-  depth: number,
-  maxDepth: number
-}
+	depth: number;
+	maxDepth: number;
+};
 
-export type { ColorDepth }
+export type { ColorDepth };
