@@ -9,6 +9,10 @@
 	font-family: 'Lexend' !important;
 }
 
+button {
+  user-select: none !important;
+}
+
 .custom {
 	&.hidden {
 		&:after {

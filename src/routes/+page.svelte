@@ -1,16 +1,21 @@
 <script lang="ts">
-	import Color from 'color';
-	import { scale } from 'svelte/transition';
+  import type { SvelteComponent } from 'svelte';
 	import { onMount } from 'svelte';
+	import { scale } from 'svelte/transition';
+	import { median } from '@/modules/median-cut';
+  import DrawerMenu from '@/lib/UI/DrawerMenu.svelte';
+  import Link from '@/lib/UI/Link.svelte'
+	import Color from 'color';
 	import { Swiper, SwiperSlide } from 'swiper/svelte';
 	import { Navigation } from 'swiper';
-	import { median } from '@/modules/median-cut';
 	import 'swiper/css';
 
 	let image: HTMLImageElement;
 	let canvas: HTMLCanvasElement;
+  let menu: SvelteComponent;
 
-	$: showOptionsBtns = true;
+  $: menuVisible = false;
+	$: showOptions = true;
 	$: currentColor = '#ffff';
 	$: alternateColor = Color(currentColor).negate().rotate(10).saturate(0.5).hex();
 
@@ -26,8 +31,6 @@
 			depth: 1,
 			maxDepth: 1
 		});
-
-		console.log(RGBColor);
 
 		currentColor = Color(RGBColor?.[0]).hex();
 	};
@@ -48,7 +51,7 @@
 		window.addEventListener('keyup', (event) => {
 			if (event.code !== 'Space') return;
 
-			showOptionsBtns = !showOptionsBtns;
+			showOptions = !showOptions;
 		});
 	});
 </script>
@@ -73,22 +76,35 @@
       tw-top-10
     "
 	>
-		{#if showOptionsBtns}
+		{#if showOptions}
 			<button
+        on:click={
+          () => {
+            menuVisible = menu.toggleVisible()
+          }
+        }
 				transition:scale={{
 					duration: 250
 				}}
-				class="
+        class:tw-shadow-xl={menuVisible}
+        class="
           custom
           tw-p-3
           tw-rounded-full
           tw-aspect-square
           tw-bg-white
           tw-relative
+          tw-z-50
         "
 				style:--pseudo-bg-color={currentColor}
 			>
-				<img src="/assets/ui-icons/menu.svg" class="tw-w-[18px]" alt="Menu icon" />
+				{#if menuVisible}
+          <img transition:scale src="/assets/ui-icons/cross.svg" class="tw-w-[18px]" alt="Cross icon" />
+
+          {:else}
+
+          <img transition:scale src="/assets/ui-icons/menu.svg" class="tw-w-[18px]" alt="Menu icon" />
+        {/if}
 			</button>
 		{/if}
 	</div>
@@ -110,69 +126,79 @@
       tw-min-w-0
     "
 	>
-		<button
-			class="
-        tw-hidden
-        tablet:tw-block
-        tw-z-10
-        tw-absolute
-        tw-top-1/2
-        tw--left-[36px]
-        tw--translate-y-1/2
-        prev-arr
-        tw-w-[32px]
-        tw-aspect-square
-        tw--rotate-90
-      "
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 47.255 47.255"
-				style:fill={alternateColor}
-				class="tw-transition-all tw-duration-500"
-				><path
-					d="M46.255 35.941a.997.997 0 01-.707-.293l-21.921-21.92-21.92 21.92a.999.999 0 11-1.414-1.414L22.92 11.607a.999.999 0 011.414 0l22.627 22.627a.999.999 0 01-.706 1.707z"
-				/></svg
-			>
-		</button>
+		{#if showOptions}
+      <button
+        transition:scale={{
+          duration: 250
+        }}
+        class="
+          tw-hidden
+          tablet:tw-block
+          tw-z-10
+          tw-absolute
+          tw-top-1/2
+          tw--left-[36px]
+          tw--translate-y-1/2
+          prev-arr
+          tw-w-[32px]
+          tw-aspect-square
+          tw--rotate-90
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 47.255 47.255"
+          style:fill={alternateColor}
+          class="tw-transition-all tw-duration-500"
+          ><path
+            d="M46.255 35.941a.997.997 0 01-.707-.293l-21.921-21.92-21.92 21.92a.999.999 0 11-1.414-1.414L22.92 11.607a.999.999 0 011.414 0l22.627 22.627a.999.999 0 01-.706 1.707z"
+          /></svg
+        >
+      </button>
 
-		<button
-			class="
-        tw-hidden
-        tablet:tw-block
-        tw-z-10
-        tw-absolute
-        tw-top-1/2
-        tw--right-[36px]
-        tw--translate-y-1/2
-        next-arr
-        tw-w-[32px]
-        tw-aspect-square
-        tw-rotate-90
-      "
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 47.255 47.255"
-				style:fill={alternateColor}
-				class="tw-transition-all tw-duration-500"
-				><path
-					d="M46.255 35.941a.997.997 0 01-.707-.293l-21.921-21.92-21.92 21.92a.999.999 0 11-1.414-1.414L22.92 11.607a.999.999 0 011.414 0l22.627 22.627a.999.999 0 01-.706 1.707z"
-				/></svg
-			>
-		</button>
+      <button
+        transition:scale={{
+          duration: 250
+        }}
+        class="
+          tw-hidden
+          tablet:tw-block
+          tw-z-10
+          tw-absolute
+          tw-top-1/2
+          tw--right-[36px]
+          tw--translate-y-1/2
+          next-arr
+          tw-w-[32px]
+          tw-aspect-square
+          tw-rotate-90
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 47.255 47.255"
+          style:fill={alternateColor}
+          class="tw-transition-all tw-duration-500"
+          ><path
+            d="M46.255 35.941a.997.997 0 01-.707-.293l-21.921-21.92-21.92 21.92a.999.999 0 11-1.414-1.414L22.92 11.607a.999.999 0 011.414 0l22.627 22.627a.999.999 0 01-.706 1.707z"
+          /></svg
+        >
+      </button>
+    {/if}
 
 		<Swiper
 			modules={[Navigation]}
-			navigation={{
+			navigation={showOptions ? {
+        enabled: showOptions,
 				nextEl: '.next-arr',
 				prevEl: '.prev-arr'
-			}}
+			} : false}
 			class="
         tw-w-full
         tw-rounded-2xl
         tw-drop-shadow-2xl
         tw-aspect-square
+        tw-select-none
         ultra-mobile:tw-aspect-auto
       "
 			slidesPerView={1}
@@ -201,3 +227,65 @@
 		</Swiper>
 	</div>
 </div>
+
+<DrawerMenu
+  class="
+    tw-w-full
+    tablet:tw-w-[300px]
+    tw-p-0
+    tablet:tw-p-3
+  "
+  containerClass="
+    tw-rounded-none
+    tablet:tw-rounded-xl
+    tw-grid
+    tw-grid-rows-2
+    tw-bg-white
+  "
+  positionSide="left"
+  bind:this={menu}
+>
+  <Link link="jopa" class="tw-group">
+    <div 
+      class="
+        tw-rounded-xl
+        tw-w-full
+        tw-h-full
+        group-hover:tw-scale-75
+        group-hover:tw-shadow-xl
+        tw-transition-all
+        tw-duration-300
+        tw-grid
+        tw-place-items-center
+      "
+    >
+      <img
+        class="tw-w-full tw-max-w-[10rem]"
+        src="/assets/ui-icons/img-search.svg"
+        alt="Icon of img-search"
+      />
+    </div>
+  </Link>
+
+  <Link link="jopa" class="tw-group">
+    <div
+      class="
+        tw-rounded-xl
+        tw-w-full
+        tw-h-full
+        group-hover:tw-scale-75
+        group-hover:tw-shadow-xl
+        tw-transition-all
+        tw-duration-300
+        tw-grid
+        tw-place-items-center
+      "
+    >
+      <img
+        class="tw-w-full tw-max-w-[10rem]"
+        src="/assets/ui-icons/img-download.svg"
+        alt="Icon of img-download"
+      >
+    </div>
+  </Link>
+</DrawerMenu>
