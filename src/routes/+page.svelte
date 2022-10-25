@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { scale } from 'svelte/transition';
 	import { median } from '@/modules/median-cut';
-  import addKeyListener from '@/modules/add-key-listener'
+	import addKeyListener from '@/modules/add-key-listener';
 	import DrawerMenu from '@/lib/UI/DrawerMenu.svelte';
 	import Link from '@/lib/UI/Link.svelte';
 	import SwitchBtn from '@/lib/UI/SwitchBtn.svelte';
@@ -18,9 +18,9 @@
 	let canvas: HTMLCanvasElement;
 	let imageTypeMenu: SvelteComponent;
 	let sourceModeMenu: SvelteComponent;
-  let uploadingModalState = false;
-	
-  $: imageTypeMenuVisible = false;
+	let uploadingModalState = false;
+
+	$: imageTypeMenuVisible = false;
 	$: sourceModeMenuVisible = false;
 	$: showOptions = true;
 	$: currentColor = '#ffff';
@@ -55,11 +55,11 @@
 	};
 
 	onMount(() => {
-    addKeyListener({
-      callback: () => showOptions = !showOptions,
-      target: window,
-      keyCode: 'Space'
-    })
+		addKeyListener({
+			callback: () => (showOptions = !showOptions),
+			target: window,
+			keyCode: 'Space'
+		});
 	});
 </script>
 
