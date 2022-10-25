@@ -1,14 +1,20 @@
 <script lang="ts">
-  import type { TransitionConfig } from 'svelte/transition'
+	import type { TransitionConfig, EasingFunction } from 'svelte/transition';
 
-  export let transitionProps = {};
-  export let transitionType: (node: HTMLElement, props: {}) => TransitionConfig;
+	interface TransitionParams {
+		delay?: number;
+		duration?: number;
+		easing?: EasingFunction;
+	}
+
+	export let transitionProps: TransitionParams = {};
+	export let transitionType: (node: HTMLElement, props: TransitionParams) => TransitionConfig;
 	export let switchValue = false;
-  export let switchedClass = '';
+	export let switchedClass = '';
 </script>
 
 <button
-  on:click
+	on:click
 	class={`
     out-in-transition
     ${$$restProps.class}
@@ -27,5 +33,4 @@
 </button>
 
 <style>
-
 </style>

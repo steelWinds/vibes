@@ -5,12 +5,12 @@
 	import { median } from '@/modules/median-cut';
 	import DrawerMenu from '@/lib/UI/DrawerMenu.svelte';
 	import Link from '@/lib/UI/Link.svelte';
-  import SwitchBtn from '@/lib/UI/SwitchBtn.svelte'
+	import SwitchBtn from '@/lib/UI/SwitchBtn.svelte';
 	import Color from 'color';
 	import { Swiper, SwiperSlide } from 'swiper/svelte';
-  import { FileUploaderDropContainer } from 'carbon-components-svelte';
+	import { FileUploaderDropContainer } from 'carbon-components-svelte';
 	import { Navigation } from 'swiper';
-  import { Modal } from "carbon-components-svelte";
+	import { Modal } from 'carbon-components-svelte';
 	import 'swiper/css';
 
 	let image: HTMLImageElement;
@@ -18,7 +18,7 @@
 	let imageTypeMenu: SvelteComponent;
 	let sourceModeMenu: SvelteComponent;
 
-  let uploadingModalState = false;
+	let uploadingModalState = false;
 	$: imageTypeMenuVisible = false;
 	$: sourceModeMenuVisible = false;
 	$: showOptions = true;
@@ -76,11 +76,11 @@
 	style:background={currentColor}
 >
 	{#if showOptions}
-    <div
-      transition:scale={{
-        duration: 250
-      }}
-      class="
+		<div
+			transition:scale={{
+				duration: 250
+			}}
+			class="
         tw-grid
         tw-grid-cols-2
         tw-gap-3
@@ -88,17 +88,17 @@
         tw-right-10
         tw-top-10
       "
-    >
-      <SwitchBtn
-        on:click={() => {
-          imageTypeMenuVisible = imageTypeMenu.toggleVisible();
-        }}
-        transitionType={scale}
-        transitionProps={{
-          duration: 250
-        }}
-        switchValue={imageTypeMenuVisible}
-        class="
+		>
+			<SwitchBtn
+				on:click={() => {
+					imageTypeMenuVisible = imageTypeMenu.toggleVisible();
+				}}
+				transitionType={scale}
+				transitionProps={{
+					duration: 250
+				}}
+				switchValue={imageTypeMenuVisible}
+				class="
           tw-transition-all
           tw-duration-300
           custom
@@ -108,39 +108,31 @@
           tw-bg-white
           tw-relative
         "
-        switchedClass="
+				switchedClass="
           tw-shadow-xl
           tablet:tw-shadow-none
           tw-z-50
         "
-      >
-        <svelte:fragment slot="switch-true">
-          <img
-            src="/assets/ui-icons/cross.svg"
-            class="tw-w-[18px]"
-            alt="Cross icon"
-          />
-        </svelte:fragment>
+			>
+				<svelte:fragment slot="switch-true">
+					<img src="/assets/ui-icons/cross.svg" class="tw-w-[18px]" alt="Cross icon" />
+				</svelte:fragment>
 
-        <svelte:fragment slot="switch-false">
-          <img
-            src="/assets/ui-icons/menu.svg"
-            class="tw-w-[18px]"
-            alt="Cross icon"
-          />
-        </svelte:fragment>
-      </SwitchBtn>
+				<svelte:fragment slot="switch-false">
+					<img src="/assets/ui-icons/menu.svg" class="tw-w-[18px]" alt="Cross icon" />
+				</svelte:fragment>
+			</SwitchBtn>
 
-      <SwitchBtn
-        on:click={() => {
-          sourceModeMenuVisible = sourceModeMenu.toggleVisible();
-        }}
-        transitionType={scale}
-        transitionProps={{
-          duration: 250
-        }}
-        switchValue={sourceModeMenuVisible}
-        class="
+			<SwitchBtn
+				on:click={() => {
+					sourceModeMenuVisible = sourceModeMenu.toggleVisible();
+				}}
+				transitionType={scale}
+				transitionProps={{
+					duration: 250
+				}}
+				switchValue={sourceModeMenuVisible}
+				class="
           tw-transition-all
           tw-duration-300
           custom
@@ -150,29 +142,21 @@
           tw-bg-white
           tw-relative
         "
-        switchedClass="
+				switchedClass="
           tw-shadow-xl
           tw-z-50
         "
-      >
-        <svelte:fragment slot="switch-true">
-          <img
-            src="/assets/ui-icons/cross.svg"
-            class="tw-w-[18px]"
-            alt="Cross icon"
-          />
-        </svelte:fragment>
+			>
+				<svelte:fragment slot="switch-true">
+					<img src="/assets/ui-icons/cross.svg" class="tw-w-[18px]" alt="Cross icon" />
+				</svelte:fragment>
 
-        <svelte:fragment slot="switch-false">
-          <img
-            src="/assets/ui-icons/switch-mode.svg"
-            class="tw-w-[18px]"
-            alt="Cross icon"
-          />
-        </svelte:fragment>
-      </SwitchBtn>
-    </div>
-  {/if}
+				<svelte:fragment slot="switch-false">
+					<img src="/assets/ui-icons/switch-mode.svg" class="tw-w-[18px]" alt="Cross icon" />
+				</svelte:fragment>
+			</SwitchBtn>
+		</div>
+	{/if}
 
 	<canvas
 		bind:this={canvas}
@@ -369,38 +353,33 @@
 	positionSide="left"
 	bind:this={sourceModeMenu}
 >
-  <button class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
-    <span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
-      STARTED
-    </span>
-  </button>
+	<button class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
+		<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> STARTED </span>
+	</button>
 
-  <button class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
-    <span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
-      INTERNET
-    </span>
-  </button>
+	<button class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
+		<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> INTERNET </span>
+	</button>
 
-  <button
-    on:click={() => uploadingModalState = true}
-    class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
-    <span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
-      UPLOAD
-    </span>
-  </button>
+	<button
+		on:click={() => (uploadingModalState = true)}
+		class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
+	>
+		<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> UPLOAD </span>
+	</button>
 </DrawerMenu>
 
 <Modal
-  class="custom-modal no-footer"
-  bind:open={uploadingModalState}
-  modalHeading="Upload file(s)"
-  on:open
-  on:close
-  on:submit
-  passiveModal
+	class="custom-modal no-footer"
+	bind:open={uploadingModalState}
+	modalHeading="Upload file(s)"
+	on:open
+	on:close
+	on:submit
+	passiveModal
 >
-  <FileUploaderDropContainer
-    class="custom-uploader"
-    labelText="Drag and drop files here or click to upload"
-  />
+	<FileUploaderDropContainer
+		class="custom-uploader"
+		labelText="Drag and drop files here or click to upload"
+	/>
 </Modal>

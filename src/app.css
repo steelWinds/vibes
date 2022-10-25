@@ -12,50 +12,46 @@
 
 button {
 	user-select: none !important;
-  -webkit-tap-highlight-color: transparent !important;
+	-webkit-tap-highlight-color: transparent !important;
 }
 
 .out-in-transition {
-  display: grid;
+	display: grid;
 
-  & > * {
-    grid-area: 1/1/ 2/2;
-  }
+	& > * {
+		grid-area: 1/1/ 2/2;
+	}
 }
 
 .scaleable-shadow {
-  & > * {
-    @apply
-      tw-transition-all
+	& > * {
+		@apply tw-transition-all
       tw-duration-300;
-  }
+	}
 
-  &:hover > * {
-    @apply
-      tw-scale-75
+	&:hover > * {
+		@apply tw-scale-75
       tw-shadow-xl;
-  }
+	}
 }
 
 .custom-modal {
-  &.no-footer {
-    & .bx--modal-content {
-      @apply tw-m-0 tw-py-3;
-    }
-  }
+	&.no-footer {
+		& .bx--modal-content {
+			@apply tw-m-0 tw-py-3;
+		}
+	}
 
-  & .bx--modal-container {
-    @apply
-      tw-bg-white
+	& .bx--modal-container {
+		@apply tw-bg-white
       tw-rounded-xl;
 
-    & *:not(button) {
-      @apply tw-text-raisin-black;
-    }
+		& *:not(button) {
+			@apply tw-text-raisin-black;
+		}
 
-    & button {
-      @apply 
-        tw-p-2 
+		& button {
+			@apply tw-p-2 
         tw-flex
         tw-justify-center
         tw-text-raisin-black
@@ -63,26 +59,25 @@ button {
         active:tw-text-white
         hover:tw-bg-raisin-black
         active:tw-bg-raisin-black;
-    }
+		}
 
-    & .bx--modal-close {
-      @apply
-        tw-rounded-tr-xl
+		& .bx--modal-close {
+			@apply tw-rounded-tr-xl
         focus:tw-border-raisin-black;
 
-      & svg {
-        @apply tw-fill-raisin-black;
-      }
+			& svg {
+				@apply tw-fill-raisin-black;
+			}
 
-      &:hover svg {
-        @apply tw-fill-white;
-      }
-    }
-  }
+			&:hover svg {
+				@apply tw-fill-white;
+			}
+		}
+	}
 }
 
 .custom-uploader {
-  & .bx--file-browse-btn {
-    max-inline-size: none;
-  }
+	& .bx--file-browse-btn {
+		max-inline-size: none;
+	}
 }
