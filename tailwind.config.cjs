@@ -8,12 +8,12 @@ module.exports = {
 			screens: {
 				'ultra-mobile': '300px',
 				tablet: '624px'
-      },
+			},
 
-      colors: {
-        'raisin-black': '#242124',
-        white: '#ffffff'
-      }
+			colors: {
+				'raisin-black': '#242124',
+				white: '#ffffff'
+			}
 		}
 	},
 	plugins: []
