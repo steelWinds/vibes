@@ -19,7 +19,9 @@
 	let imageTypeMenu: SvelteComponent;
 	let sourceModeMenu: SvelteComponent;
 	let uploadingModalState = false;
+  let files: File[];
 
+  $: notNullFiles = Array.from(files ?? []).filter((file) => !!file.size)
 	$: imageTypeMenuVisible = false;
 	$: sourceModeMenuVisible = false;
 	$: showOptions = true;
@@ -380,7 +382,11 @@
 	passiveModal
 >
 	<FileUploaderDropContainer
+    multiple
 		class="custom-uploader"
 		labelText="Drag and drop files here or click to upload"
-	/>
+    on:change={(event) => {
+      files = Array.from(event.detail)
+    }}
+  />
 </Modal>

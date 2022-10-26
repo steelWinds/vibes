@@ -12,8 +12,6 @@ const addKeyListener = (params: Params) => {
 
 			if (event.code === keyCode) {
 				callback();
-
-				console.log(event);
 			}
 		},
 		listenerProps
