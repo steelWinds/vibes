@@ -1,5 +1,5 @@
 interface URLData {
-  url: string
+	url: string;
 }
 
-export type { URLData }
+export type { URLData };

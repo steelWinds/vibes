@@ -1,6 +1,6 @@
 interface ExtractCanvas {
-  image: HTMLImageElement,
-  canvas: HTMLCanvasElement,
+	image: HTMLImageElement;
+	canvas: HTMLCanvasElement;
 }
 
-export type { ExtractCanvas }
+export type { ExtractCanvas };
