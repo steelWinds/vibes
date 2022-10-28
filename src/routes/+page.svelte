@@ -17,8 +17,6 @@
 	import { Navigation } from 'swiper';
 	import { Modal } from 'carbon-components-svelte';
 
-	import 'swiper/css';
-
 	type SourceType = 'uploading' | 'started' | 'internet';
 
 	let currentImage: HTMLImageElement;

@@ -1,6 +1,7 @@
 @import './fonts/fonts.css';
 @import 'swiper/css';
 @import 'carbon-components-svelte/css/g100.css';
+@import 'swiper/css';
 
 @tailwind base;
 @tailwind components;
