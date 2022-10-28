@@ -12,8 +12,8 @@ const extractImage = (props: Props): ImageData | null => {
 
 	const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-  const xPoint = image.naturalWidth / 2 - canvas.width / 2
-  const yPoint = image.naturalHeight / 2 - canvas.height / 2
+	const xPoint = image.naturalWidth / 2 - canvas.width / 2;
+	const yPoint = image.naturalHeight / 2 - canvas.height / 2;
 
 	ctx.drawImage(image, -xPoint, -yPoint);
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Swiper as ISwiper } from 'swiper/types';
 	import type { SvelteComponent } from 'svelte';
 	import type { URLData } from '@/modules/get-img-url/types/URLData.type';
 
