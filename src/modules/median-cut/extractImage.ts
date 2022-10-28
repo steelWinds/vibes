@@ -1,8 +1,14 @@
-const extractImage = (image: HTMLImageElement, canvas: HTMLCanvasElement): ImageData | null => {
-	console.log(image.width, image.height);
+import type { ExtractCanvas } from './types/ExtractCanvas.type'
 
-	canvas.width = image.naturalWidth;
-	canvas.height = image.naturalHeight;
+interface Props extends ExtractCanvas {
+  sizes?: { inline: number, block: number }
+}
+
+const extractImage = (props: Props): ImageData | null => {
+  const { image, canvas, sizes } = props
+  
+  canvas.width = sizes?.inline ?? image.width;
+	canvas.height = sizes?.block ?? image.height;
 
 	const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 

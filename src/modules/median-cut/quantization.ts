@@ -2,7 +2,7 @@ import type { RGBData } from './types/RGBData.type';
 import colorRange from './colorRange';
 import getColor from './getColor';
 
-const quantization = (RGBValues?: RGBData[], depth = 1, maxDepth = 4): RGBData[] | undefined => {
+const quantization = (RGBValues?: RGBData[], depth = 1, maxDepth = 1): RGBData[] | undefined => {
 	if (!RGBValues) return;
 
 	if (depth === maxDepth || !RGBValues.length) {

@@ -16,6 +16,7 @@
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@types/color": "^3.0.3",
+		"@types/lodash-es": "^4.17.6",
 		"@typescript-eslint/eslint-plugin": "^5.0.0",
 		"@typescript-eslint/parser": "^5.27.0",
 		"autoprefixer": "^10.4.12",
@@ -44,8 +45,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"browser-image-compression": "^2.0.0",
 		"color": "^4.2.3",
 		"colorjs.io": "^0.4.0",
+		"lodash-es": "^4.17.21",
 		"swiper": "^8.4.4"
 	}
 }

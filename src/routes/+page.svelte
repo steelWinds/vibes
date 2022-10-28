@@ -1,60 +1,87 @@
 <script lang="ts">
-	import type { SvelteComponent } from 'svelte';
+  import type { Swiper as ISwiper } from 'swiper/types'
+  import type { SvelteComponent } from 'svelte';
+  import type { URLData } from '@/modules/get-img-url/types/URLData.type'
+
+  import { getColorWithType } from '@/modules/median-cut'
+  import getImgURL from '@/modules/get-img-url'
+	import addKeyListener from '@/modules/add-key-listener';
 	import { onMount } from 'svelte';
 	import { scale } from 'svelte/transition';
-	import { median } from '@/modules/median-cut';
-	import addKeyListener from '@/modules/add-key-listener';
 	import DrawerMenu from '@/lib/UI/DrawerMenu.svelte';
 	import Link from '@/lib/UI/Link.svelte';
 	import SwitchBtn from '@/lib/UI/SwitchBtn.svelte';
 	import Color from 'color';
-	import { Swiper, SwiperSlide } from 'swiper/svelte';
+  import Slider from '@/lib/modules/Slider.svelte';
+	import { SwiperSlide } from 'swiper/svelte';
 	import { FileUploaderDropContainer } from 'carbon-components-svelte';
 	import { Navigation } from 'swiper';
 	import { Modal } from 'carbon-components-svelte';
-	import 'swiper/css';
+	
+  import 'swiper/css';
 
-	let image: HTMLImageElement;
+  type SourceType = 'uploading' | 'started' | 'internet'
+  
+  let currentImage: HTMLImageElement;
+  let currentImagesStack: HTMLImageElement[] = [];
+  let currentSourceType: SourceType = 'started';
 	let canvas: HTMLCanvasElement;
 	let imageTypeMenu: SvelteComponent;
 	let sourceModeMenu: SvelteComponent;
 	let uploadingModalState = false;
-	let files: File[];
-
-	$: notNullFiles = Array.from(files ?? []).filter((file) => !!file.size);
-	$: imageTypeMenuVisible = false;
-	$: sourceModeMenuVisible = false;
-	$: showOptions = true;
-	$: currentColor = '#ffff';
+	let imagesFiles: URLData[] = [];
+	let imageTypeMenuVisible = false;
+	let sourceModeMenuVisible = false;
+	let showOptions = true;
+	let currentColor = '#ffff';
+  
 	$: alternateColor = Color(currentColor).negate().rotate(10).saturate(0.5).hex();
 
-	const getSliderImage = (): HTMLImageElement => {
-		const centerX = document.documentElement.clientWidth / 2;
-		const centerY = document.documentElement.clientHeight / 2;
+  const changeColor = () => {
+    currentColor = getColorWithType({
+      image: currentImage,
+      canvas,
+      type: 'hex'
+    })
+  }
 
-		return document.elementFromPoint(centerX, centerY) as HTMLImageElement;
-	};
+	const changeImage = (event: CustomEvent) => {
+    const { activeIndex } = event.detail
+    const image = currentImagesStack[activeIndex]
 
-	const setCurrentColor = () => {
-		const RGBColor = median(image, canvas, {
-			depth: 1,
-			maxDepth: 1
-		});
+    if (!image) return
 
-		currentColor = Color(RGBColor?.[0]).hex();
-	};
-
-	const changeImage = () => {
-		image = getSliderImage();
+    currentImage = image
 
 		if (image.complete) {
-			setCurrentColor();
+			changeColor();
 		}
 
 		image.onload = () => {
-			setCurrentColor();
+			changeColor();
 		};
 	};
+
+  const setUploadingImages = async (event: CustomEvent) => {
+    imagesFiles = []
+    console.log('start')
+
+    imagesFiles = await getImgURL(...event.detail)
+
+    console.log('end')
+
+    if (!imagesFiles.length) return
+
+    changeSourceType('uploading')
+  }
+
+  const clearImagesStack = () => {
+    currentImagesStack = []
+  }
+
+  const changeSourceType = (type: SourceType) => {
+    currentSourceType = type
+  }
 
 	onMount(() => {
 		addKeyListener({
@@ -240,47 +267,79 @@
 			</button>
 		{/if}
 
-		<Swiper
-			modules={[Navigation]}
-			navigation={showOptions
-				? {
-						enabled: showOptions,
-						nextEl: '.next-arr',
-						prevEl: '.prev-arr'
-				  }
-				: false}
-			class="
-        tw-w-full
-        tw-rounded-2xl
-        tw-drop-shadow-2xl
-        tw-aspect-square
-        tw-select-none
-        ultra-mobile:tw-aspect-auto
-      "
-			slidesPerView={1}
-			loop
-			on:slideChangeTransitionEnd={() => changeImage()}
-		>
-			{#each [...Array(4).keys()] as n, i}
-				<SwiperSlide>
-					<img
-						src={`/assets/started-gifs/gif-${n + 1}.webp`}
-						class="tw-h-[300px] tw-w-full tw-object-cover"
-						alt={`Gif of ${n}`}
-					/>
-				</SwiperSlide>
-			{/each}
+		{#if currentSourceType === 'started'}
+      <Slider
+        modules={[Navigation]}
+        navigation={showOptions
+          ? {
+              enabled: showOptions,
+              nextEl: '.next-arr',
+              prevEl: '.prev-arr'
+            }
+          : false}
+        class="
+          tw-w-full
+          tw-rounded-2xl
+          tw-drop-shadow-2xl
+          tw-aspect-square
+          tw-select-none
+          ultra-mobile:tw-aspect-auto
+        "
+        loop
+        slidesPerView={1}
+        on:beforeInit={clearImagesStack}
+        on:afterInit={changeImage}
+        on:indexChanged={changeImage}
+      >
+          {#each [...Array(3).keys()] as n, i (`image-${i}`)}
+            <SwiperSlide>
+              <img
+                bind:this={currentImagesStack[i]}
+                src={`/assets/started-gifs/image-${i + 1}.jpg`}
+                class="tw-h-[300px] tw-w-full tw-object-cover"
+                alt={`Image of ${i}`}
+              />
+            </SwiperSlide>
+          {/each}
+      </Slider>
 
-			{#each [...Array(3).keys()] as n}
-				<SwiperSlide>
-					<img
-						src={`/assets/started-gifs/image-${n + 1}.jpg`}
-						class="tw-h-[300px] tw-w-full tw-object-cover"
-						alt={`Image of ${n}`}
-					/>
-				</SwiperSlide>
-			{/each}
-		</Swiper>
+      {:else if currentSourceType === 'uploading' && imagesFiles.length}
+
+      <Slider
+        modules={[Navigation]}
+        navigation={showOptions
+          ? {
+              enabled: showOptions,
+              nextEl: '.next-arr',
+              prevEl: '.prev-arr'
+            }
+          : false}
+        class="
+          tw-w-full
+          tw-rounded-2xl
+          tw-drop-shadow-2xl
+          tw-aspect-square
+          tw-select-none
+          ultra-mobile:tw-aspect-auto
+        "
+        slidesPerView={1}
+        loop
+        on:beforeInit={clearImagesStack}
+        on:afterInit={changeImage}
+        on:indexChanged={changeImage}
+      >
+          {#each imagesFiles as image, i (`uploading-${i}`)}
+            <SwiperSlide>
+              <img
+                bind:this={currentImagesStack[i]}
+                src={image.url}
+                class="tw-h-[300px] tw-w-full tw-object-cover"
+                alt={`Image of ${i}`}
+              />
+            </SwiperSlide>
+          {/each}
+      </Slider>
+    {/if}
 	</div>
 </div>
 
@@ -309,7 +368,7 @@
         tw-h-full
         tw-grid
         tw-place-items-center
-      "
+    "
 		>
 			<img
 				class="tw-w-full tw-max-w-[10rem]"
@@ -356,18 +415,25 @@
 	positionSide="left"
 	bind:this={sourceModeMenu}
 >
-	<button class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
+	<button 
+    class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
+    on:click={() => changeSourceType('started')}  
+  >
 		<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> STARTED </span>
 	</button>
 
-	<button class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
+	<button
+    class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
+  >
 		<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> INTERNET </span>
 	</button>
 
 	<button
-		on:click={() => (uploadingModalState = true)}
 		class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
-	>
+    on:click={() => { 
+      uploadingModalState = true
+    }}
+  >
 		<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> UPLOAD </span>
 	</button>
 </DrawerMenu>
@@ -385,8 +451,6 @@
 		multiple
 		class="custom-uploader"
 		labelText="Drag and drop files here or click to upload"
-		on:change={(event) => {
-			files = Array.from(event.detail);
-		}}
+		on:change={setUploadingImages}
 	/>
 </Modal>
