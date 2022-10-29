@@ -2,62 +2,24 @@
 	import type { SvelteComponent } from 'svelte';
 	import type { URLData } from '@/modules/get-img-url/types/URLData.type';
 
+	import { onMount } from 'svelte';
+	import { scale, fly } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
 	import { getColorWithType } from '@/modules/median-cut';
 	import getImgURL from '@/modules/get-img-url';
 	import addKeyListener from '@/modules/add-key-listener';
-	import { onMount } from 'svelte';
-	import { scale } from 'svelte/transition';
+	import copyToast from '@/configs/svelte-toast/events/copy-toast';
+	import { SwiperSlide } from 'swiper/svelte';
+	import { Navigation } from 'swiper';
+	import { Modal } from 'carbon-components-svelte';
+	import BarLoader from 'svelte-loading-spinners/BarLoader.svelte';
+	import { FileUploaderDropContainer } from 'carbon-components-svelte';
 	import DrawerMenu from '@/lib/UI/DrawerMenu.svelte';
 	import Link from '@/lib/UI/Link.svelte';
 	import SwitchBtn from '@/lib/UI/SwitchBtn.svelte';
-	import Color from 'color';
 	import Slider from '@/lib/modules/Slider.svelte';
-	import { SwiperSlide } from 'swiper/svelte';
-	import { FileUploaderDropContainer } from 'carbon-components-svelte';
-	import { Navigation } from 'swiper';
-	import { Modal } from 'carbon-components-svelte';
 
 	type SourceType = 'uploading' | 'started' | 'internet';
-
-	let currentImage: HTMLImageElement;
-	let currentImagesStack: HTMLImageElement[] = [];
-	let currentSourceType: SourceType = 'started';
-	let canvas: HTMLCanvasElement;
-	let imageTypeMenu: SvelteComponent;
-	let sourceModeMenu: SvelteComponent;
-	let uploadingModalState = false;
-	let imagesFiles: URLData[] = [];
-	let imageTypeMenuVisible = false;
-	let sourceModeMenuVisible = false;
-	let showOptions = true;
-	let currentColor = '#ffff';
-
-	$: alternateColor = Color(currentColor).negate().rotate(10).saturate(0.5).hex();
-
-	const changeColor = () => {
-		currentColor = getColorWithType({
-			image: currentImage,
-			canvas,
-			type: 'hex'
-		});
-	};
-
-	const changeImage = (event: CustomEvent) => {
-		const { activeIndex } = event.detail;
-		const image = currentImagesStack[activeIndex];
-
-		if (!image) return;
-
-		currentImage = image;
-
-		if (image.complete) {
-			changeColor();
-		}
-
-		image.onload = () => {
-			changeColor();
-		};
-	};
 
 	const setUploadingImages = async (event: CustomEvent) => {
 		imagesFiles = [];
@@ -67,6 +29,48 @@
 		if (!imagesFiles.length) return;
 
 		changeSourceType('uploading');
+
+		uploadingModalState = false;
+	};
+
+	let promiseSetUploadingImages: Promise<any>;
+
+	let currentImageRef: HTMLImageElement;
+	let currentImagesStack: HTMLImageElement[] = [];
+	let currentSourceType: SourceType = 'started';
+	let canvasRef: HTMLCanvasElement;
+	let drawerMenuRef: SvelteComponent;
+	let drawerMenuVisible = false;
+	let uploadingModalState = false;
+	let imagesFiles: URLData[] = [];
+	let showOptions = true;
+	let currentColor = '#ffff';
+
+	const changeColor = () => {
+		currentColor = getColorWithType({
+			image: currentImageRef,
+			canvas: canvasRef,
+			type: 'hex'
+		});
+
+		copyToast(currentColor, 3000, true);
+	};
+
+	const changeImage = (event: CustomEvent) => {
+		const { activeIndex } = event.detail;
+		const image = currentImagesStack[activeIndex];
+
+		if (!image) return;
+
+		currentImageRef = image;
+
+		if (image.complete) {
+			changeColor();
+		}
+
+		image.onload = () => {
+			changeColor();
+		};
 	};
 
 	const clearImagesStack = () => {
@@ -105,26 +109,22 @@
 				duration: 250
 			}}
 			class="
-        tw-grid
-        tw-grid-cols-2
-        tw-gap-3
         tw-absolute
         tw-right-10
         tw-top-10
       "
+			data-ignore-outside="true"
 		>
 			<SwitchBtn
-				on:click={() => {
-					imageTypeMenuVisible = imageTypeMenu.toggleVisible();
-				}}
+				on:click={() => drawerMenuRef.toggleVisible()}
 				transitionType={scale}
 				transitionProps={{
 					duration: 250
 				}}
-				switchValue={imageTypeMenuVisible}
+				switchValue={drawerMenuVisible}
 				class="
           tw-transition-all
-          tw-duration-300
+          tw-duration-250
           custom
           tw-p-3
           tw-rounded-full
@@ -146,44 +146,11 @@
 					<img src="/assets/ui-icons/menu.svg" class="tw-w-[18px]" alt="Cross icon" />
 				</svelte:fragment>
 			</SwitchBtn>
-
-			<SwitchBtn
-				on:click={() => {
-					sourceModeMenuVisible = sourceModeMenu.toggleVisible();
-				}}
-				transitionType={scale}
-				transitionProps={{
-					duration: 250
-				}}
-				switchValue={sourceModeMenuVisible}
-				class="
-          tw-transition-all
-          tw-duration-300
-          custom
-          tw-p-3
-          tw-rounded-full
-          tw-aspect-square
-          tw-bg-white
-          tw-relative
-        "
-				switchedClass="
-          tw-shadow-xl
-          tw-z-50
-        "
-			>
-				<svelte:fragment slot="switch-true">
-					<img src="/assets/ui-icons/cross.svg" class="tw-w-[18px]" alt="Cross icon" />
-				</svelte:fragment>
-
-				<svelte:fragment slot="switch-false">
-					<img src="/assets/ui-icons/switch-mode.svg" class="tw-w-[18px]" alt="Cross icon" />
-				</svelte:fragment>
-			</SwitchBtn>
 		</div>
 	{/if}
 
 	<canvas
-		bind:this={canvas}
+		bind:this={canvasRef}
 		class="
       tw-absolute
       tw-left-0
@@ -202,63 +169,78 @@
     "
 	>
 		{#if showOptions}
-			<button
+			<div
 				transition:scale={{
 					duration: 250
 				}}
 				class="
-          tw-hidden
-          tablet:tw-block
-          tw-z-10
+          tw-flex
+          tw-justify-center
+          tw-w-full
+          tw-space-x-4
           tw-absolute
-          tw-top-1/2
-          tw--left-[36px]
-          tw--translate-y-1/2
-          prev-arr
-          tw-w-[32px]
-          tw-aspect-square
-          tw--rotate-90
+          tw--bottom-20
+          tw-z-10
         "
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 47.255 47.255"
-					style:fill={alternateColor}
-					class="tw-transition-all tw-duration-500"
-					><path
-						d="M46.255 35.941a.997.997 0 01-.707-.293l-21.921-21.92-21.92 21.92a.999.999 0 11-1.414-1.414L22.92 11.607a.999.999 0 011.414 0l22.627 22.627a.999.999 0 01-.706 1.707z"
-					/></svg
+				<button
+					class="
+            tw-hidden
+            tablet:tw-block
+            prev-arr
+            tw-bg-white
+            tw-p-3
+            tw-rounded-full
+            tw-aspect-square
+            tw--rotate-90
+            active:tw-translate-x-2
+            tw-duration-250
+          "
 				>
-			</button>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 47.255 47.255"
+						class="
+              tw-transition-all
+              tw-duration-500
+              tw-w-[24px]
+              tw-fill-raisin-black
+            "
+						><path
+							d="M46.255 35.941a.997.997 0 01-.707-.293l-21.921-21.92-21.92 21.92a.999.999 0 11-1.414-1.414L22.92 11.607a.999.999 0 011.414 0l22.627 22.627a.999.999 0 01-.706 1.707z"
+						/></svg
+					>
+				</button>
 
-			<button
-				transition:scale={{
-					duration: 250
-				}}
-				class="
-          tw-hidden
-          tablet:tw-block
-          tw-z-10
-          tw-absolute
-          tw-top-1/2
-          tw--right-[36px]
-          tw--translate-y-1/2
-          next-arr
-          tw-w-[32px]
-          tw-aspect-square
-          tw-rotate-90
-        "
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 47.255 47.255"
-					style:fill={alternateColor}
-					class="tw-transition-all tw-duration-500"
-					><path
-						d="M46.255 35.941a.997.997 0 01-.707-.293l-21.921-21.92-21.92 21.92a.999.999 0 11-1.414-1.414L22.92 11.607a.999.999 0 011.414 0l22.627 22.627a.999.999 0 01-.706 1.707z"
-					/></svg
+				<button
+					class="
+            tw-hidden
+            tablet:tw-block
+            next-arr
+            tw-bg-white
+            tw-p-3
+            tw-rounded-full
+            tw-aspect-square
+            tw-rotate-90
+            active:tw--translate-x-2
+            tw-duration-250
+          "
 				>
-			</button>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 47.255 47.255"
+						class="
+              tw-transition-all
+              tw-duration-500
+              tw-w-[24px]
+              tw-fill-raisin-black
+            "
+						><path
+							d="M46.255 35.941a.997.997 0 01-.707-.293l-21.921-21.92-21.92 21.92a.999.999 0 11-1.414-1.414L22.92 11.607a.999.999 0 011.414 0l22.627 22.627a.999.999 0 01-.706 1.707z"
+						/></svg
+					>
+				</button>
+			</div>
 		{/if}
 
 		{#if currentSourceType === 'started'}
@@ -336,60 +318,8 @@
 </div>
 
 <DrawerMenu
-	class="
-    tw-w-full
-    tablet:tw-w-[300px]
-    tw-p-0
-    tablet:tw-p-3
-  "
-	containerClass="
-    tw-rounded-none
-    tablet:tw-rounded-xl
-    tw-grid
-    tw-grid-rows-2
-    tw-bg-white
-  "
-	positionSide="left"
-	bind:this={imageTypeMenu}
->
-	<Link link="jopa" class="scaleable-shadow">
-		<div
-			class="
-        tw-rounded-xl
-        tw-w-full
-        tw-h-full
-        tw-grid
-        tw-place-items-center
-    "
-		>
-			<img
-				class="tw-w-full tw-max-w-[10rem]"
-				src="/assets/ui-icons/img-search.svg"
-				alt="Icon of img-search"
-			/>
-		</div>
-	</Link>
-
-	<Link link="jopa" class="scaleable-shadow">
-		<div
-			class="
-        tw-rounded-xl
-        tw-w-full
-        tw-h-full
-        tw-grid
-        tw-place-items-center
-      "
-		>
-			<img
-				class="tw-w-full tw-max-w-[10rem]"
-				src="/assets/ui-icons/img-download.svg"
-				alt="Icon of img-download"
-			/>
-		</div>
-	</Link>
-</DrawerMenu>
-
-<DrawerMenu
+	bind:this={drawerMenuRef}
+	bind:open={drawerMenuVisible}
 	class="
     tw-w-full
     tablet:tw-w-[300px]
@@ -405,7 +335,6 @@
     tw-text-raisin-black
   "
 	positionSide="left"
-	bind:this={sourceModeMenu}
 >
 	<button
 		class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
@@ -414,9 +343,9 @@
 		<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> STARTED </span>
 	</button>
 
-	<button class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
+	<Link link="jopa" class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
 		<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> INTERNET </span>
-	</button>
+	</Link>
 
 	<button
 		class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
@@ -437,10 +366,44 @@
 	on:submit
 	passiveModal
 >
-	<FileUploaderDropContainer
-		multiple
-		class="custom-uploader"
-		labelText="Drag and drop files here or click to upload"
-		on:change={setUploadingImages}
-	/>
+	<div class="out-in-transition tw-h-full">
+		{#await promiseSetUploadingImages}
+			<div
+				class="tw-grid tw-place-items-center"
+				transition:fly={{
+					duration: 250,
+					x: -300,
+					easing: cubicInOut
+				}}
+			>
+				<span
+					class="
+            tw-inline-block
+            tw-w-fit
+            tw-overflow-hidden
+            tw-rounded-xl
+          "
+				>
+					<BarLoader size="110" color="#2C75FF" unit="px" duration="1.3s" />
+				</span>
+			</div>
+		{:then}
+			<div
+				transition:fly={{
+					duration: 250,
+					x: -300,
+					easing: cubicInOut
+				}}
+			>
+				<FileUploaderDropContainer
+					multiple
+					class="custom-uploader"
+					labelText="Drag and drop files here or click to upload"
+					on:change={(event) => {
+						promiseSetUploadingImages = setUploadingImages(event);
+					}}
+				/>
+			</div>
+		{/await}
+	</div>
 </Modal>

@@ -22,11 +22,11 @@
   `}
 >
 	{#if switchValue}
-		<div transition:transitionType={transitionProps}>
+		<div transition:transitionType={transitionProps} class="tw-pointer-events-none">
 			<slot name="switch-true" />
 		</div>
 	{:else}
-		<div transition:transitionType={transitionProps}>
+		<div transition:transitionType={transitionProps} class="tw-pointer-events-none">
 			<slot name="switch-false" />
 		</div>
 	{/if}

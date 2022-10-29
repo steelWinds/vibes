@@ -7,6 +7,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--c-raisin-black: rgb(36 33 36);
+	--c-raisin-black-a9: rgb(36 33 36 / 0.9);
+	--c-electric-blue: rgb(44 117 255);
+}
+
 * {
 	font-family: 'Lexend' !important;
 }
@@ -14,6 +20,24 @@
 button {
 	user-select: none !important;
 	-webkit-tap-highlight-color: transparent !important;
+}
+
+.custom-toast {
+	--toastContainerTop: auto;
+	--toastContainerRight: auto;
+	--toastContainerBottom: 4rem;
+	--toastContainerLeft: calc(50vw - 8rem);
+
+	--toastPadding: 0;
+	--toastMsgPadding: 0;
+
+	--toastBackground: var(--c-raisin-black-a9);
+	--toastBarBackground: var(--c-electric-blue);
+	--toastBtnFont: 'Lexend';
+
+	& ._toastMsg {
+		align-self: stretch;
+	}
 }
 
 .out-in-transition {
@@ -27,7 +51,7 @@ button {
 .scaleable-shadow {
 	& > * {
 		@apply tw-transition-all
-      tw-duration-300;
+      tw-duration-250;
 	}
 
 	&:hover > * {
@@ -45,7 +69,8 @@ button {
 
 	& .bx--modal-container {
 		@apply tw-bg-white
-      tw-rounded-xl;
+      tw-rounded-xl
+      tablet:tw-h-[20vmax];
 
 		& *:not(button) {
 			@apply tw-text-raisin-black;
@@ -78,7 +103,16 @@ button {
 }
 
 .custom-uploader {
+	block-size: 100%;
+	inline-size: 100%;
+
 	& .bx--file-browse-btn {
 		max-inline-size: none;
+		block-size: inherit;
+	}
+
+	& .bx--file__drop-container {
+		block-size: inherit;
+		inline-size: inherit;
 	}
 }

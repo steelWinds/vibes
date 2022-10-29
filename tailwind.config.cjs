@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+	darkMode: 'class',
 	prefix: 'tw-',
 	important: true,
 	content: ['./src/**/*.{html,js,svelte,ts}'],
@@ -7,14 +8,19 @@ module.exports = {
 		extend: {
 			screens: {
 				'ultra-mobile': '300px',
-				tablet: '624px'
-			},
-
-			colors: {
-				'raisin-black': '#242124',
-				white: '#ffffff'
+				tablet: '672px'
 			}
+		},
+
+		colors: {
+			'raisin-black': 'rgb(36 33 36)',
+			white: 'rgb(255 255 255)',
+			'electric-blue': 'rgb(44 117 255)'
+		},
+
+		transitionDuration: {
+			250: '250ms',
+			500: '500ms'
 		}
-	},
-	plugins: []
+	}
 };

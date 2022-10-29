@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
+	import clickOutside from '@/actions/click-outside';
 
+	export let open = false;
 	export let containerClass = '';
 	export let positionSide: 'left' | 'right' = 'left';
 	export const toggleVisible = (value?: boolean) => {
-		isVisible = value ?? !isVisible;
+		open = value ?? !open;
 
-		return isVisible;
+		return open;
 	};
-
-	let isVisible = false;
 </script>
 
-{#if isVisible}
+{#if open}
 	<div
 		transition:fly={{
 			duration: 250,
@@ -28,6 +28,9 @@
       ${positionSide === 'right' ? 'tw-right-0' : 'tw-left-0'}
       ${$$restProps.class}
     `}
+		use:clickOutside={{
+			callback: () => toggleVisible(false)
+		}}
 	>
 		<div
 			class={`

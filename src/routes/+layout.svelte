@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import config from '@/configs/svelte-toast/svelte-toast-config';
+
 	import '../app.css';
 </script>
 
@@ -16,3 +19,7 @@
 >
 	<slot />
 </main>
+
+<div class="custom-toast">
+	<SvelteToast options={config(1000)} />
+</div>
