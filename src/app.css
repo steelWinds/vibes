@@ -11,7 +11,7 @@
 	--c-raisin-black: rgb(36 33 36);
 	--c-raisin-black-a9: rgb(36 33 36 / 0.9);
 	--c-electric-blue: rgb(44 117 255);
-  --c-raisin-gray: rgb(146 144 146);
+	--c-raisin-gray: rgb(146 144 146);
 }
 
 * {
@@ -25,7 +25,7 @@ a {
 
 button,
 input {
-  -webkit-tap-highlight-color: transparent !important;
+	-webkit-tap-highlight-color: transparent !important;
 }
 
 .custom-toast {
@@ -33,7 +33,7 @@ input {
 	--toastContainerRight: auto;
 	--toastContainerBottom: 4rem;
 	--toastContainerLeft: calc(50vw - 8rem);
-  --toastContainerZIndex: 50;
+	--toastContainerZIndex: 50;
 
 	--toastPadding: 0;
 	--toastMsgPadding: 0;
@@ -45,15 +45,14 @@ input {
 		align-self: stretch;
 	}
 
-  & ._toastContainer ._toastItem {
-    @apply
-      tw-rounded
+	& ._toastContainer ._toastItem {
+		@apply tw-rounded
       tw-duration-250
       tw-text-raisin-black
       dark:tw-text-white
       tw-bg-white
       dark:tw-bg-raisin-black-pre-crystal;
-  }
+	}
 }
 
 .out-in-transition {
@@ -144,25 +143,26 @@ input {
 }
 
 .custom-toggle {
-  flex: unset;
-  -webkit-tap-highlight-color: transparent !important;
+	flex: unset;
+	-webkit-tap-highlight-color: transparent !important;
 
-  & > * {
-    border-color: red !important;
-    outline-color: red !important;
-  }
+	& > * {
+		border-color: red !important;
+		outline-color: red !important;
+	}
 
-  & .bx--toggle__switch::before {
-    background-color: var(--c-raisin-gray);
-  }
+	& .bx--toggle__switch::before {
+		background-color: var(--c-raisin-gray);
+	}
 
-  & .bx--toggle-input:checked + .bx--toggle-input__label > .bx--toggle__switch:before {
-    background-color: var(--c-electric-blue);
-  }
+	& .bx--toggle-input:checked + .bx--toggle-input__label > .bx--toggle__switch:before {
+		background-color: var(--c-electric-blue);
+	}
 
-  & :is(.bx--toggle-input:focus, .bx--toggle-input:active)
-    + .bx--toggle-input__label >
-      .bx--toggle__switch::before {
-      box-shadow: 0 0 0 1px var(--c-raisin-black), 0 0 0 3px white;
-    }
+	&
+		:is(.bx--toggle-input:focus, .bx--toggle-input:active)
+		+ .bx--toggle-input__label
+		> .bx--toggle__switch::before {
+		box-shadow: 0 0 0 1px var(--c-raisin-black), 0 0 0 3px white;
+	}
 }

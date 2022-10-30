@@ -1,7 +1,7 @@
 interface RedirectEventParams {
-  event: Event;
-  keyCode: string;
-  callback: () => void;
+	event: Event;
+	keyCode: string;
+	callback: () => void;
 }
 interface KeyListenerParams {
 	callback: () => void;
@@ -11,7 +11,4 @@ interface KeyListenerParams {
 	listenerProps?: AddEventListenerOptions;
 }
 
-export type {
-  KeyListenerParams,
-  RedirectEventParams
-};
+export type { KeyListenerParams, RedirectEventParams };

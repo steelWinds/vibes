@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { Toggle } from "carbon-components-svelte";
+	import { Toggle } from 'carbon-components-svelte';
 
-
-  export let title: string;
-  export let toggled: boolean;
+	export let title: string;
+	export let toggled: boolean;
 </script>
 
 <section
-  class="
+	class="
     tw-flex
     tw-flex-col
     tw-space-y-3
@@ -18,16 +17,9 @@
     tw-justify-between
   "
 >
-  <h3 class="tw-text-xl">
-    { title }
-  </h3>
+	<h3 class="tw-text-xl">
+		{title}
+	</h3>
 
-  <Toggle
-    bind:toggled
-    class="custom-toggle"
-    hideLabel
-    labelA=""
-    labelB=""   
-    on:toggle
-  />
+	<Toggle bind:toggled class="custom-toggle" hideLabel labelA="" labelB="" on:toggle />
 </section>

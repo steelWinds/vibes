@@ -1,34 +1,34 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import clickOutside from '@/actions/click-outside';
-  import addKeyListener from '@/modules/add-key-listener/addKeyListener'
+	import addKeyListener from '@/modules/add-key-listener/addKeyListener';
 
-  let backdropVisible = false;
+	let backdropVisible = false;
 
-  $: if (open) {
-    backdropVisible = true;
-  }
+	$: if (open) {
+		backdropVisible = true;
+	}
 
 	export let open = false;
 	export let containerClass = '';
 	export let positionSide: 'left' | 'right' = 'left';
 
-  onMount(() => {
+	onMount(() => {
 		const removeListener = addKeyListener({
-			callback: () => open = false,
+			callback: () => (open = false),
 			target: window,
 			keyCode: 'Escape'
 		});
 
-    return removeListener
+		return removeListener;
 	});
 </script>
 
 {#if open}
-  <div
-    class="
+	<div
+		class="
       tw-fixed
       tw-left-0
       tw-top-0
@@ -36,15 +36,15 @@
       tw-h-full
       tw-z-[9999999]
     "
-  >
-    <div
-      transition:fly={{
-        duration: 250,
-        x: -300,
-        easing: cubicInOut
-      }}
-      on:outroend={() => backdropVisible = false}
-      class={`
+	>
+		<div
+			transition:fly={{
+				duration: 250,
+				x: -300,
+				easing: cubicInOut
+			}}
+			on:outroend={() => (backdropVisible = false)}
+			class={`
         tw-h-full
         tw-fixed
         tw-z-30
@@ -53,19 +53,19 @@
         ${positionSide === 'right' ? 'tw-right-0' : 'tw-left-0'}
         ${$$restProps.class}
       `}
-      use:clickOutside={{
-        callback: () => open = false
-      }}
-    >
-      <div
-        class={`
+			use:clickOutside={{
+				callback: () => (open = false)
+			}}
+		>
+			<div
+				class={`
           tw-h-full
           tw-duration-250
           ${containerClass}
         `}
-      >
-        <slot />
-      </div>
-    </div>
-  </div>
+			>
+				<slot />
+			</div>
+		</div>
+	</div>
 {/if}

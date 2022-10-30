@@ -19,4 +19,7 @@ const copyToast = (title: string, duration: number, limit?: boolean) => {
 	});
 };
 
+type CopyToast = typeof copyToast;
+
 export default copyToast;
+export type { CopyToast }

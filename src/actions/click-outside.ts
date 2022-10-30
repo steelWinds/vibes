@@ -13,8 +13,8 @@ const clickOutside = (node: Node, props: Props) => {
 
 		if (target?.dataset?.ignoreOutside || parentTarget?.dataset?.ignoreOutside) {
 			return;
-    }
-    
+		}
+
 		if (target?.dataset?.ignoreOutside) return;
 
 		if (!composed.includes(node) && target && !node.isSameNode(target)) {
