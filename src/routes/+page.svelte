@@ -37,7 +37,7 @@
 		uploadingModalState = false;
 	};
 
-	let promiseSetUploadingImages: Promise<any>;
+	let promiseSetUploadingImages: ReturnType<typeof setUploadingImages>;
 
 	let currentImageRef: HTMLImageElement;
 	let currentImagesStack: HTMLImageElement[] = [];
