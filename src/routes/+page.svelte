@@ -10,7 +10,7 @@
 	import copyToast from '@/modules/svelte-toast-types/copy-toast';
 	import debounce from 'lodash-es/debounce';
 	import themeStore from '@/stores/settings/theme-store';
-  import svelteToastStore from '@/stores/settings/svelte-toast-store'
+	import svelteToastStore from '@/stores/settings/svelte-toast-store';
 	import { SwiperSlide } from 'swiper/svelte';
 	import { Navigation } from 'swiper';
 	import { Modal } from 'carbon-components-svelte';
@@ -467,9 +467,9 @@
 			<h2 class="tw-text-2xl tw-text-center tw-mb-6">Settings</h2>
 
 			<div class="tw-space-y-3">
-        <ToggleTitle bind:toggled={$themeStore.darkTheme} title="Dark mode" />
-        <ToggleTitle bind:toggled={$svelteToastStore} title="Toasts with color" />
-      </div>
+				<ToggleTitle bind:toggled={$themeStore.darkTheme} title="Dark mode" />
+				<ToggleTitle bind:toggled={$svelteToastStore} title="Toasts with color" />
+			</div>
 		</div>
 	{/if}
 </DrawerMenu>
