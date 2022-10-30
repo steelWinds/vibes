@@ -1,9 +1,17 @@
-interface Params {
+interface RedirectEventParams {
+  event: Event;
+  keyCode: string;
+  callback: () => void;
+}
+interface KeyListenerParams {
 	callback: () => void;
 	target: HTMLElement | (Window & typeof globalThis);
-	keyCode: string | number;
+	keyCode: string;
 	eventType?: 'up' | 'down' | 'press';
 	listenerProps?: AddEventListenerOptions;
 }
 
-export type { Params };
+export type {
+  KeyListenerParams,
+  RedirectEventParams
+};

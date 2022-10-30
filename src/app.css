@@ -11,15 +11,21 @@
 	--c-raisin-black: rgb(36 33 36);
 	--c-raisin-black-a9: rgb(36 33 36 / 0.9);
 	--c-electric-blue: rgb(44 117 255);
+  --c-raisin-gray: rgb(146 144 146);
 }
 
 * {
 	font-family: 'Lexend' !important;
 }
 
-button {
+button,
+a {
 	user-select: none !important;
-	-webkit-tap-highlight-color: transparent !important;
+}
+
+button,
+input {
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .custom-toast {
@@ -27,17 +33,27 @@ button {
 	--toastContainerRight: auto;
 	--toastContainerBottom: 4rem;
 	--toastContainerLeft: calc(50vw - 8rem);
+  --toastContainerZIndex: 50;
 
 	--toastPadding: 0;
 	--toastMsgPadding: 0;
 
-	--toastBackground: var(--c-raisin-black-a9);
 	--toastBarBackground: var(--c-electric-blue);
 	--toastBtnFont: 'Lexend';
 
 	& ._toastMsg {
 		align-self: stretch;
 	}
+
+  & ._toastContainer ._toastItem {
+    @apply
+      tw-rounded
+      tw-duration-250
+      tw-text-raisin-black
+      dark:tw-text-white
+      tw-bg-white
+      dark:tw-bg-raisin-black-pre-crystal;
+  }
 }
 
 .out-in-transition {
@@ -56,6 +72,8 @@ button {
 
 	&:hover > * {
 		@apply tw-scale-75
+      tw-shadow-raisin-black-crystal
+      dark:tw-shadow-electric-blue-crystal
       tw-shadow-xl;
 	}
 }
@@ -68,12 +86,15 @@ button {
 	}
 
 	& .bx--modal-container {
-		@apply tw-bg-white
-      tw-rounded-xl
+		@apply tw-bg-white-crystal
+      dark:tw-bg-raisin-black-pre-crystal
+      tw-backdrop-blur
+      tablet:tw-rounded-xl
       tablet:tw-h-[20vmax];
 
 		& *:not(button) {
-			@apply tw-text-raisin-black;
+			@apply tw-text-raisin-black
+        dark:tw-text-white;
 		}
 
 		& button {
@@ -84,19 +105,24 @@ button {
         hover:tw-text-white
         active:tw-text-white
         hover:tw-bg-raisin-black
-        active:tw-bg-raisin-black;
+        active:tw-bg-raisin-black
+        dark:hover:tw-bg-white
+        dark:active:tw-bg-white
+        tw-border-raisin-black
+        dark:tw-border-white;
 		}
 
 		& .bx--modal-close {
-			@apply tw-rounded-tr-xl
+			@apply tablet:tw-rounded-tr-xl
         focus:tw-border-raisin-black;
 
 			& svg {
-				@apply tw-fill-raisin-black;
+				@apply tw-fill-raisin-black
+          dark:tw-fill-white;
 			}
 
 			&:hover svg {
-				@apply tw-fill-white;
+				@apply tw-fill-white dark:tw-fill-raisin-black;
 			}
 		}
 	}
@@ -115,4 +141,28 @@ button {
 		block-size: inherit;
 		inline-size: inherit;
 	}
+}
+
+.custom-toggle {
+  flex: unset;
+  -webkit-tap-highlight-color: transparent !important;
+
+  & > * {
+    border-color: red !important;
+    outline-color: red !important;
+  }
+
+  & .bx--toggle__switch::before {
+    background-color: var(--c-raisin-gray);
+  }
+
+  & .bx--toggle-input:checked + .bx--toggle-input__label > .bx--toggle__switch:before {
+    background-color: var(--c-electric-blue);
+  }
+
+  & :is(.bx--toggle-input:focus, .bx--toggle-input:active)
+    + .bx--toggle-input__label >
+      .bx--toggle__switch::before {
+      box-shadow: 0 0 0 1px var(--c-raisin-black), 0 0 0 3px white;
+    }
 }
