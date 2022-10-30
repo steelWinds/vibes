@@ -43,7 +43,6 @@
 				x: -300,
 				easing: cubicInOut
 			}}
-			on:outroend={() => (backdropVisible = false)}
 			class={`
         tw-h-full
         tw-fixed
@@ -56,6 +55,7 @@
 			use:clickOutside={{
 				callback: () => (open = false)
 			}}
+      on:outroend={() => (backdropVisible = false)}
 		>
 			<div
 				class={`

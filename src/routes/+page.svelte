@@ -131,7 +131,6 @@
 			data-ignore-outside="true"
 		>
 			<SwitchBtn
-				on:click={() => toggleMenu('sources')}
 				transitionType={scale}
 				transitionProps={{
 					duration: 250
@@ -155,6 +154,7 @@
           tablet:tw-shadow-none
           tw-z-50
         "
+        on:click={() => toggleMenu('sources')}
 			>
 				<svelte:fragment slot="switch-true">
 					<svg
@@ -187,7 +187,6 @@
 			</SwitchBtn>
 
 			<SwitchBtn
-				on:click={() => toggleMenu('settings')}
 				transitionType={scale}
 				transitionProps={{
 					duration: 250
@@ -211,6 +210,7 @@
           tablet:tw-shadow-none
           tw-z-50
         "
+        on:click={() => toggleMenu('settings')}
 			>
 				<svelte:fragment slot="switch-true">
 					<svg
@@ -475,13 +475,13 @@
 </DrawerMenu>
 
 <Modal
+  bind:open={uploadingModalState}
 	class="custom-modal no-footer"
-	bind:open={uploadingModalState}
 	modalHeading="Upload file(s)"
+	passiveModal
 	on:open
 	on:close
 	on:submit
-	passiveModal
 >
 	<div class="out-in-transition tw-h-full">
 		{#await promiseSetUploadingImages}

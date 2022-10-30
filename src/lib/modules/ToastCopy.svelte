@@ -35,15 +35,17 @@
 				duration: 250,
 				x: 100,
 				easing: cubicInOut
-			}}>{title}</span
-		>
+		}}>
+      {title}
+    </span>
 	{:else}
 		<span
 			transition:fly={{
 				duration: 250,
 				x: -100,
 				easing: cubicInOut
-			}}>Copied!</span
-		>
+		}}>
+      Copied!
+    </span>
 	{/if}
 </button>

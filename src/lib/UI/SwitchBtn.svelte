@@ -14,12 +14,12 @@
 </script>
 
 <button
-	on:click
-	class={`
+  class={`
     out-in-transition
     ${$$restProps.class}
     ${switchValue ? switchedClass : ''}
   `}
+  on:click
 >
 	{#if switchValue}
 		<div transition:transitionType={transitionProps} class="tw-pointer-events-none">

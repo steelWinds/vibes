@@ -16,6 +16,6 @@
 	}, 100);
 </script>
 
-<Swiper on:activeIndexChange={debouncedIndexChanged} {...$$restProps}>
+<Swiper {...$$restProps} on:activeIndexChange={debouncedIndexChanged}>
 	<slot />
 </Swiper>
