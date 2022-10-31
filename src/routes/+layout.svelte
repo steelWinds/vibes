@@ -13,8 +13,7 @@
 <main
 	class="
     tw-h-screen
-    tw-w-screen
-    tw-overflow-hidden
+    tw-w-full
     tw-relative
   "
 >

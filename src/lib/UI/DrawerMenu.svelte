@@ -55,7 +55,7 @@
 			use:clickOutside={{
 				callback: () => (open = false)
 			}}
-      on:outroend={() => (backdropVisible = false)}
+			on:outroend={() => (backdropVisible = false)}
 		>
 			<div
 				class={`

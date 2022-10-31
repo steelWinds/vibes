@@ -91,7 +91,7 @@
 		drawerMenuVisible = !drawerMenuVisible;
 	};
 
-	onMount(() => {
+	onMount(async () => {
 		const removeListener = addKeyListener({
 			callback: () => (showOptions = !showOptions),
 			target: window,
@@ -154,7 +154,7 @@
           tablet:tw-shadow-none
           tw-z-50
         "
-        on:click={() => toggleMenu('sources')}
+				on:click={() => toggleMenu('sources')}
 			>
 				<svelte:fragment slot="switch-true">
 					<svg
@@ -210,7 +210,7 @@
           tablet:tw-shadow-none
           tw-z-50
         "
-        on:click={() => toggleMenu('settings')}
+				on:click={() => toggleMenu('settings')}
 			>
 				<svelte:fragment slot="switch-true">
 					<svg
@@ -449,7 +449,7 @@
 				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> STARTED </span>
 			</button>
 
-			<Link link="jopa" class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
+			<Link link="/getting-image" class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
 				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> INTERNET </span>
 			</Link>
 
@@ -475,7 +475,7 @@
 </DrawerMenu>
 
 <Modal
-  bind:open={uploadingModalState}
+	bind:open={uploadingModalState}
 	class="custom-modal no-footer"
 	modalHeading="Upload file(s)"
 	passiveModal
