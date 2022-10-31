@@ -1,7 +1,7 @@
 interface CollectionData {
-  id: number,
-  title: string,
-  private: boolean
+	id: number;
+	title: string;
+	private: boolean;
 }
 
-export type { CollectionData }
+export type { CollectionData };

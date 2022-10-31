@@ -449,7 +449,10 @@
 				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> STARTED </span>
 			</button>
 
-			<Link link="/getting-image" class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow">
+			<Link
+				link="/getting-image"
+				class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
+			>
 				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> INTERNET </span>
 			</Link>
 

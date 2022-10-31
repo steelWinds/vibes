@@ -1,65 +1,63 @@
-import type { ImageData } from '@/types/API/ImageData'
+import type { ImageData } from '@/types/API/ImageData';
 
-import imageOrient from './image-orient'
+import imageOrient from './image-orient';
 
 interface LazyProps extends ImageData {
-  preloaderClass: string
-  defaultAlt: string,
-  defaultColorPlug: string
+	preloaderClass: string;
+	defaultAlt: string;
+	defaultColorPlug: string;
 }
 
 const loaded = new Set();
 
 const lazyLoadSkeleton = (node: HTMLImageElement, props: LazyProps) => {
-  const {
-    src,
-    urls,
-    width,
-    color,
-    height,
-    description,
-    defaultAlt,
-    defaultColorPlug,
-    preloaderClass
-  } = props
+	const {
+		src,
+		urls,
+		width,
+		color,
+		height,
+		description,
+		defaultAlt,
+		defaultColorPlug,
+		preloaderClass
+	} = props;
 
-  const source = urls?.regular ?? src
-  const parentElement = node.parentElement
+	const source = urls?.regular ?? src;
+	const parentElement = node.parentElement;
 
-  if (!source || !parentElement) return
+	if (!source || !parentElement) return;
 
-  if (loaded.has(source)) {
-    node.setAttribute('src', source);
+	if (loaded.has(source)) {
+		node.setAttribute('src', source);
 
-    return
-  }
+		return;
+	}
 
-  const altContent = description ?? defaultAlt
-  const colorPlug = color ?? defaultColorPlug
-  const imageRatio = imageOrient({
-    width,
-    height
-  })
+	const altContent = description ?? defaultAlt;
+	const colorPlug = color ?? defaultColorPlug;
+	const imageRatio = imageOrient({
+		width,
+		height
+	});
 
-  parentElement.style.backgroundColor = colorPlug
-  parentElement.style.aspectRatio = imageRatio
-  parentElement.classList.add(preloaderClass)
+	parentElement.style.backgroundColor = colorPlug;
+	parentElement.style.aspectRatio = imageRatio;
+	parentElement.classList.add(preloaderClass);
 
-  const loadedImg = new Image();
-  
-  loadedImg.setAttribute('src', source);
+	const loadedImg = new Image();
 
-  loadedImg.onload = () => {
-    loaded.add(source)
+	loadedImg.setAttribute('src', source);
 
-    node.setAttribute('src', loadedImg.src)
-    node.setAttribute('alt', altContent) 
+	loadedImg.onload = () => {
+		loaded.add(source);
 
-    parentElement.classList.remove(preloaderClass)
-  }
-}
+		node.setAttribute('src', loadedImg.src);
+		node.setAttribute('alt', altContent);
 
-export default lazyLoadSkeleton
-export type {
-  LazyProps
-}
+		parentElement.classList.remove(preloaderClass);
+	};
+};
+
+export default lazyLoadSkeleton;
+export type { LazyProps };
