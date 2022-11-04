@@ -7,12 +7,9 @@
 
 	let backdropVisible = false;
 
-	$: if (open) {
-		backdropVisible = true;
-	}
-
 	export let open = false;
 	export let containerClass = '';
+	export let containerVisibleClasses = '';
 	export let positionSide: 'left' | 'right' = 'left';
 
 	onMount(() => {
@@ -48,23 +45,56 @@
         tw-fixed
         tw-z-30
         tw-top-0
-        tw-w-[55vmin]
+        tw-w-full
+        tablet:tw-w-[45vmax]
         ${positionSide === 'right' ? 'tw-right-0' : 'tw-left-0'}
         ${$$restProps.class}
       `}
 			use:clickOutside={{
 				callback: () => (open = false)
 			}}
+			on:introend={() => (backdropVisible = true)}
 			on:outroend={() => (backdropVisible = false)}
 		>
 			<div
 				class={`
+          tw-flex
+          tw-flex-col
           tw-h-full
           tw-duration-250
+          tw-relative
+          tablet:tw-pb-0
           ${containerClass}
+          ${backdropVisible ? containerVisibleClasses : ''}
         `}
 			>
 				<slot />
+
+				<div class="tw-relative">
+					<button
+						class="
+              tw-absolute
+              tw-left-0
+              tw-bottom-0
+              tw-grid
+              tablet:tw-hidden
+              tw-place-items-center
+              tw-w-full
+              tw-text-white
+              dark:tw-text-raisin-black
+              tw-bg-raisin-black
+              dark:tw-bg-white
+              tw-p-[4vmin]
+              tw-text-xl
+              tw-duration-250
+            "
+						on:click={() => {
+							open = false;
+						}}
+					>
+						Close
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>

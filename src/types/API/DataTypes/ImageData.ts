@@ -1,4 +1,5 @@
 interface ImageData {
+	id: string;
 	src?: string;
 	urls?: {
 		regular: string;
@@ -7,6 +8,7 @@ interface ImageData {
 	height: number;
 	color?: string;
 	description?: string;
+	alt_description?: string;
 }
 
 export type { ImageData };

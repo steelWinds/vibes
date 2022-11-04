@@ -8,6 +8,7 @@
 @tailwind utilities;
 
 :root {
+	--c-white: rgb(255 255 255);
 	--c-raisin-black: rgb(36 33 36);
 	--c-raisin-black-a9: rgb(36 33 36 / 0.9);
 	--c-electric-blue: rgb(44 117 255);
@@ -164,5 +165,44 @@ input {
 		+ .bx--toggle-input__label
 		> .bx--toggle__switch::before {
 		box-shadow: 0 0 0 1px var(--c-raisin-black), 0 0 0 3px white;
+	}
+}
+
+.custom-multiselect {
+	--sms-padding: 0.5rem;
+
+	& .multiselect {
+		@apply tw-rounded-lg
+      tw-duration-250
+      tw-w-full
+      tw-border-2
+      tw-border-raisin-black
+      dark:tw-border-white;
+	}
+
+	& input {
+		@apply tw-text-raisin-black
+      dark:tw-text-white;
+	}
+
+	& .options {
+		@apply tw-max-h-[45vmin]
+      tw-bg-white
+      dark:tw-bg-raisin-black
+      tw-shadow-raisin-black-crystal
+      dark:tw-shadow-electric-blue-crystal;
+
+		& li.active {
+			@apply tw-bg-raisin-black-crystal
+        dark:tw-bg-electric-blue-crystal;
+		}
+	}
+
+	& .selected {
+		& li {
+			@apply tw-text-white
+        tw-bg-raisin-black
+        dark:tw-bg-electric-blue;
+		}
 	}
 }

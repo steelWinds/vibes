@@ -1,81 +1,104 @@
 <script lang="ts">
-	import type { ImageData } from '@/types/API/ImageData';
+	import type { ImageData } from '@/types/API/DataTypes/ImageData';
 
 	import { onMount } from 'svelte';
-	import BarLoader from 'svelte-loading-spinners/BarLoader.svelte';
 	import lazyLoad from '@/actions/lazy-load';
-	import { _fetch } from '@/modules/fetch';
+	import getRandomImages from '@/api/unsplash/get-random-images';
+	import selectedCollectionsStore from '@/stores/settings/selected-collections';
+	import uniq from 'lodash-es/uniq';
+	import BarLoader from '@/lib/UI/BarLoader.svelte';
+	import LazyList from '@/lib/modules/LazyList.svelte';
+	import data from './data.json';
 
-	const getRandomImages = async () => {
-		images = await _fetch('/photos/random', {
-			query: {
-				count: 50,
-				collections: [9737757]
-			}
-		});
+	let paginatePage = 1;
+	let blockedLoading = false;
+	let uniqueImages: ImageData[] = [];
+	let imagesIdxes: string[] = [];
+	let windowInnerInlineSize = 0;
+
+	$: verticalScrollSize = windowInnerInlineSize > 764 ? 4 : 3;
+
+	const getImages = async (scroll?: boolean) => {
+		paginatePage += 1;
+
+		//let images = await getRandomImages({
+		//  count: 30,
+		//	collections: selectedCollectionsStore.getIdx().join(','),
+		//});
+
+		//const newImages = images.filter((image) => {
+		//  return !imagesIdxes.includes(image.id)
+		//})
+
+		//const newIdxes = uniq(images.map((image) => image.id))
+		//imagesIdxes = [...imagesIdxes, ...newIdxes]
+
+		//uniqueImages = [...uniqueImages, ...newImages]
+
+		//if (scroll) {
+		//  window.scrollBy({
+		//    top: 100,
+		//    behavior: 'smooth'
+		//  })
+		//}
 	};
 
-	let promiseGetRandomImages: ReturnType<typeof getRandomImages>;
-
-	let images: ImageData[];
+	let promiseGetRandomImages: ReturnType<typeof getImages>;
 
 	onMount(() => {
-		promiseGetRandomImages = getRandomImages();
+		promiseGetRandomImages = getImages();
 	});
 </script>
 
-{#await promiseGetRandomImages}
-	<div
-		class="
-        tw-grid
-        tw-place-items-center
-        tw-w-full
-        tw-h-screen
-      "
-	>
-		<BarLoader size="110" color="#2C75FF" unit="px" duration="1.3s" />
-	</div>
-{:then}
-	<div
-		class="
-      tw-columns-2
-      mobile:tw-columns-3
-      tablet:tw-columns-4
-      tw-gap-3
-      tw-p-3
-    "
-	>
-		{#if images?.length}
-			{#each images as img}
-				<div
-					class="
-                tw-rounded-xl
-                tw-overflow-hidden
-                tw-mb-3
-              "
-				>
-					<!-- svelte-ignore a11y-missing-attribute -->
-					<img
-						class="
-                  tw-w-full
-                  tw-block
-                  tw-object-cover
-                "
-						use:lazyLoad={{
-							...img,
-							preloaderClass: 'tw-animate-pulse',
-							defaultAlt: 'Colored image',
-							defaultColorPlug: 'rgb(146 144 146)'
-						}}
-					/>
-				</div>
-			{/each}
-		{/if}
-	</div>
-{/await}
+<svelte:window bind:innerWidth={windowInnerInlineSize} />
 
-<style lang="postcss">
-	.style {
-		column-width: calc(100% / 6);
-	}
-</style>
+<div>
+	{#await promiseGetRandomImages}
+		<div
+			class="
+          tw-grid
+          tw-place-items-center
+          tw-w-full
+          tw-h-screen
+        "
+		>
+			<BarLoader size="110" />
+		</div>
+	{:then}
+		<!-- svelte-ignore a11y-missing-attribute -->
+		<LazyList
+			{data}
+			class="
+          tw-min-h-screen
+          tw-h-full
+        "
+			itemContainerClass="
+          tw-rounded-xl
+          tw-overflow-hidden
+        "
+			let:item
+			disableScrollEvent={blockedLoading}
+			hideFooter={blockedLoading}
+			minColWidth={300}
+			maxColWidth={99999}
+			gap={20}
+			on:scrollEnd={() => getImages(true)}
+		>
+			<button class="tw-block">
+				<img
+					class="
+              tw-w-full
+              tw-h-full
+              tw-block
+            "
+					use:lazyLoad={{
+						...item,
+						preloaderClass: 'tw-animate-pulse',
+						defaultAlt: 'Colored image',
+						defaultColorPlug: 'rgb(146 144 146)'
+					}}
+				/>
+			</button>
+		</LazyList>
+	{/await}
+</div>

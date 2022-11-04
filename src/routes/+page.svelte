@@ -1,54 +1,77 @@
 <script lang="ts">
-	import type { URLData } from '@/modules/get-img-url/types/URLData.type';
+	import type { ObjectOption } from 'svelte-multiselect';
+	import type { CollectionData } from '@/types/API/DataTypes/CollectionData';
 
 	import { onMount } from 'svelte';
 	import { scale, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import { getColorWithType } from '@/modules/median-cut';
+	import searchCollections from '@/api/unsplash/search-collections';
 	import getImgURL from '@/modules/get-img-url';
 	import addKeyListener from '@/modules/add-key-listener/addKeyListener';
 	import copyToast from '@/modules/svelte-toast-types/copy-toast';
 	import debounce from 'lodash-es/debounce';
 	import themeStore from '@/stores/settings/theme-store';
 	import svelteToastStore from '@/stores/settings/svelte-toast-store';
+	import sourceTypeStore from '@/stores/settings/source-type';
+	import selectedCollectionsStore from '@/stores/settings/selected-collections';
 	import { SwiperSlide } from 'swiper/svelte';
 	import { Navigation } from 'swiper';
 	import { Modal } from 'carbon-components-svelte';
-	import BarLoader from 'svelte-loading-spinners/BarLoader.svelte';
-	import { FileUploaderDropContainer } from 'carbon-components-svelte';
+	import BarLoader from '@/lib/UI/BarLoader.svelte';
+	import { FileUploaderDropContainer, Toggle } from 'carbon-components-svelte';
+	import MultiSelectTags from '@/lib/modules/MultiSelectTags.svelte';
 	import DrawerMenu from '@/lib/UI/DrawerMenu.svelte';
 	import Link from '@/lib/UI/Link.svelte';
 	import SwitchBtn from '@/lib/UI/SwitchBtn.svelte';
 	import Slider from '@/lib/modules/Slider.svelte';
-	import ToggleTitle from '@/lib/UI/ToggleTitle.svelte';
+	import SettingTitle from '@/lib/UI/SettingTitle.svelte';
 
-	type SourceType = 'uploading' | 'started' | 'internet';
 	type MenuType = 'sources' | 'settings';
 
+	const getCollections = async (query: string) => {
+		const paginate = await searchCollections({
+			query,
+			per_page: 100
+		});
+
+		unsplashCollections = paginate.results.map((collection) => {
+			const username = collection.user.username ?? 'No-Name';
+			const label = `${username}: ${collection.title}`;
+
+			return {
+				label,
+				username,
+				...collection
+			};
+		});
+	};
+
 	const setUploadingImages = async (event: CustomEvent) => {
-		imagesFiles = [];
+		$sourceTypeStore.sourcesStack = [];
 
-		imagesFiles = await getImgURL(...event.detail);
+		$sourceTypeStore.sourcesStack = await getImgURL(
+			{ maxWidthOrHeight: windowInlineSize / 3 },
+			...event.detail
+		);
 
-		if (!imagesFiles.length) return;
+		if (!$sourceTypeStore.sourcesStack?.length) return;
 
-		changeSourceType('uploading');
+		$sourceTypeStore.type = 'uploading';
 
 		uploadingModalState = false;
 	};
 
 	let promiseSetUploadingImages: ReturnType<typeof setUploadingImages>;
-
 	let currentImageRef: HTMLImageElement;
-	let currentImagesStack: HTMLImageElement[] = [];
-	let currentSourceType: SourceType = 'started';
 	let canvasRef: HTMLCanvasElement;
 	let drawerMenuVisible = false;
 	let uploadingModalState = false;
-	let imagesFiles: URLData[] = [];
 	let showOptions = true;
 	let currentColor = '#ffff';
 	let menuType: MenuType;
+	let unsplashCollections: Array<ObjectOption & CollectionData> = [];
+	let windowInlineSize = 0;
 
 	const changeColor = debounce(() => {
 		currentColor = getColorWithType({
@@ -61,8 +84,9 @@
 	}, 250);
 
 	const changeImage = (event: CustomEvent) => {
-		const { activeIndex } = event.detail;
-		const image = currentImagesStack[activeIndex];
+		const { imagesToLoad, activeIndex } = event.detail;
+
+		const image = imagesToLoad[activeIndex];
 
 		if (!image) return;
 
@@ -75,14 +99,6 @@
 		image.onload = () => {
 			changeColor();
 		};
-	};
-
-	const clearImagesStack = () => {
-		currentImagesStack = [];
-	};
-
-	const changeSourceType = (type: SourceType) => {
-		currentSourceType = type;
 	};
 
 	const toggleMenu = (type: MenuType) => {
@@ -102,10 +118,13 @@
 	});
 </script>
 
+<svelte:window bind:innerWidth={windowInlineSize} />
+
 <div
 	class="
     tw-h-full
     tw-w-full
+    tw-overflow-hidden
     tw-grid
     tw-place-items-center
     tw-p-3
@@ -255,7 +274,8 @@
 		class="
       tw-relative
       tw-w-full
-      tw-max-w-lg
+      tw-max-w-[30vmax]
+      tw-aspect-video
       tw-min-w-0
     "
 	>
@@ -340,7 +360,7 @@
 			</div>
 		{/if}
 
-		{#if currentSourceType === 'started'}
+		{#if $sourceTypeStore.type === 'started'}
 			<Slider
 				modules={[Navigation]}
 				navigation={showOptions
@@ -354,28 +374,26 @@
           tw-w-full
           tw-rounded-2xl
           tw-drop-shadow-2xl
-          tw-aspect-square
           tw-select-none
+          tw-h-full
           ultra-mobile:tw-aspect-auto
         "
 				loop
 				slidesPerView={1}
-				on:beforeInit={clearImagesStack}
 				on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
-				{#each [...Array(3).keys()] as n, i (`image-${i}`)}
+				{#each [...Array(3).keys()] as _, i (`image-${i}`)}
 					<SwiperSlide>
 						<img
-							bind:this={currentImagesStack[i]}
 							src={`/assets/started-gifs/image-${i + 1}.jpg`}
-							class="tw-h-[300px] tw-w-full tw-object-cover"
+							class="tw-h-full tw-w-full tw-object-cover"
 							alt={`Image of ${i}`}
 						/>
 					</SwiperSlide>
 				{/each}
 			</Slider>
-		{:else if currentSourceType === 'uploading' && imagesFiles.length}
+		{:else if $sourceTypeStore.type === 'uploading' && $sourceTypeStore.sourcesStack?.length}
 			<Slider
 				modules={[Navigation]}
 				navigation={showOptions
@@ -389,22 +407,53 @@
           tw-w-full
           tw-rounded-2xl
           tw-drop-shadow-2xl
-          tw-aspect-square
           tw-select-none
+          tw-h-full
           ultra-mobile:tw-aspect-auto
         "
 				slidesPerView={1}
 				loop
-				on:beforeInit={clearImagesStack}
 				on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
-				{#each imagesFiles as image, i (`uploading-${i}`)}
+				{#each $sourceTypeStore.sourcesStack as image, i (`uploading-${i}`)}
 					<SwiperSlide>
 						<img
-							bind:this={currentImagesStack[i]}
 							src={image.url}
-							class="tw-h-[300px] tw-w-full tw-object-cover"
+							class="tw-h-full tw-w-full tw-object-cover"
+							alt={`Image of ${i}`}
+						/>
+					</SwiperSlide>
+				{/each}
+			</Slider>
+		{:else if $sourceTypeStore.type === 'internet' && $sourceTypeStore.sourcesStack?.length}
+			<Slider
+				modules={[Navigation]}
+				navigation={showOptions
+					? {
+							enabled: showOptions,
+							nextEl: '.next-arr',
+							prevEl: '.prev-arr'
+					  }
+					: false}
+				class="
+            tw-w-full
+            tw-rounded-2xl
+            tw-drop-shadow-2xl
+            tw-select-none
+            tw-h-full
+            ultra-mobile:tw-aspect-auto
+          "
+				slidesPerView={1}
+				loop
+				on:afterInit={changeImage}
+				on:indexChanged={changeImage}
+			>
+				{#each $sourceTypeStore.sourcesStack as image, i (`internet-${i}`)}
+					<SwiperSlide>
+						<img
+							src={image.url}
+							class="tw-h-full tw-w-full tw-object-cover"
 							alt={`Image of ${i}`}
 						/>
 					</SwiperSlide>
@@ -419,7 +468,6 @@
 	class="
     tw-p-0
     tablet:tw-p-3
-    tw-backdrop-blur
   "
 	containerClass="
     tw-relative
@@ -430,6 +478,7 @@
     tw-rounded-none
     tablet:tw-rounded-xl
   "
+	containerVisibleClasses="tw-backdrop-blur-lg"
 	positionSide="left"
 >
 	{#if menuType === 'sources'}
@@ -444,7 +493,7 @@
 		>
 			<button
 				class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
-				on:click={() => changeSourceType('started')}
+				on:click={() => ($sourceTypeStore.type = 'started')}
 			>
 				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> STARTED </span>
 			</button>
@@ -466,12 +515,91 @@
 			</button>
 		</div>
 	{:else if menuType === 'settings'}
-		<div class="tw-h-full tw-p-6">
+		<div
+			class="
+        tw-h-full
+        tw-p-6
+        tw-overflow-y-scroll
+        mobile:tw-overflow-y-auto
+        tw-shrink-1
+      "
+		>
 			<h2 class="tw-text-2xl tw-text-center tw-mb-6">Settings</h2>
 
 			<div class="tw-space-y-3">
-				<ToggleTitle bind:toggled={$themeStore.darkTheme} title="Dark mode" />
-				<ToggleTitle bind:toggled={$svelteToastStore} title="Toasts with color" />
+				<SettingTitle
+					class="
+            mobile:tw-flex-col
+            tw-items-center
+            mobile:tw-items-start
+            tw-space-y-3
+          "
+					title="Unsplash collections"
+				>
+					<MultiSelectTags
+						bind:options={unsplashCollections}
+						bind:selected={$selectedCollectionsStore}
+						class="tw-self-stretch"
+						maxSelect={5}
+						noMatchingOptionsMsg="Oh! Empty!"
+						promiseCallback={getCollections}
+						searchParam="query"
+					>
+						<svelte:fragment let:option slot="option">
+							<div>
+								<h4 class="tw-font-bold tw-font-lg tw-inline-block">
+									{option.username}:
+								</h4>
+
+								<span class="tw-bg-electric-blue-crystal tw-font-bold">
+									{option.title}
+								</span>
+
+								<div>
+									Total images: <span class="tw-underline">{option.total_photos}</span>
+								</div>
+							</div>
+						</svelte:fragment>
+					</MultiSelectTags>
+				</SettingTitle>
+
+				<SettingTitle
+					class="
+            tw-space-y-3
+            mobile:tw-space-y-0
+            mobile:tw-space-x-3
+            tw-justify-between
+            tw-items-center
+          "
+					title="Dark mode"
+				>
+					<Toggle
+						bind:toggled={$themeStore.darkTheme}
+						class="custom-toggle"
+						hideLabel
+						labelA=""
+						labelB=""
+					/>
+				</SettingTitle>
+
+				<SettingTitle
+					class="
+            tw-space-y-3
+            mobile:tw-space-y-0
+            mobile:tw-space-x-3
+            tw-justify-between
+            tw-items-center
+          "
+					title="Toasts with color"
+				>
+					<Toggle
+						bind:toggled={$svelteToastStore}
+						class="custom-toggle"
+						hideLabel
+						labelA=""
+						labelB=""
+					/>
+				</SettingTitle>
 			</div>
 		</div>
 	{/if}
@@ -492,20 +620,11 @@
 				class="tw-grid tw-place-items-center"
 				transition:fly={{
 					duration: 250,
-					x: -300,
+					y: -300,
 					easing: cubicInOut
 				}}
 			>
-				<span
-					class="
-            tw-inline-block
-            tw-w-fit
-            tw-overflow-hidden
-            tw-rounded-xl
-          "
-				>
-					<BarLoader size="110" color="#2C75FF" unit="px" duration="1.3s" />
-				</span>
+				<BarLoader size="110" />
 			</div>
 		{:then}
 			<div

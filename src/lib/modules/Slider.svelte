@@ -11,7 +11,7 @@
 		const [swiper] = event.detail;
 
 		dispatch('indexChanged', {
-			activeIndex: swiper.realIndex
+			...swiper
 		});
 	}, 100);
 </script>

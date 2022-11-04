@@ -7,8 +7,10 @@ interface Props extends ExtractCanvas {
 const extractImage = (props: Props): ImageData | null => {
 	const { image, canvas, sizes } = props;
 
-	canvas.width = sizes?.inline ?? image.width;
-	canvas.height = sizes?.block ?? image.height;
+	canvas.width = sizes?.inline ?? image.naturalWidth ?? image.width;
+	canvas.height = sizes?.block ?? image.naturalHeight ?? image.height;
+
+	console.log(image.naturalWidth, image.height);
 
 	const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
