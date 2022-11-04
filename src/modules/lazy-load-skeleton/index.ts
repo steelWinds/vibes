@@ -16,11 +16,12 @@ interface LazyProps extends ImageData {
 const DATA_ATTR_SRC = 'data-src';
 const DATA_ATTR_ALT = 'data-alt';
 const DATA_ATTR_PRELOADER = 'data-preloader';
+const PARENT_CLASS = '.image-lazy-load-container'
 
 const observerCallback: IntersectionObserverCallback = (entries, observer) => {
 	for (const entry of entries) {
 		const img = entry.target as HTMLImageElement;
-		const parent = img.parentElement as HTMLElement;
+		const parent = img.closest(PARENT_CLASS) as HTMLElement;
 		const source = img.getAttribute(DATA_ATTR_SRC);
 		const alt = img.getAttribute(DATA_ATTR_ALT) ?? '';
 		const preloaderClass = img.getAttribute(DATA_ATTR_PRELOADER) ?? '';
@@ -69,7 +70,7 @@ const lazyLoadSkeleton = (img: HTMLImageElement, props: LazyProps) => {
 	} = props;
 
 	const source = urls?.regular ?? src;
-	const parentElement = img.parentElement;
+	const parentElement = img.closest(PARENT_CLASS) as HTMLElement;
 
 	if (!source || !parentElement) {
 		return;

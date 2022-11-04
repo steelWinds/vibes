@@ -8,9 +8,7 @@
 	import uniq from 'lodash-es/uniq';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
-	import data from './data.json';
 
-	let paginatePage = 1;
 	let blockedLoading = false;
 	let uniqueImages: ImageData[] = [];
 	let imagesIdxes: string[] = [];
@@ -19,28 +17,26 @@
 	$: verticalScrollSize = windowInnerInlineSize > 764 ? 4 : 3;
 
 	const getImages = async (scroll?: boolean) => {
-		paginatePage += 1;
+		let images = await getRandomImages({
+		  count: 30,
+			collections: selectedCollectionsStore.getIdx().join(','),
+		});
 
-		//let images = await getRandomImages({
-		//  count: 30,
-		//	collections: selectedCollectionsStore.getIdx().join(','),
-		//});
+		const newImages = images.filter((image) => {
+		  return !imagesIdxes.includes(image.id)
+		})
 
-		//const newImages = images.filter((image) => {
-		//  return !imagesIdxes.includes(image.id)
-		//})
+		const newIdxes = uniq(images.map((image) => image.id))
+		imagesIdxes = [...imagesIdxes, ...newIdxes]
 
-		//const newIdxes = uniq(images.map((image) => image.id))
-		//imagesIdxes = [...imagesIdxes, ...newIdxes]
+		uniqueImages = [...uniqueImages, ...newImages]
 
-		//uniqueImages = [...uniqueImages, ...newImages]
-
-		//if (scroll) {
-		//  window.scrollBy({
-		//    top: 100,
-		//    behavior: 'smooth'
-		//  })
-		//}
+		if (scroll) {
+		  window.scrollBy({
+		    top: verticalScrollSize,
+		    behavior: 'smooth'
+		  })
+		}
 	};
 
 	let promiseGetRandomImages: ReturnType<typeof getImages>;
@@ -67,7 +63,7 @@
 	{:then}
 		<!-- svelte-ignore a11y-missing-attribute -->
 		<LazyList
-			{data}
+			data={uniqueImages}
 			class="
           tw-min-h-screen
           tw-h-full
@@ -75,6 +71,7 @@
 			itemContainerClass="
           tw-rounded-xl
           tw-overflow-hidden
+          image-lazy-load-container
         "
 			let:item
 			disableScrollEvent={blockedLoading}

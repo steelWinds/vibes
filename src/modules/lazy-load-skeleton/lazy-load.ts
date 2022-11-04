@@ -9,6 +9,8 @@ type LazyLoadCallbackProps = {
 	parent?: HTMLElement;
 };
 
+const PARENT_CLASS = '.image-lazy-load-container'
+
 type LazyLoadCallback = (props: LazyLoadCallbackProps) => void;
 
 const lazyLoad = async (
@@ -22,7 +24,7 @@ const lazyLoad = async (
 	image.setAttribute('src', source);
 
 	image.onload = () => {
-		const parent = targetImg.parentElement as HTMLElement;
+		const parent = targetImg.closest(PARENT_CLASS) as HTMLElement;
 
 		if (!targetImg) return;
 
