@@ -9,7 +9,7 @@ type LazyLoadCallbackProps = {
 	parent?: HTMLElement;
 };
 
-const PARENT_CLASS = '.image-lazy-load-container'
+const PARENT_CLASS = '.image-lazy-load-container';
 
 type LazyLoadCallback = (props: LazyLoadCallbackProps) => void;
 

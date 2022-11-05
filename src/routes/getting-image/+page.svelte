@@ -18,24 +18,24 @@
 
 	const getImages = async (scroll?: boolean) => {
 		let images = await getRandomImages({
-		  count: 30,
-			collections: selectedCollectionsStore.getIdx().join(','),
+			count: 30,
+			collections: selectedCollectionsStore.getIdx().join(',')
 		});
 
 		const newImages = images.filter((image) => {
-		  return !imagesIdxes.includes(image.id)
-		})
+			return !imagesIdxes.includes(image.id);
+		});
 
-		const newIdxes = uniq(images.map((image) => image.id))
-		imagesIdxes = [...imagesIdxes, ...newIdxes]
+		const newIdxes = uniq(images.map((image) => image.id));
+		imagesIdxes = [...imagesIdxes, ...newIdxes];
 
-		uniqueImages = [...uniqueImages, ...newImages]
+		uniqueImages = [...uniqueImages, ...newImages];
 
 		if (scroll) {
-		  window.scrollBy({
-		    top: verticalScrollSize,
-		    behavior: 'smooth'
-		  })
+			window.scrollBy({
+				top: verticalScrollSize,
+				behavior: 'smooth'
+			});
 		}
 	};
 

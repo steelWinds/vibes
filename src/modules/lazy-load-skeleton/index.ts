@@ -16,7 +16,7 @@ interface LazyProps extends ImageData {
 const DATA_ATTR_SRC = 'data-src';
 const DATA_ATTR_ALT = 'data-alt';
 const DATA_ATTR_PRELOADER = 'data-preloader';
-const PARENT_CLASS = '.image-lazy-load-container'
+const PARENT_CLASS = '.image-lazy-load-container';
 
 const observerCallback: IntersectionObserverCallback = (entries, observer) => {
 	for (const entry of entries) {
