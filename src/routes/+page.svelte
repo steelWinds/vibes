@@ -27,8 +27,8 @@
 	import SwitchBtn from '@/lib/UI/SwitchBtn.svelte';
 	import Slider from '@/lib/modules/Slider.svelte';
 	import SettingTitle from '@/lib/UI/SettingTitle.svelte';
-  import Tabs from '@/lib/UI/Tabs.svelte';
-  import unsplashQualities from '@/configs/unsplash-qualities'
+	import Tabs from '@/lib/UI/Tabs.svelte';
+	import unsplashQualities from '@/configs/unsplash-qualities';
 
 	type MenuType = 'sources' | 'settings';
 
@@ -54,13 +54,10 @@
 		$sourceTypeStore.sourcesStack = new Set();
 
 		$sourceTypeStore.sourcesStack = new Set(
-      await getImgURL(
-        { maxWidthOrHeight: windowInlineSize / 3 },
-        ...event.detail
-      )
-    )
+			await getImgURL({ maxWidthOrHeight: windowInlineSize / 3 }, ...event.detail)
+		);
 
-    console.log($sourceTypeStore.sourcesStack.values())
+		console.log($sourceTypeStore.sourcesStack.values());
 
 		if (!$sourceTypeStore.sourcesStack.size) return;
 
@@ -80,9 +77,9 @@
 	let unsplashCollections: Array<ObjectOption & CollectionData> = [];
 	let windowInlineSize = 0;
 
-  $: {
-    console.log($unsplashImageQualityStore)
-  }
+	$: {
+		console.log($unsplashImageQualityStore);
+	}
 
 	const changeColor = debounce(() => {
 		currentColor = getColorWithType({
@@ -429,11 +426,7 @@
 			>
 				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`uploading-${i}`)}
 					<SwiperSlide>
-						<img
-							src={image}
-							class="tw-h-full tw-w-full tw-object-cover"
-							alt={`Image of ${i}`}
-						/>
+						<img src={image} class="tw-h-full tw-w-full tw-object-cover" alt={`Image of ${i}`} />
 					</SwiperSlide>
 				{/each}
 			</Slider>
@@ -462,11 +455,7 @@
 			>
 				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`internet-${i}`)}
 					<SwiperSlide>
-						<img
-							src={image}
-							class="tw-h-full tw-w-full tw-object-cover"
-							alt={`Image of ${i}`}
-						/>
+						<img src={image} class="tw-h-full tw-w-full tw-object-cover" alt={`Image of ${i}`} />
 					</SwiperSlide>
 				{/each}
 			</Slider>
@@ -574,30 +563,30 @@
 					</MultiSelectTags>
 				</SettingTitle>
 
-        <SettingTitle
-          class="
+				<SettingTitle
+					class="
             mobile:tw-flex-col
             tw-items-center
             mobile:tw-items-start
             tw-space-y-3
           "
-          titleClass="
+					titleClass="
             tw-text-center
             mobile:tw-text-start
           "
 					title="Unsplash image's quality"
-        >
-          <Tabs
-            class="
+				>
+					<Tabs
+						class="
               tw-grid
               tw-grid-cols-1
               ultra-mobile:tw-grid-cols-3
               tw-gap-1.5
             "
-            bind:group={$unsplashImageQualityStore}
-            values={unsplashQualities}
-          />
-        </SettingTitle>
+						bind:group={$unsplashImageQualityStore}
+						values={unsplashQualities}
+					/>
+				</SettingTitle>
 
 				<SettingTitle
 					class="
@@ -607,7 +596,7 @@
             tw-justify-between
             tw-items-center
           "
-          titleClass="
+					titleClass="
             tw-text-center
             mobile:tw-text-start
           "
@@ -630,7 +619,7 @@
             tw-justify-between
             tw-items-center
           "
-          titleClass="
+					titleClass="
             tw-text-center
             mobile:tw-text-start
           "

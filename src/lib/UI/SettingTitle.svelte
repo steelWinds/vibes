@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let title: string;
-  export let titleClass = '';
+	export let titleClass = '';
 </script>
 
 <section

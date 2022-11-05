@@ -9,40 +9,40 @@ interface SourceTypeStoreType {
 }
 
 const createSourceTypeStore = () => {
-  const { subscribe, update, set } = persist(
-    writable<SourceTypeStoreType>({
-      sourcesStack: new Set(),
-      type: 'started'
-    }),
-    createLocalStorage(),
-    'source-type'
-  );
+	const { subscribe, update, set } = persist(
+		writable<SourceTypeStoreType>({
+			sourcesStack: new Set(),
+			type: 'started'
+		}),
+		createLocalStorage(),
+		'source-type'
+	);
 
-  const deleteURI = (URI: string) => {
-    update(store => {
-      store.sourcesStack.delete(URI);
+	const deleteURI = (URI: string) => {
+		update((store) => {
+			store.sourcesStack.delete(URI);
 
-      return store
-    })
-  }
+			return store;
+		});
+	};
 
-  const addURI = (URI: string) => {
-    update(store => {
-      store.sourcesStack.add(URI);
+	const addURI = (URI: string) => {
+		update((store) => {
+			store.sourcesStack.add(URI);
 
-      return store
-    })
-  }
-  
-  return {
-    subscribe,
-    update,
-    set,
-    deleteURI,
-    addURI,
-  }
-}
+			return store;
+		});
+	};
 
-const sourceTypeStore = createSourceTypeStore()
+	return {
+		subscribe,
+		update,
+		set,
+		deleteURI,
+		addURI
+	};
+};
+
+const sourceTypeStore = createSourceTypeStore();
 
 export default sourceTypeStore;

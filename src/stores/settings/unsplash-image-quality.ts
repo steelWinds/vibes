@@ -4,9 +4,9 @@ import { writable } from 'svelte/store';
 type UnsplashQualities = 'raw' | 'full' | 'regular' | 'small';
 
 const unsplashImageQualityStore = persist(
-  writable<UnsplashQualities>('regular'),
-  createLocalStorage(),
-  'unsplash-image-quality'
+	writable<UnsplashQualities>('regular'),
+	createLocalStorage(),
+	'unsplash-image-quality'
 );
 
 export default unsplashImageQualityStore;

@@ -2,9 +2,9 @@
 	import { onMount, createEventDispatcher } from 'svelte';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import Masonry from 'svelte-bricks';
-  import debounce from 'lodash-es/debounce'
+	import debounce from 'lodash-es/debounce';
 
-  type T = $$Generic;
+	type T = $$Generic;
 
 	let dispatch = createEventDispatcher();
 	let observer: IntersectionObserver;
@@ -18,26 +18,26 @@
 	const observerCallback = (entries: any[]) => {
 		const footerTarget = entries[0];
 
-    console.log(footerTarget)
+		console.log(footerTarget);
 
 		if (footerTarget.isIntersecting && !disableScrollEvent) {
 			onScrollEnd();
 		}
 	};
 
-  export let data: T[];
+	export let data: T[];
 	export let itemContainerClass = '';
 	export let disableScrollEvent = false;
 	export let hideFooter = false;
 	export let minColWidth = 150;
 	export let maxColWidth = 800;
 	export let gap = 20;
-  export let debouncedScrollEvent = 0;
-  export let thresholdFooter = 0.5
+	export let debouncedScrollEvent = 0;
+	export let thresholdFooter = 0.5;
 
-  const onScrollEnd = debounce(() => {
-    dispatch('scrollEnd');
-  }, debouncedScrollEvent)
+	const onScrollEnd = debounce(() => {
+		dispatch('scrollEnd');
+	}, debouncedScrollEvent);
 
 	onMount(() => {
 		if (mainContainer && footerTarget) {

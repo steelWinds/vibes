@@ -57,16 +57,8 @@ const loaded: Set<string> = new Set();
 let observer: IntersectionObserver;
 
 const lazyLoadSkeleton = (img: HTMLImageElement, props: LazyProps) => {
-	const {
-		src,
-		width,
-		color,
-		height,
-		description,
-		defaultAlt,
-		defaultColorPlug,
-		preloaderClass
-	} = props;
+	const { src, width, color, height, description, defaultAlt, defaultColorPlug, preloaderClass } =
+		props;
 
 	const source = src;
 	const parentElement = img.closest(PARENT_CLASS) as HTMLElement;

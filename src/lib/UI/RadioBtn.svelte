@@ -3,15 +3,15 @@
 	export let value: any;
 </script>
 
-<label 
+<label
 	class="
 		tw-relative
 		tw-cursor-pointer
 		"
-	>
+>
 	<input
-		bind:group={group}
-		value={value}
+		bind:group
+		{value}
 		type="radio"
 		name={$$restProps.name}
 		class="
