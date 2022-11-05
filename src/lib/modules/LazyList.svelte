@@ -2,6 +2,9 @@
 	import { onMount, createEventDispatcher } from 'svelte';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import Masonry from 'svelte-bricks';
+  import debounce from 'lodash-es/debounce'
+
+  type T = $$Generic;
 
 	let dispatch = createEventDispatcher();
 	let observer: IntersectionObserver;
@@ -15,23 +18,31 @@
 	const observerCallback = (entries: any[]) => {
 		const footerTarget = entries[0];
 
+    console.log(footerTarget)
+
 		if (footerTarget.isIntersecting && !disableScrollEvent) {
-			dispatch('scrollEnd');
+			onScrollEnd();
 		}
 	};
 
-	export let data: Array<{ [key: string]: any }>;
+  export let data: T[];
 	export let itemContainerClass = '';
 	export let disableScrollEvent = false;
 	export let hideFooter = false;
 	export let minColWidth = 150;
 	export let maxColWidth = 800;
 	export let gap = 20;
+  export let debouncedScrollEvent = 0;
+  export let thresholdFooter = 0.5
+
+  const onScrollEnd = debounce(() => {
+    dispatch('scrollEnd');
+  }, debouncedScrollEvent)
 
 	onMount(() => {
 		if (mainContainer && footerTarget) {
 			observer = new IntersectionObserver(observerCallback, {
-				threshold: 0.5
+				threshold: thresholdFooter
 			});
 
 			observer.observe(footerTarget);
@@ -48,12 +59,11 @@
 	class="
     tw-w-full
   "
-	style:padding={`${gap}px`}
 >
 	{#if data?.length}
-		<div class={$$restProps.class}>
+		<div class={$$restProps.class} style:padding={`${gap}px`}>
 			<Masonry items={data} {minColWidth} {maxColWidth} {gap} idKey="id" let:item>
-				<div data-aos="fade-up" class={itemContainerClass}>
+				<div class={itemContainerClass}>
 					<slot {item} />
 				</div>
 			</Masonry>

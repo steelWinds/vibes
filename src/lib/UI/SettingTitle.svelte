@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let title: string;
+  export let titleClass = '';
 </script>
 
 <section
@@ -11,7 +12,7 @@
     ${$$restProps.class}
   `}
 >
-	<h3 class="tw-text-xl tw-text-center">
+	<h3 class={`tw-text-xl tw-text-center ${titleClass}`}>
 		{title}
 	</h3>
 

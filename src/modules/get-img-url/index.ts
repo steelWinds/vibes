@@ -1,14 +1,13 @@
-import type { URLData } from './types/URLData.type';
 import type { CompressionOptions } from './types/CompressionOptions.type';
 
 import compression from './compression';
 
-const getImgURL = async (options: CompressionOptions, ...args: File[]): Promise<URLData[]> => {
+const getImgURL = async (options: CompressionOptions, ...args: File[]): Promise<string[]> => {
 	const images = Array.from(args).filter((file) => file.size);
 
 	const compressedImages = await compression(images, options);
 
-	const promises: Promise<URLData>[] = compressedImages.map((image) => {
+	const promises: Promise<string>[] = compressedImages.map((image) => {
 		return new Promise((resolve, reject) => {
 			const reader = new FileReader();
 
@@ -17,9 +16,7 @@ const getImgURL = async (options: CompressionOptions, ...args: File[]): Promise<
 					return reject();
 				}
 
-				resolve({
-					url: reader.result as string
-				});
+				resolve(reader.result as string);
 			};
 
 			reader.readAsDataURL(image);
@@ -30,7 +27,7 @@ const getImgURL = async (options: CompressionOptions, ...args: File[]): Promise<
 
 	return result
 		.filter((promise) => promise.status === 'fulfilled')
-		.map((promise) => (promise as PromiseFulfilledResult<URLData>).value);
+		.map((promise) => (promise as PromiseFulfilledResult<string>).value);
 };
 
 export default getImgURL;

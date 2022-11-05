@@ -59,7 +59,6 @@ let observer: IntersectionObserver;
 const lazyLoadSkeleton = (img: HTMLImageElement, props: LazyProps) => {
 	const {
 		src,
-		urls,
 		width,
 		color,
 		height,
@@ -69,7 +68,7 @@ const lazyLoadSkeleton = (img: HTMLImageElement, props: LazyProps) => {
 		preloaderClass
 	} = props;
 
-	const source = urls?.regular ?? src;
+	const source = src;
 	const parentElement = img.closest(PARENT_CLASS) as HTMLElement;
 
 	if (!source || !parentElement) {

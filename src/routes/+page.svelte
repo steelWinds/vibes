@@ -15,6 +15,7 @@
 	import svelteToastStore from '@/stores/settings/svelte-toast-store';
 	import sourceTypeStore from '@/stores/settings/source-type';
 	import selectedCollectionsStore from '@/stores/settings/selected-collections';
+	import unsplashImageQualityStore from '@/stores/settings/unsplash-image-quality';
 	import { SwiperSlide } from 'swiper/svelte';
 	import { Navigation } from 'swiper';
 	import { Modal } from 'carbon-components-svelte';
@@ -26,6 +27,8 @@
 	import SwitchBtn from '@/lib/UI/SwitchBtn.svelte';
 	import Slider from '@/lib/modules/Slider.svelte';
 	import SettingTitle from '@/lib/UI/SettingTitle.svelte';
+  import Tabs from '@/lib/UI/Tabs.svelte';
+  import unsplashQualities from '@/configs/unsplash-qualities'
 
 	type MenuType = 'sources' | 'settings';
 
@@ -48,14 +51,18 @@
 	};
 
 	const setUploadingImages = async (event: CustomEvent) => {
-		$sourceTypeStore.sourcesStack = [];
+		$sourceTypeStore.sourcesStack = new Set();
 
-		$sourceTypeStore.sourcesStack = await getImgURL(
-			{ maxWidthOrHeight: windowInlineSize / 3 },
-			...event.detail
-		);
+		$sourceTypeStore.sourcesStack = new Set(
+      await getImgURL(
+        { maxWidthOrHeight: windowInlineSize / 3 },
+        ...event.detail
+      )
+    )
 
-		if (!$sourceTypeStore.sourcesStack?.length) return;
+    console.log($sourceTypeStore.sourcesStack.values())
+
+		if (!$sourceTypeStore.sourcesStack.size) return;
 
 		$sourceTypeStore.type = 'uploading';
 
@@ -72,6 +79,10 @@
 	let menuType: MenuType;
 	let unsplashCollections: Array<ObjectOption & CollectionData> = [];
 	let windowInlineSize = 0;
+
+  $: {
+    console.log($unsplashImageQualityStore)
+  }
 
 	const changeColor = debounce(() => {
 		currentColor = getColorWithType({
@@ -393,7 +404,7 @@
 					</SwiperSlide>
 				{/each}
 			</Slider>
-		{:else if $sourceTypeStore.type === 'uploading' && $sourceTypeStore.sourcesStack?.length}
+		{:else if $sourceTypeStore.type === 'uploading' && $sourceTypeStore.sourcesStack.size}
 			<Slider
 				modules={[Navigation]}
 				navigation={showOptions
@@ -416,17 +427,17 @@
 				on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
-				{#each $sourceTypeStore.sourcesStack as image, i (`uploading-${i}`)}
+				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`uploading-${i}`)}
 					<SwiperSlide>
 						<img
-							src={image.url}
+							src={image}
 							class="tw-h-full tw-w-full tw-object-cover"
 							alt={`Image of ${i}`}
 						/>
 					</SwiperSlide>
 				{/each}
 			</Slider>
-		{:else if $sourceTypeStore.type === 'internet' && $sourceTypeStore.sourcesStack?.length}
+		{:else if $sourceTypeStore.type === 'internet' && $sourceTypeStore.sourcesStack.size}
 			<Slider
 				modules={[Navigation]}
 				navigation={showOptions
@@ -449,10 +460,10 @@
 				on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
-				{#each $sourceTypeStore.sourcesStack as image, i (`internet-${i}`)}
+				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`internet-${i}`)}
 					<SwiperSlide>
 						<img
-							src={image.url}
+							src={image}
 							class="tw-h-full tw-w-full tw-object-cover"
 							alt={`Image of ${i}`}
 						/>
@@ -563,6 +574,31 @@
 					</MultiSelectTags>
 				</SettingTitle>
 
+        <SettingTitle
+          class="
+            mobile:tw-flex-col
+            tw-items-center
+            mobile:tw-items-start
+            tw-space-y-3
+          "
+          titleClass="
+            tw-text-center
+            mobile:tw-text-start
+          "
+					title="Unsplash image's quality"
+        >
+          <Tabs
+            class="
+              tw-grid
+              tw-grid-cols-1
+              ultra-mobile:tw-grid-cols-3
+              tw-gap-1.5
+            "
+            bind:group={$unsplashImageQualityStore}
+            values={unsplashQualities}
+          />
+        </SettingTitle>
+
 				<SettingTitle
 					class="
             tw-space-y-3
@@ -570,6 +606,10 @@
             mobile:tw-space-x-3
             tw-justify-between
             tw-items-center
+          "
+          titleClass="
+            tw-text-center
+            mobile:tw-text-start
           "
 					title="Dark mode"
 				>
@@ -589,6 +629,10 @@
             mobile:tw-space-x-3
             tw-justify-between
             tw-items-center
+          "
+          titleClass="
+            tw-text-center
+            mobile:tw-text-start
           "
 					title="Toasts with color"
 				>

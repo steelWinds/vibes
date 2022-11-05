@@ -1,32 +1,48 @@
-import type { URLData } from '@/modules/get-img-url/types/URLData.type';
-
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import { writable } from 'svelte/store';
 
 type SourceType = 'uploading' | 'started' | 'internet';
 
 interface SourceTypeStoreType {
-	sourcesStack: URLData[];
+	sourcesStack: Set<string>;
 	type: SourceType;
 }
 
 const createSourceTypeStore = () => {
-	const { subscribe, update, set } = persist(
-		writable<SourceTypeStoreType>({
-			sourcesStack: [],
-			type: 'started'
-		}),
-		createLocalStorage(),
-		'source-type'
-	);
+  const { subscribe, update, set } = persist(
+    writable<SourceTypeStoreType>({
+      sourcesStack: new Set(),
+      type: 'started'
+    }),
+    createLocalStorage(),
+    'source-type'
+  );
 
-	return {
-		subscribe,
-		update,
-		set
-	};
-};
+  const deleteURI = (URI: string) => {
+    update(store => {
+      store.sourcesStack.delete(URI);
 
-const sourceTypeStore = createSourceTypeStore();
+      return store
+    })
+  }
+
+  const addURI = (URI: string) => {
+    update(store => {
+      store.sourcesStack.add(URI);
+
+      return store
+    })
+  }
+  
+  return {
+    subscribe,
+    update,
+    set,
+    deleteURI,
+    addURI,
+  }
+}
+
+const sourceTypeStore = createSourceTypeStore()
 
 export default sourceTypeStore;
