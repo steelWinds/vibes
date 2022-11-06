@@ -18,8 +18,6 @@
 	const observerCallback = (entries: any[]) => {
 		const footerTarget = entries[0];
 
-		console.log(footerTarget);
-
 		if (footerTarget.isIntersecting && !disableScrollEvent) {
 			onScrollEnd();
 		}
@@ -62,14 +60,24 @@
 >
 	{#if data?.length}
 		<div class={$$restProps.class} style:padding={`${gap}px`}>
-			<Masonry items={data} {minColWidth} {maxColWidth} {gap} idKey="id" let:item>
+			<Masonry
+				items={data}
+				{minColWidth}
+				{maxColWidth}
+				{gap}
+				idKey="id"
+				let:item
+			>
 				<div class={itemContainerClass}>
 					<slot {item} />
 				</div>
 			</Masonry>
 		</div>
 
-		<footer bind:this={footerTarget} class="tw-grid tw-place-items-center tw-p-4">
+		<footer
+			bind:this={footerTarget}
+			class="tw-grid tw-place-items-center tw-p-4"
+		>
 			<BarLoader size="110" />
 		</footer>
 	{/if}

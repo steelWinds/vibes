@@ -4,7 +4,10 @@ import { $fetch as ohmyfetch } from 'ohmyfetch';
 
 type DataObjectType<T> = { data: T; headers: Headers };
 
-const useFetch = async <T>(URI: string, options?: FetchOptions): Promise<DataObjectType<T>> => {
+const useFetch = async <T>(
+	URI: string,
+	options?: FetchOptions
+): Promise<DataObjectType<T>> => {
 	const request = ohmyfetch.raw(URI, {
 		baseURL: import.meta.env.VITE_API_BASE_URL,
 		headers: {

@@ -8,7 +8,10 @@
 	}
 
 	export let transitionProps: TransitionParams = {};
-	export let transitionType: (node: HTMLElement, props: TransitionParams) => TransitionConfig;
+	export let transitionType: (
+		node: HTMLElement,
+		props: TransitionParams
+	) => TransitionConfig;
 	export let switchValue = false;
 	export let switchedClass = '';
 </script>
@@ -22,11 +25,17 @@
 	on:click
 >
 	{#if switchValue}
-		<div transition:transitionType={transitionProps} class="tw-pointer-events-none">
+		<div
+			transition:transitionType={transitionProps}
+			class="tw-pointer-events-none"
+		>
 			<slot name="switch-true" />
 		</div>
 	{:else}
-		<div transition:transitionType={transitionProps} class="tw-pointer-events-none">
+		<div
+			transition:transitionType={transitionProps}
+			class="tw-pointer-events-none"
+		>
 			<slot name="switch-false" />
 		</div>
 	{/if}

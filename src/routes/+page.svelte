@@ -54,10 +54,11 @@
 		$sourceTypeStore.sourcesStack = new Set();
 
 		$sourceTypeStore.sourcesStack = new Set(
-			await getImgURL({ maxWidthOrHeight: windowInlineSize / 3 }, ...event.detail)
+			await getImgURL(
+				{ maxWidthOrHeight: windowInlineSize / 3 },
+				...event.detail
+			)
 		);
-
-		console.log($sourceTypeStore.sourcesStack.values());
 
 		if (!$sourceTypeStore.sourcesStack.size) return;
 
@@ -77,16 +78,18 @@
 	let unsplashCollections: Array<ObjectOption & CollectionData> = [];
 	let windowInlineSize = 0;
 
-	$: {
-		console.log($unsplashImageQualityStore);
-	}
-
-	const changeColor = debounce(() => {
-		currentColor = getColorWithType({
+	const changeColor = debounce(async () => {
+		currentColor = await getColorWithType({
 			image: currentImageRef,
 			canvas: canvasRef,
-			type: 'hex'
+			type: 'hex',
+      sizes: {
+        inline: 100,
+        block: 100
+      }
 		});
+
+    console.log('color', currentColor);
 
 		copyToast(currentColor, 3000, true);
 	}, 250);
@@ -102,6 +105,8 @@
 
 		if (image.complete) {
 			changeColor();
+
+      return
 		}
 
 		image.onload = () => {
@@ -122,11 +127,22 @@
 			keyCode: 'Space'
 		});
 
+    console.log($sourceTypeStore)
+
 		return removeListener;
 	});
 </script>
 
 <svelte:window bind:innerWidth={windowInlineSize} />
+
+<canvas
+  bind:this={canvasRef}
+  class="
+    tw-absolute
+    tw-left-100
+    tw-right-100
+  "
+/>
 
 <div
 	class="
@@ -190,7 +206,11 @@
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
 					>
-						<path d="M20 20L4 4.00003M20 4L4.00002 20" stroke-width="2" stroke-linecap="round" />
+						<path
+							d="M20 20L4 4.00003M20 4L4.00002 20"
+							stroke-width="2"
+							stroke-linecap="round"
+						/>
 					</svg>
 				</svelte:fragment>
 
@@ -246,7 +266,11 @@
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
 					>
-						<path d="M20 20L4 4.00003M20 4L4.00002 20" stroke-width="2" stroke-linecap="round" />
+						<path
+							d="M20 20L4 4.00003M20 4L4.00002 20"
+							stroke-width="2"
+							stroke-linecap="round"
+						/>
 					</svg>
 				</svelte:fragment>
 
@@ -266,17 +290,6 @@
 			</SwitchBtn>
 		</div>
 	{/if}
-
-	<canvas
-		bind:this={canvasRef}
-		class="
-      tw-absolute
-      tw-left-0
-      tw-right-0
-      tw-invisible
-      tw-opacity-0
-    "
-	/>
 
 	<div
 		class="
@@ -388,7 +401,7 @@
         "
 				loop
 				slidesPerView={1}
-				on:afterInit={changeImage}
+        on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
 				{#each [...Array(3).keys()] as _, i (`image-${i}`)}
@@ -421,12 +434,16 @@
         "
 				slidesPerView={1}
 				loop
-				on:afterInit={changeImage}
+        on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
 				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`uploading-${i}`)}
 					<SwiperSlide>
-						<img src={image} class="tw-h-full tw-w-full tw-object-cover" alt={`Image of ${i}`} />
+						<img
+							src={image}
+							class="tw-h-full tw-w-full tw-object-cover"
+							alt={`Image of ${i}`}
+						/>
 					</SwiperSlide>
 				{/each}
 			</Slider>
@@ -450,12 +467,16 @@
           "
 				slidesPerView={1}
 				loop
-				on:afterInit={changeImage}
+        on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
 				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`internet-${i}`)}
 					<SwiperSlide>
-						<img src={image} class="tw-h-full tw-w-full tw-object-cover" alt={`Image of ${i}`} />
+						<img
+							src={image}
+							class="tw-h-full tw-w-full tw-object-cover"
+							alt={`Image of ${i}`}
+						/>
 					</SwiperSlide>
 				{/each}
 			</Slider>
@@ -495,14 +516,18 @@
 				class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
 				on:click={() => ($sourceTypeStore.type = 'started')}
 			>
-				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> STARTED </span>
+				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
+					STARTED
+				</span>
 			</button>
 
 			<Link
 				link="/getting-image"
 				class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
 			>
-				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> INTERNET </span>
+				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
+					INTERNET
+				</span>
 			</Link>
 
 			<button
@@ -511,7 +536,9 @@
 					uploadingModalState = true;
 				}}
 			>
-				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full"> UPLOAD </span>
+				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
+					UPLOAD
+				</span>
 			</button>
 		</div>
 	{:else if menuType === 'settings'}
@@ -556,7 +583,9 @@
 								</span>
 
 								<div>
-									Total images: <span class="tw-underline">{option.total_photos}</span>
+									Total images: <span class="tw-underline"
+										>{option.total_photos}</span
+									>
 								</div>
 							</div>
 						</svelte:fragment>

@@ -17,7 +17,10 @@ const paginate = (props: PaginationProps, callback: FetchCallbackType) => {
 
 	let currentPage = startPage;
 
-	const handler = async <R>(query = '', perPage: number): Promise<ReturnHandlerType<R>> => {
+	const handler = async <R>(
+		query = '',
+		perPage: number
+	): Promise<ReturnHandlerType<R>> => {
 		if (currentPage >= totalPages) {
 			return {
 				nextPaginate: false

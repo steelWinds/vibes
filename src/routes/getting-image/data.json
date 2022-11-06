@@ -459,7 +459,10 @@
 		"current_user_collections": [],
 		"sponsorship": null,
 		"topic_submissions": {
-			"wallpapers": { "status": "approved", "approved_on": "2020-04-06T14:20:09Z" }
+			"wallpapers": {
+				"status": "approved",
+				"approved_on": "2020-04-06T14:20:09Z"
+			}
 		},
 		"user": {
 			"id": "mdXONmurhJY",
@@ -598,7 +601,10 @@
 			"name": "Mauritius",
 			"city": null,
 			"country": "Mauritius",
-			"position": { "latitude": -20.0100432000759, "longitude": 57.5672582011719 }
+			"position": {
+				"latitude": -20.0100432000759,
+				"longitude": 57.5672582011719
+			}
 		},
 		"views": 1721969,
 		"downloads": 20117
@@ -806,7 +812,10 @@
 		"sponsorship": null,
 		"topic_submissions": {
 			"nature": { "status": "approved", "approved_on": "2020-04-06T14:20:13Z" },
-			"wallpapers": { "status": "approved", "approved_on": "2020-04-06T14:20:09Z" }
+			"wallpapers": {
+				"status": "approved",
+				"approved_on": "2020-04-06T14:20:09Z"
+			}
 		},
 		"user": {
 			"id": "ZLK6ziloW8Y",
@@ -1048,12 +1057,12 @@
 		"description": null,
 		"alt_description": null,
 		"urls": {
-			"raw": "https://images.unsplash.com/photo-1641063157251-ae9d815e5daa?ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3",
-			"full": "https://images.unsplash.com/photo-1641063157251-ae9d815e5daa?crop=entropy\u0026cs=tinysrgb\u0026fm=jpg\u0026ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3\u0026q=80",
-			"regular": "https://images.unsplash.com/photo-1641063157251-ae9d815e5daa?crop=entropy\u0026cs=tinysrgb\u0026fit=max\u0026fm=jpg\u0026ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3\u0026q=80\u0026w=1080",
-			"small": "https://images.unsplash.com/photo-1641063157251-ae9d815e5daa?crop=entropy\u0026cs=tinysrgb\u0026fit=max\u0026fm=jpg\u0026ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3\u0026q=80\u0026w=400",
-			"thumb": "https://images.unsplash.com/photo-1641063157251-ae9d815e5daa?crop=entropy\u0026cs=tinysrgb\u0026fit=max\u0026fm=jpg\u0026ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3\u0026q=80\u0026w=200",
-			"small_s3": "https://s3.us-west-2.amazonaws.com/images.unsplash.com/small/photo-1641063157251-ae9d815e5daa"
+			"raw": "https://images.unsplash.com/photo-1641063157251-ae9d81daa?ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3",
+			"full": "https://images.unsplash.com/photo-1641063157251-ae15e5daa?crop=entropy\u0026cs=tinysrgb\u0026fm=jpg\u0026ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3\u0026q=80",
+			"regular": "https://images.unsplash.com/photo-16410631572-ae9d815e5daa?crop=entropy\u0026cs=tinysrgb\u0026fit=max\u0026fm=jpg\u0026ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3\u0026q=80\u0026w=1080",
+			"small": "https://images.unsplash.com/photo-16410631572-ae9d815e5daa?crop=entropy\u0026cs=tinysrgb\u0026fit=max\u0026fm=jpg\u0026ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3\u0026q=80\u0026w=400",
+			"thumb": "https://images.unsplash.com/photo-16410631551-ae9d815e5daa?crop=entropy\u0026cs=tinysrgb\u0026fit=max\u0026fm=jpg\u0026ixid=MnwzNzYxODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjczODQ1Njk\u0026ixlib=rb-4.0.3\u0026q=80\u0026w=200",
+			"small_s3": "https://s3.us-west-2.amazonaws.com/imas.unsplash.com/small/photo-1641063157251-ae9d815e5daa"
 		},
 		"links": {
 			"self": "https://api.unsplash.com/photos/g9P21WrK_7g",
@@ -1067,7 +1076,10 @@
 		"sponsorship": null,
 		"topic_submissions": {
 			"nature": { "status": "approved", "approved_on": "2022-01-07T16:12:57Z" },
-			"wallpapers": { "status": "approved", "approved_on": "2022-01-05T13:05:04Z" },
+			"wallpapers": {
+				"status": "approved",
+				"approved_on": "2022-01-05T13:05:04Z"
+			},
 			"animals": { "status": "approved", "approved_on": "2022-01-02T21:00:40Z" }
 		},
 		"user": {
@@ -1501,7 +1513,10 @@
 		"sponsorship": null,
 		"topic_submissions": {
 			"nature": { "status": "approved", "approved_on": "2021-02-05T15:36:22Z" },
-			"wallpapers": { "status": "approved", "approved_on": "2020-04-06T14:20:09Z" }
+			"wallpapers": {
+				"status": "approved",
+				"approved_on": "2020-04-06T14:20:09Z"
+			}
 		},
 		"user": {
 			"id": "J99RnU0IBpg",
@@ -2110,9 +2125,15 @@
 		"current_user_collections": [],
 		"sponsorship": null,
 		"topic_submissions": {
-			"color-of-water": { "status": "approved", "approved_on": "2022-04-20T12:05:05Z" },
+			"color-of-water": {
+				"status": "approved",
+				"approved_on": "2022-04-20T12:05:05Z"
+			},
 			"nature": { "status": "approved", "approved_on": "2020-04-06T14:20:12Z" },
-			"wallpapers": { "status": "approved", "approved_on": "2020-04-06T14:20:09Z" }
+			"wallpapers": {
+				"status": "approved",
+				"approved_on": "2020-04-06T14:20:09Z"
+			}
 		},
 		"user": {
 			"id": "wU9_AnZPruM",

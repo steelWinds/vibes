@@ -8,9 +8,12 @@ type SearchCollectionsQuery = { query: string } & PaginationQuery;
 const searchCollections = async (
 	query: SearchCollectionsQuery
 ): Promise<PaginationObject<CollectionData[]>> => {
-	const { data } = await useFetch<PaginationObject<CollectionData[]>>('/search/collections', {
-		query
-	});
+	const { data } = await useFetch<PaginationObject<CollectionData[]>>(
+		'/search/collections',
+		{
+			query
+		}
+	);
 
 	return data;
 };

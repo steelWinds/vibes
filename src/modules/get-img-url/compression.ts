@@ -8,7 +8,10 @@ const defaultOptions: CompressionOptions = {
 	useWebWorker: true
 };
 
-const compression = async (images: File[], options: CompressionOptions): Promise<File[]> => {
+const compression = async (
+	images: File[],
+	options: CompressionOptions
+): Promise<File[]> => {
 	const promises = images.map((image) =>
 		imageCompression(image, Object.assign(defaultOptions, options))
 	);

@@ -1,6 +1,7 @@
 interface ExtractCanvas {
 	image: HTMLImageElement;
-	canvas: HTMLCanvasElement;
+  canvas: HTMLCanvasElement;
+  sizes?: { inline: number; block: number };
 }
 
 export type { ExtractCanvas };

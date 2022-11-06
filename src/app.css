@@ -156,7 +156,10 @@ input {
 		background-color: var(--c-raisin-gray);
 	}
 
-	& .bx--toggle-input:checked + .bx--toggle-input__label > .bx--toggle__switch:before {
+	&
+		.bx--toggle-input:checked
+		+ .bx--toggle-input__label
+		> .bx--toggle__switch:before {
 		background-color: var(--c-electric-blue);
 	}
 

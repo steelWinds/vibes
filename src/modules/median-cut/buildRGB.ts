@@ -11,7 +11,7 @@ const buildRGB = (imageData?: ImageData['data']) => {
 			g: imageData[i + 1],
 			b: imageData[i + 2]
 		});
-	}
+  }
 
 	return rgbValues;
 };

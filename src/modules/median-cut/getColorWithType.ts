@@ -9,14 +9,10 @@ interface Props extends ExtractCanvas {
 	colorDepth?: ColorDepth;
 }
 
-const getColorWithType = (props: Props) => {
-	const { image, canvas, type, colorDepth } = props;
+const getColorWithType = async (props: Props) => {
+	const { type } = props;
 
-	const RGBColor = median({
-		image,
-		canvas,
-		colorDepth
-	});
+	const RGBColor = await median(props);
 
 	return Color(RGBColor?.[0])?.[type]();
 };

@@ -7,13 +7,16 @@
 
 	const dispatch = createEventDispatcher();
 
-	const debouncedIndexChanged = debounced((event: CustomEvent<[swiper: ISwiper]>) => {
-		const [swiper] = event.detail;
+	const debouncedIndexChanged = debounced(
+		(event: CustomEvent<[swiper: ISwiper]>) => {
+			const [swiper] = event.detail;
 
-		dispatch('indexChanged', {
-			...swiper
-		});
-	}, 100);
+			dispatch('indexChanged', {
+				...swiper
+			});
+		},
+		100
+	);
 </script>
 
 <Swiper {...$$restProps} on:activeIndexChange={debouncedIndexChanged}>

@@ -10,14 +10,18 @@ interface Props extends ExtractCanvas {
 	colorDepth?: ColorDepth;
 }
 
-const median = (props: Props) => {
+const median = async (props: Props) => {
 	const { image, canvas, colorDepth } = props;
 
 	if (!image || !canvas) return;
 
-	const imageData = extractImage({ image, canvas });
+	const imageData = await extractImage(props);
 	const RGBPallete = buildRGB(imageData?.data);
-	const color = quantization(RGBPallete, colorDepth?.depth, colorDepth?.maxDepth);
+	const color = quantization(
+		RGBPallete,
+		colorDepth?.depth,
+		colorDepth?.maxDepth
+	);
 
 	return color;
 };

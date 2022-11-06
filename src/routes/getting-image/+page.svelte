@@ -10,6 +10,7 @@
 	import uniq from 'lodash-es/uniq';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
+  import data from './data.json'
 
 	let blockedLoading = false;
 	let uniqueImages: ImageData[] = [];
@@ -18,15 +19,10 @@
 	let windowInnerInlineSize = 0;
 
 	$: selectedImagesCount = $sourceTypeStore.sourcesStack.size;
-	$: postLoadedScroll = windowInnerBlockSize / 4;
 	$: postChangeOrientScroll = -(windowInnerBlockSize / 2);
 	$: isTablet = windowInnerInlineSize > 1280;
 	$: minColWidth = isTablet ? 400 : 130;
 	$: gap = isTablet ? 20 : 10;
-
-	$: {
-		console.log($sourceTypeStore.sourcesStack);
-	}
 
 	const getImages = async () => {
 		let images = await getRandomImages({
@@ -47,8 +43,8 @@
 	let promiseGetRandomImages: ReturnType<typeof getImages>;
 
 	let addImage = (image: any) => {
-		if ($sourceTypeStore.type !== 'uploading') {
-			$sourceTypeStore.type = 'uploading';
+		if ($sourceTypeStore.type !== 'internet') {
+			$sourceTypeStore.type = 'internet';
 			$sourceTypeStore.sourcesStack = new Set();
 		}
 
@@ -78,7 +74,10 @@
 	});
 </script>
 
-<svelte:window bind:innerHeight={windowInnerBlockSize} bind:innerWidth={windowInnerInlineSize} />
+<svelte:window
+	bind:innerHeight={windowInnerBlockSize}
+	bind:innerWidth={windowInnerInlineSize}
+/>
 
 <div>
 	<div
@@ -143,7 +142,17 @@
 			let:item
 			on:scrollEnd={getImages}
 		>
-			<button class="tw-block tw-w-full tw-h-full" on:click={() => addImage(item)}>
+			<button
+				class={`
+          tw-block
+          tw-w-full
+          tw-h-full
+          tw-rounded-xl
+          tw-overflow-hidden
+          ${$sourceTypeStore.sourcesStack.has(item?.urls?.[$unsplashImageQualityStore]) ? 'tw-border-4 tw-border-electric-blue' : ''}  
+        `}
+				on:click={() => addImage(item)}
+			>
 				<img
 					class="
               tw-w-full

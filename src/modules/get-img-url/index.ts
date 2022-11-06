@@ -2,7 +2,10 @@ import type { CompressionOptions } from './types/CompressionOptions.type';
 
 import compression from './compression';
 
-const getImgURL = async (options: CompressionOptions, ...args: File[]): Promise<string[]> => {
+const getImgURL = async (
+	options: CompressionOptions,
+	...args: File[]
+): Promise<string[]> => {
 	const images = Array.from(args).filter((file) => file.size);
 
 	const compressedImages = await compression(images, options);

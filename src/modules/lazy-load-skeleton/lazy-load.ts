@@ -1,7 +1,6 @@
 interface LazyLoadProps {
-	source: string;
-	alt: string;
-	memory: Set<string>;
+  source: string;
+  parentClass: string
 }
 
 type LazyLoadCallbackProps = {
@@ -9,32 +8,28 @@ type LazyLoadCallbackProps = {
 	parent?: HTMLElement;
 };
 
-const PARENT_CLASS = '.image-lazy-load-container';
-
-type LazyLoadCallback = (props: LazyLoadCallbackProps) => void;
-
-const lazyLoad = async (
-	targetImg: HTMLImageElement,
-	callback: LazyLoadCallback,
-	props: LazyLoadProps
+const lazyLoad = (
+  source: string,
 ) => {
-	const { source, memory } = props;
-	const image = new Image();
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
 
-	image.setAttribute('src', source);
+    image.setAttribute('src', source);
+    image.setAttribute('crossOrigin', 'anonymous');
 
-	image.onload = () => {
-		const parent = targetImg.closest(PARENT_CLASS) as HTMLElement;
+    if (image.complete) {
+      resolve(image)
+    }
 
-		if (!targetImg) return;
-
-		memory.add(source);
-
-		targetImg.setAttribute('src', source);
-
-		callback?.({ img: targetImg, parent });
-	};
+    image.onload = () => {
+      resolve(image)
+    }
+    
+    image.onerror = () => {
+      reject(new Error('Image is don\'t load'))
+    }
+  })
 };
 
 export default lazyLoad;
-export type { LazyLoadProps, LazyLoadCallback, LazyLoadCallbackProps };
+export type { LazyLoadProps, LazyLoadCallbackProps };

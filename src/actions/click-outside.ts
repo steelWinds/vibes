@@ -11,7 +11,10 @@ const clickOutside = (node: Node, props: Props) => {
 		const target = event.target as HTMLElement;
 		const parentTarget = target.parentElement as HTMLElement;
 
-		if (target?.dataset?.ignoreOutside || parentTarget?.dataset?.ignoreOutside) {
+		if (
+			target?.dataset?.ignoreOutside ||
+			parentTarget?.dataset?.ignoreOutside
+		) {
 			return;
 		}
 
