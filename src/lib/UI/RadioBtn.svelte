@@ -21,6 +21,7 @@
 			tw-w-0
 			tw-h-0
 			tw-peer
+      tw-opacity-0
 		"
 	/>
 

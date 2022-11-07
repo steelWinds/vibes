@@ -1,6 +1,6 @@
 interface LazyLoadProps {
-  source: string;
-  parentClass: string
+	source: string;
+	parentClass: string;
 }
 
 type LazyLoadCallbackProps = {
@@ -8,27 +8,25 @@ type LazyLoadCallbackProps = {
 	parent?: HTMLElement;
 };
 
-const lazyLoad = (
-  source: string,
-) => {
-  return new Promise<HTMLImageElement>((resolve, reject) => {
-    const image = new Image();
+const lazyLoad = (source: string) => {
+	return new Promise<HTMLImageElement>((resolve, reject) => {
+		const image = new Image();
 
-    image.setAttribute('src', source);
-    image.setAttribute('crossOrigin', 'anonymous');
+		image.setAttribute('src', source);
+		image.setAttribute('crossOrigin', 'anonymous');
 
-    if (image.complete) {
-      resolve(image)
-    }
+		if (image.complete) {
+			resolve(image);
+		}
 
-    image.onload = () => {
-      resolve(image)
-    }
-    
-    image.onerror = () => {
-      reject(new Error('Image is don\'t load'))
-    }
-  })
+		image.onload = () => {
+			resolve(image);
+		};
+
+		image.onerror = () => {
+			reject(new Error("Image is don't load"));
+		};
+	});
 };
 
 export default lazyLoad;

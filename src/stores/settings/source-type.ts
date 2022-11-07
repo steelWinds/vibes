@@ -32,14 +32,23 @@ const createSourceTypeStore = () => {
 
 			return store;
 		});
-	};
+  };
+  
+  const clear = () => {
+    update((store) => {
+      store.sourcesStack.clear();
+
+      return store;
+    })
+  }
 
 	return {
 		subscribe,
 		update,
 		set,
 		deleteURI,
-		addURI
+    addURI,
+    clear
 	};
 };
 

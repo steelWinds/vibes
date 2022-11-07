@@ -1,5 +1,5 @@
 import {
-  lazyLoadSkeleton,
+	lazyLoadSkeleton,
 	type LazyProps,
 	type OtherProps
 } from '@/modules/lazy-load-skeleton';

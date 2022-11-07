@@ -10,7 +10,8 @@
 	import uniq from 'lodash-es/uniq';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
-  import data from './data.json'
+	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
+	import data from './data.json';
 
 	let blockedLoading = false;
 	let uniqueImages: ImageData[] = [];
@@ -18,7 +19,7 @@
 	let windowInnerBlockSize = 0;
 	let windowInnerInlineSize = 0;
 
-	$: selectedImagesCount = $sourceTypeStore.sourcesStack.size;
+	$: selectedImagesCount = $sourceTypeStore.type === 'internet' ? $sourceTypeStore.sourcesStack.size : 0;
 	$: postChangeOrientScroll = -(windowInnerBlockSize / 2);
 	$: isTablet = windowInnerInlineSize > 1280;
 	$: minColWidth = isTablet ? 400 : 130;
@@ -83,30 +84,55 @@
 	<div
 		class="
       tw-sticky
+      tw-top-0
       tw-flex
-      tw-row
-      tw-items-center
-      tw-px-4
-      tw-py-2
-      tw-bg-white
-      dark:tw-bg-raisin-black
-      tw-text-raisin-black
-      dark:tw-text-white
-      tw-shadow-md
-      tw-shadow-raisin-black-crystal
-      dark:tw-shadow-electric-blue-crystal
-      tw-w-fit
-      tw-rounded
+      tw-flex-col
+      tw-space-y-3
+      tw-items-stretch
+      tw-text-center
+      tablet:tw-flex-row
+      tablet:tw-space-y-0
+      tablet:tw-space-x-3
+      tablet:tw-items-center
+      tw-justify-between
       tw-z-50
-      tw-ml-auto
     "
-		style:top={`${gap}px`}
-		style:right={`${gap}px`}
-		style:margin-bottom={`${gap}px`}
+    style:padding-inline={`${gap * 2}px`}
+    style:padding-block-start={`${gap}px`}
 	>
-		<h3 class="tw-text-lg">
-			Selected images: {selectedImagesCount}
-		</h3>
+    <BaseTablet>
+      <h3
+        class="
+          tw-text-xs
+          mobile:tw-text-sm
+          tablet:tw-text-lg
+          tw-px-4
+          tw-py-2
+        "
+      >
+        Selected images: {selectedImagesCount}
+      </h3>
+    </BaseTablet>
+
+    <BaseTablet>
+      <button 
+        class="
+          tw-block
+          tw-h-full
+          tw-w-full
+          tw-text-xs
+          mobile:tw-text-sm
+          tablet:tw-text-lg
+          tw-px-4
+          tw-py-2
+          disabled:tw-opacity-[0.75]
+        "
+        disabled={!$sourceTypeStore.sourcesStack.size}
+        on:click={sourceTypeStore.clear}
+      >
+        Unselected all
+      </button>
+    </BaseTablet>
 	</div>
 
 	{#await promiseGetRandomImages}
@@ -149,12 +175,19 @@
           tw-h-full
           tw-rounded-xl
           tw-overflow-hidden
-          ${$sourceTypeStore.sourcesStack.has(item?.urls?.[$unsplashImageQualityStore]) ? 'tw-border-4 tw-border-electric-blue' : ''}  
+          ${
+						$sourceTypeStore.sourcesStack.has(
+							item?.urls?.[$unsplashImageQualityStore]
+						)
+							? 'tw-border-4 tw-border-electric-blue'
+							: ''
+					}  
         `}
 				on:click={() => addImage(item)}
 			>
 				<img
 					class="
+              img-hide-alt
               tw-w-full
               tw-h-full
               tw-block
@@ -163,7 +196,8 @@
 					use:lazyLoad={{
 						...item,
 						src: item?.urls?.[$unsplashImageQualityStore],
-						preloaderClass: 'tw-animate-pulse',
+						parentPreloaderClass: ['tw-animate-pulse'],
+            imagePreloaderClass: ['tw-opacity-0'],
 						defaultAlt: 'Colored image',
 						defaultColorPlug: 'rgb(146 144 146)'
 					}}

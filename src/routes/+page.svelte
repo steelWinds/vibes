@@ -83,13 +83,13 @@
 			image: currentImageRef,
 			canvas: canvasRef,
 			type: 'hex',
-      sizes: {
-        inline: 100,
-        block: 100
-      }
+			sizes: {
+				inline: 300,
+				block: 300
+			}
 		});
 
-    console.log('color', currentColor);
+		console.log('color', currentColor);
 
 		copyToast(currentColor, 3000, true);
 	}, 250);
@@ -106,7 +106,7 @@
 		if (image.complete) {
 			changeColor();
 
-      return
+			return;
 		}
 
 		image.onload = () => {
@@ -127,7 +127,7 @@
 			keyCode: 'Space'
 		});
 
-    console.log($sourceTypeStore)
+		console.log($sourceTypeStore);
 
 		return removeListener;
 	});
@@ -136,11 +136,13 @@
 <svelte:window bind:innerWidth={windowInlineSize} />
 
 <canvas
-  bind:this={canvasRef}
-  class="
+	bind:this={canvasRef}
+	class="
     tw-absolute
     tw-left-100
     tw-right-100
+    tw-invisible
+    tw-opacity-0
   "
 />
 
@@ -401,7 +403,7 @@
         "
 				loop
 				slidesPerView={1}
-        on:afterInit={changeImage}
+				on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
 				{#each [...Array(3).keys()] as _, i (`image-${i}`)}
@@ -434,7 +436,7 @@
         "
 				slidesPerView={1}
 				loop
-        on:afterInit={changeImage}
+				on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
 				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`uploading-${i}`)}
@@ -467,7 +469,7 @@
           "
 				slidesPerView={1}
 				loop
-        on:afterInit={changeImage}
+				on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
 				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`internet-${i}`)}
@@ -554,113 +556,187 @@
 			<h2 class="tw-text-2xl tw-text-center tw-mb-6">Settings</h2>
 
 			<div class="tw-space-y-3">
-				<SettingTitle
+        <SettingTitle
 					class="
+            tw-space-y-3
             mobile:tw-flex-col
+            tw-justify-between
             tw-items-center
             mobile:tw-items-start
-            tw-space-y-3
-          "
-					title="Unsplash collections"
-				>
-					<MultiSelectTags
-						bind:options={unsplashCollections}
-						bind:selected={$selectedCollectionsStore}
-						class="tw-self-stretch"
-						maxSelect={5}
-						noMatchingOptionsMsg="Oh! Empty!"
-						promiseCallback={getCollections}
-						searchParam="query"
-					>
-						<svelte:fragment let:option slot="option">
-							<div>
-								<h4 class="tw-font-bold tw-font-lg tw-inline-block">
-									{option.username}:
-								</h4>
-
-								<span class="tw-bg-electric-blue-crystal tw-font-bold">
-									{option.title}
-								</span>
-
-								<div>
-									Total images: <span class="tw-underline"
-										>{option.total_photos}</span
-									>
-								</div>
-							</div>
-						</svelte:fragment>
-					</MultiSelectTags>
-				</SettingTitle>
-
-				<SettingTitle
-					class="
-            mobile:tw-flex-col
-            tw-items-center
-            mobile:tw-items-start
-            tw-space-y-3
           "
 					titleClass="
+            tw-font-bold
             tw-text-center
+            tw-text-2xl
             mobile:tw-text-start
           "
-					title="Unsplash image's quality"
+					title="Unsplash"
 				>
-					<Tabs
-						class="
-              tw-grid
-              tw-grid-cols-1
-              ultra-mobile:tw-grid-cols-3
-              tw-gap-1.5
+          <SettingTitle
+            class="
+              mobile:tw-flex-col
+              tw-items-center
+              mobile:tw-items-start
+              tw-space-y-3
             "
-						bind:group={$unsplashImageQualityStore}
-						values={unsplashQualities}
-					/>
+            title="Collections"
+          >
+            <MultiSelectTags
+              bind:options={unsplashCollections}
+              bind:selected={$selectedCollectionsStore}
+              class="tw-self-stretch"
+              maxSelect={5}
+              noMatchingOptionsMsg="Oh! Empty!"
+              promiseCallback={getCollections}
+              searchParam="query"
+            >
+              <svelte:fragment let:option slot="option">
+                <div>
+                  <h4 class="tw-font-bold tw-font-lg tw-inline-block">
+                    {option.username}:
+                  </h4>
+
+                  <span class="tw-bg-electric-blue-crystal tw-font-bold">
+                    {option.title}
+                  </span>
+
+                  <div>
+                    Total images: <span class="tw-underline"
+                      >{option.total_photos}</span
+                    >
+                  </div>
+                </div>
+              </svelte:fragment>
+            </MultiSelectTags>
+          </SettingTitle>
+
+          <SettingTitle
+            class="
+              mobile:tw-flex-col
+              tw-items-center
+              mobile:tw-items-start
+              tw-space-y-3
+            "
+            titleClass="
+              tw-text-center
+              mobile:tw-text-start
+            "
+            title="Image's quality"
+          >
+            <Tabs
+              class="
+                tw-grid
+                tw-grid-cols-1
+                mobile:tw-grid-cols-4
+                tw-gap-1.5
+              "
+              bind:group={$unsplashImageQualityStore}
+              values={unsplashQualities}
+            />
+          </SettingTitle>
 				</SettingTitle>
 
 				<SettingTitle
 					class="
             tw-space-y-3
-            mobile:tw-space-y-0
-            mobile:tw-space-x-3
+            mobile:tw-flex-col
             tw-justify-between
             tw-items-center
+            mobile:tw-items-start
           "
 					titleClass="
+            tw-font-bold
             tw-text-center
+            tw-text-2xl
             mobile:tw-text-start
           "
-					title="Dark mode"
+					title="Theme"
 				>
-					<Toggle
-						bind:toggled={$themeStore.darkTheme}
-						class="custom-toggle"
-						hideLabel
-						labelA=""
-						labelB=""
-					/>
+					<SettingTitle
+            class="
+              tw-space-y-3
+              mobile:tw-space-y-0
+              mobile:tw-space-x-3
+              tw-justify-between
+              tw-items-center
+            "
+            titleClass="
+              tw-text-center
+              mobile:tw-text-start
+            "
+            title="Dark theme"
+          >
+            <Toggle
+              bind:toggled={$themeStore.darkTheme}
+              class="custom-toggle"
+              hideLabel
+              labelA=""
+              labelB=""
+            />
+          </SettingTitle>
+
+          <SettingTitle
+            class="
+              tw-space-y-3
+              mobile:tw-space-y-0
+              mobile:tw-space-x-3
+              tw-justify-between
+              tw-items-center
+            "
+            titleClass="
+              tw-text-center
+              mobile:tw-text-start
+            "
+            title="System preferences"
+          >
+            <Toggle
+              bind:toggled={$themeStore.systemPreferences}
+              class="custom-toggle"
+              hideLabel
+              labelA=""
+              labelB=""
+            />
+          </SettingTitle>
 				</SettingTitle>
 
 				<SettingTitle
 					class="
             tw-space-y-3
-            mobile:tw-space-y-0
-            mobile:tw-space-x-3
+            mobile:tw-flex-col
             tw-justify-between
             tw-items-center
+            mobile:tw-items-start
           "
 					titleClass="
+            tw-font-bold
             tw-text-center
+            tw-text-2xl
             mobile:tw-text-start
           "
-					title="Toasts with color"
+					title="Other"
 				>
-					<Toggle
-						bind:toggled={$svelteToastStore}
-						class="custom-toggle"
-						hideLabel
-						labelA=""
-						labelB=""
-					/>
+					<SettingTitle
+            class="
+              tw-space-y-3
+              mobile:tw-space-y-0
+              mobile:tw-space-x-3
+              tw-justify-between
+              tw-items-center
+            "
+            titleClass="
+              tw-text-center
+              mobile:tw-text-start
+            "
+            title="Toasts with color"
+          >
+            <Toggle
+              bind:toggled={$svelteToastStore}
+              class="custom-toggle"
+              hideLabel
+              labelA=""
+              labelB=""
+            />
+          </SettingTitle>
 				</SettingTitle>
 			</div>
 		</div>

@@ -1,13 +1,31 @@
-type ThemeMode = 'tw-dark' | 'default';
+type ThemeTypes = 'dark' | 'light';
+type ClassesForThemeType = {
+  [key in ThemeTypes]: string;
+};
+type ThemeMode = ThemeTypes | 'default'
 
-const themes = ['tw-dark', 'default'];
+const useSwitchTheme = (classesForTheme: ClassesForThemeType) => {
+  const themes = Object.values(classesForTheme)
+	
+  const handler = (theme: ThemeMode) => {
+    if (!globalThis || !globalThis?.document) return;
 
-const useSwitchTheme = (theme: ThemeMode) => {
-	if (!globalThis || !globalThis?.document) return;
+    document.documentElement.classList.remove(...themes);
 
-	document.documentElement.classList.remove(...themes);
+    let themeClass: string;
 
-	document.documentElement.classList.add(theme);
+    if (theme === 'default') {
+      const isDark = window.matchMedia('(prefers-color-scheme:dark)').matches
+      
+      themeClass = isDark ? classesForTheme.dark : classesForTheme.light
+    } else {
+      themeClass = classesForTheme[theme]
+    }
+
+    document.documentElement.classList.add(themeClass);
+  }
+
+  return handler
 };
 
 export default useSwitchTheme;
