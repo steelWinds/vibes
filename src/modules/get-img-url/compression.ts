@@ -1,8 +1,8 @@
-import type { CompressionOptions } from './types/CompressionOptions.type';
+import type { ICompressionParams } from './types/CompressionParams';
 
 import imageCompression from 'browser-image-compression';
 
-const defaultOptions: CompressionOptions = {
+const defaultOptions: ICompressionParams = {
 	maxSizeMB: 0.9,
 	maxWidthOrHeight: 1920,
 	useWebWorker: true
@@ -10,7 +10,7 @@ const defaultOptions: CompressionOptions = {
 
 const compression = async (
 	images: File[],
-	options: CompressionOptions
+	options: ICompressionParams
 ): Promise<File[]> => {
 	const promises = images.map((image) =>
 		imageCompression(image, Object.assign(defaultOptions, options))

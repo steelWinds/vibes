@@ -1,32 +1,28 @@
-type ThemeTypes = 'dark' | 'light';
-type ClassesForThemeType = {
-  [key in ThemeTypes]: string;
-};
-type ThemeMode = ThemeTypes | 'default'
+import type { ClassesForThemeParam } from './types/Params'
+import type { ThemeModeType } from './types/Types'
 
-const useSwitchTheme = (classesForTheme: ClassesForThemeType) => {
-  const themes = Object.values(classesForTheme)
-	
-  const handler = (theme: ThemeMode) => {
-    if (!globalThis || !globalThis?.document) return;
+const useSwitchTheme = (classesForTheme: ClassesForThemeParam) => {
+	const themes = Object.values(classesForTheme);
 
-    document.documentElement.classList.remove(...themes);
+	const handler = (theme: ThemeModeType) => {
+		if (!globalThis || !globalThis?.document) return;
 
-    let themeClass: string;
+		document.documentElement.classList.remove(...themes);
 
-    if (theme === 'default') {
-      const isDark = window.matchMedia('(prefers-color-scheme:dark)').matches
-      
-      themeClass = isDark ? classesForTheme.dark : classesForTheme.light
-    } else {
-      themeClass = classesForTheme[theme]
-    }
+		let themeClass: string;
 
-    document.documentElement.classList.add(themeClass);
-  }
+		if (theme === 'default') {
+			const isDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
 
-  return handler
+			themeClass = isDark ? classesForTheme.dark : classesForTheme.light;
+		} else {
+			themeClass = classesForTheme[theme];
+		}
+
+		document.documentElement.classList.add(themeClass);
+	};
+
+	return handler;
 };
 
 export default useSwitchTheme;
-export type { ThemeMode };

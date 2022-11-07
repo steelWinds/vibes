@@ -1,10 +1,8 @@
-import {
-	lazyLoadSkeleton,
-	type LazyProps,
-	type OtherProps
-} from '@/modules/lazy-load-skeleton';
+import type { ILazyParams } from '@/modules/lazy-load-skeleton/types/Params'
 
-const lazyLoad = (node: HTMLImageElement, props: LazyProps | OtherProps) => {
+import { lazyLoadSkeleton } from '@/modules/lazy-load-skeleton';
+
+const lazyLoad = (node: HTMLImageElement, props: ILazyParams) => {
 	lazyLoadSkeleton(node, props);
 };
 

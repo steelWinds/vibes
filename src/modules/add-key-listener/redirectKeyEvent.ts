@@ -1,6 +1,6 @@
-import type { RedirectEventParams } from './types/Params.type';
+import type { IRedirectEventParams } from './types/Params';
 
-const redirectKeyEvent = (props: RedirectEventParams) => {
+const redirectKeyEvent = (props: IRedirectEventParams) => {
 	const { event, keyCode, callback } = props;
 
 	const keyEvent = event as KeyboardEvent;

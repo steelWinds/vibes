@@ -1,10 +1,10 @@
+import type { IUnsplashQualities } from '@/types/API/Unsplash/DataTypes/IUnsplashQualities'
+
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import { writable } from 'svelte/store';
 
-type UnsplashQualities = 'raw' | 'full' | 'regular' | 'small';
-
 const unsplashImageQualityStore = persist(
-	writable<UnsplashQualities>('regular'),
+	writable<IUnsplashQualities>('regular'),
 	createLocalStorage(),
 	'unsplash-image-quality'
 );

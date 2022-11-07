@@ -1,14 +1,14 @@
-import type { ImageData } from '@/types/API/DataTypes/ImageData';
+import type { IImageData } from '@/types/API/Unsplash/DataTypes/IImageData';
 
 import useFetch from '@/modules/use-fetch';
 
-interface GetRandomImagesQuery {
+interface GetRandomImagesParam {
 	collections: string;
 	count: number;
 }
 
-const getRandomImages = async (query: GetRandomImagesQuery) => {
-	const { data } = await useFetch<ImageData[]>('/photos/random', {
+const getRandomImages = async (query: GetRandomImagesParam) => {
+	const { data } = await useFetch<IImageData[]>('/photos/random', {
 		query
 	});
 

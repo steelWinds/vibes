@@ -1,6 +1,6 @@
-import type { RGBData } from './types/RGBData.type';
+import type { IRGBData } from './types/Types';
 
-const getColor = (RGBValues: RGBData[]) => {
+const getColor = (RGBValues: IRGBData[]) => {
 	const color = RGBValues.reduce(
 		(prev, curr) => {
 			prev.r += curr.r;

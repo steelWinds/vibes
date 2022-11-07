@@ -1,23 +1,23 @@
-import type { ExtractCanvas } from './types/ExtractCanvas.type';
+import type { IExtractCanvasParams } from './types/Params';
 
 import { lazyLoad } from '@/modules/lazy-load-skeleton';
 
 const extractImage = async (
-	props: ExtractCanvas
+	props: IExtractCanvasParams
 ): Promise<ImageData | null> => {
 	const { image, canvas, sizes } = props;
-  
-  image.setAttribute('crossOrigin', 'anonymous');
+
+	image.setAttribute('crossOrigin', 'anonymous');
 
 	const inlineSize = sizes?.inline ?? image.naturalWidth ?? image.width;
 	const blockSize = sizes?.block ?? image.naturalHeight ?? image.height;
 
 	canvas.width = inlineSize;
-  canvas.height = blockSize;
-  
+	canvas.height = blockSize;
+
 	const source = image.getAttribute('src') ?? '';
 
-  const loadedImage = await lazyLoad(source);
+	const loadedImage = await lazyLoad(source);
 
 	const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 

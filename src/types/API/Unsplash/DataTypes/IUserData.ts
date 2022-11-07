@@ -1,7 +1,7 @@
-interface UserData {
+interface IUserData {
 	id: string;
 	username: string;
 	name: string;
 }
 
-export type { UserData };
+export type { IUserData };

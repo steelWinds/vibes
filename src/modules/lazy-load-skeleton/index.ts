@@ -1,36 +1,16 @@
-import type { ImageData } from '@/types/API/DataTypes/ImageData';
+import type { ILazyParams } from './types/Params'
+import {
+  DATA_ATTR_SRC,
+  DATA_ATTR_ALT,
+  DATA_ATTR_PARENT_PRELOADER,
+  DATA_ATTR_IMAGE_PRELOADER,
+  
+  PARENT_CLASS,
+} from './constants'
 
-import PlaceholderImage from '@/assets/png-images/image-placeholder.png';
 import imageOrient from './image-orient';
 import lazyLoad from './lazy-load';
-
-type OtherProps = {
-	[key: string]: any;
-};
-
-interface IPreloaders {
-  parentPreloaderClass: string[];
-  imagePreloaderClass: string[];
-}
-interface LazyProps extends ImageData, IPreloaders {
-	defaultAlt: string;
-	defaultColorPlug: string;
-}
-
-interface HandlerProps extends IPreloaders {
-	img: HTMLImageElement;
-	parent: HTMLElement;
-	source: string;
-	observer: IntersectionObserver;
-	alt: string;
-}
-
-const DATA_ATTR_SRC = 'data-src';
-const DATA_ATTR_ALT = 'data-alt';
-const DATA_ATTR_PARENT_PRELOADER = 'data-parent-preloader';
-const DATA_ATTR_IMAGE_PRELOADER = 'data-image-preloader';
-
-const PARENT_CLASS = '.image-lazy-load-container';
+import lazyHandler from './lazy-handler'
 
 const observerCallback: IntersectionObserverCallback = (entries, observer) => {
 	for (const entry of entries) {
@@ -38,76 +18,32 @@ const observerCallback: IntersectionObserverCallback = (entries, observer) => {
 		const parent = img.closest(PARENT_CLASS) as HTMLElement;
 		const source = img.getAttribute(DATA_ATTR_SRC);
 		const alt = img.getAttribute(DATA_ATTR_ALT) ?? '';
-		const parentPreloaderClass = img.getAttribute(DATA_ATTR_PARENT_PRELOADER)?.split(' ') ?? [];
-		const imagePreloaderClass = img.getAttribute(DATA_ATTR_IMAGE_PRELOADER)?.split(' ') ?? [];
+		const parentPreloaderClass =
+			img.getAttribute(DATA_ATTR_PARENT_PRELOADER)?.split(' ') ?? [];
+		const imagePreloaderClass =
+			img.getAttribute(DATA_ATTR_IMAGE_PRELOADER)?.split(' ') ?? [];
 
 		if (!source) return;
 
 		if (entry.isIntersecting) {
-			handler({
+			lazyHandler({
 				img,
 				source,
 				parent,
 				alt,
 				observer,
 				parentPreloaderClass,
-				imagePreloaderClass
+        imagePreloaderClass,
+        loaded
 			});
 		}
-	}
-};
-
-const setPostImageData = (props: HandlerProps) => {
-  const {
-    img,
-    parent,
-    alt,
-    parentPreloaderClass,
-    imagePreloaderClass,
-    source
-  } = props;
-
-	img.classList.remove(...imagePreloaderClass);
-	parent.classList.remove(...parentPreloaderClass);
-
-	observer.unobserve(img);
-
-	img.removeAttribute(DATA_ATTR_SRC);
-	img.removeAttribute(DATA_ATTR_ALT);
-	img.removeAttribute(DATA_ATTR_PARENT_PRELOADER);
-	img.removeAttribute(DATA_ATTR_IMAGE_PRELOADER);
-
-  loaded.add(source);
-  
-  img.setAttribute('alt', alt);
-};
-
-const handler = async (props: HandlerProps) => {
-	const { img, source } = props;
-
-	if (loaded.has(source)) {
-		img.setAttribute('src', source);
-
-		setPostImageData(props);
-	}
-
-	try {
-		const loadedImage = await lazyLoad(source);
-
-		img.setAttribute('src', loadedImage.src);
-	} catch (_) {
-		img.style.objectFit = 'cover';
-
-		img.setAttribute('src', PlaceholderImage);
-	} finally {
-		setPostImageData(props);
 	}
 };
 
 const loaded: Set<string> = new Set();
 let observer: IntersectionObserver;
 
-const lazyLoadSkeleton = (img: HTMLImageElement, props: LazyProps) => {
+const lazyLoadSkeleton = (img: HTMLImageElement, props: ILazyParams) => {
 	const {
 		src,
 		width,
@@ -116,8 +52,8 @@ const lazyLoadSkeleton = (img: HTMLImageElement, props: LazyProps) => {
 		description,
 		defaultAlt,
 		defaultColorPlug,
-    imagePreloaderClass,
-    parentPreloaderClass
+		imagePreloaderClass,
+		parentPreloaderClass
 	} = props;
 
 	const source = src;
@@ -136,9 +72,9 @@ const lazyLoadSkeleton = (img: HTMLImageElement, props: LazyProps) => {
 
 	parentElement.style.backgroundColor = colorPlug;
 	parentElement.style.aspectRatio = imageRatio;
-  parentElement.classList.add(...parentPreloaderClass);
-  
-  img.classList.add(...imagePreloaderClass);
+	parentElement.classList.add(...parentPreloaderClass);
+
+	img.classList.add(...imagePreloaderClass);
 
 	if (!observer) {
 		observer = new IntersectionObserver(observerCallback, {
@@ -157,4 +93,3 @@ const lazyLoadSkeleton = (img: HTMLImageElement, props: LazyProps) => {
 };
 
 export { lazyLoadSkeleton, lazyLoad, imageOrient };
-export type { LazyProps, OtherProps };

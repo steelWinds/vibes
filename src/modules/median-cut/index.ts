@@ -1,16 +1,11 @@
-import type { ExtractCanvas } from './types/ExtractCanvas.type';
-import type { ColorDepth } from './types/ColorDepth.type';
+import type { IMedianCutParams } from './types/Params';
 
 import buildRGB from './buildRGB';
 import extractImage from './extractImage';
 import quantization from './quantization';
 import getColorWithType from './getColorWithType';
 
-interface Props extends ExtractCanvas {
-	colorDepth?: ColorDepth;
-}
-
-const median = async (props: Props) => {
+const median = async (props: IMedianCutParams) => {
 	const { image, canvas, colorDepth } = props;
 
 	if (!image || !canvas) return;

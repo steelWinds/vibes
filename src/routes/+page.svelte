@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ObjectOption } from 'svelte-multiselect';
-	import type { CollectionData } from '@/types/API/DataTypes/CollectionData';
+	import type { ICollectionData } from '@/types/API/Unsplash/DataTypes/ICollectionData';
 
 	import { onMount } from 'svelte';
 	import { scale, fly } from 'svelte/transition';
@@ -75,7 +75,7 @@
 	let showOptions = true;
 	let currentColor = '#ffff';
 	let menuType: MenuType;
-	let unsplashCollections: Array<ObjectOption & CollectionData> = [];
+	let unsplashCollections: Array<ObjectOption & ICollectionData> = [];
 	let windowInlineSize = 0;
 
 	const changeColor = debounce(async () => {
@@ -556,7 +556,7 @@
 			<h2 class="tw-text-2xl tw-text-center tw-mb-6">Settings</h2>
 
 			<div class="tw-space-y-3">
-        <SettingTitle
+				<SettingTitle
 					class="
             tw-space-y-3
             mobile:tw-flex-col
@@ -572,68 +572,68 @@
           "
 					title="Unsplash"
 				>
-          <SettingTitle
-            class="
+					<SettingTitle
+						class="
               mobile:tw-flex-col
               tw-items-center
               mobile:tw-items-start
               tw-space-y-3
             "
-            title="Collections"
-          >
-            <MultiSelectTags
-              bind:options={unsplashCollections}
-              bind:selected={$selectedCollectionsStore}
-              class="tw-self-stretch"
-              maxSelect={5}
-              noMatchingOptionsMsg="Oh! Empty!"
-              promiseCallback={getCollections}
-              searchParam="query"
-            >
-              <svelte:fragment let:option slot="option">
-                <div>
-                  <h4 class="tw-font-bold tw-font-lg tw-inline-block">
-                    {option.username}:
-                  </h4>
+						title="Collections"
+					>
+						<MultiSelectTags
+							bind:options={unsplashCollections}
+							bind:selected={$selectedCollectionsStore}
+							class="tw-self-stretch"
+							maxSelect={5}
+							noMatchingOptionsMsg="Oh! Empty!"
+							promiseCallback={getCollections}
+							searchParam="query"
+						>
+							<svelte:fragment let:option slot="option">
+								<div>
+									<h4 class="tw-font-bold tw-font-lg tw-inline-block">
+										{option.username}:
+									</h4>
 
-                  <span class="tw-bg-electric-blue-crystal tw-font-bold">
-                    {option.title}
-                  </span>
+									<span class="tw-bg-electric-blue-crystal tw-font-bold">
+										{option.title}
+									</span>
 
-                  <div>
-                    Total images: <span class="tw-underline"
-                      >{option.total_photos}</span
-                    >
-                  </div>
-                </div>
-              </svelte:fragment>
-            </MultiSelectTags>
-          </SettingTitle>
+									<div>
+										Total images: <span class="tw-underline"
+											>{option.total_photos}</span
+										>
+									</div>
+								</div>
+							</svelte:fragment>
+						</MultiSelectTags>
+					</SettingTitle>
 
-          <SettingTitle
-            class="
+					<SettingTitle
+						class="
               mobile:tw-flex-col
               tw-items-center
               mobile:tw-items-start
               tw-space-y-3
             "
-            titleClass="
+						titleClass="
               tw-text-center
               mobile:tw-text-start
             "
-            title="Image's quality"
-          >
-            <Tabs
-              class="
+						title="Image's quality"
+					>
+						<Tabs
+							class="
                 tw-grid
                 tw-grid-cols-1
                 mobile:tw-grid-cols-4
                 tw-gap-1.5
               "
-              bind:group={$unsplashImageQualityStore}
-              values={unsplashQualities}
-            />
-          </SettingTitle>
+							bind:group={$unsplashImageQualityStore}
+							values={unsplashQualities}
+						/>
+					</SettingTitle>
 				</SettingTitle>
 
 				<SettingTitle
@@ -653,50 +653,50 @@
 					title="Theme"
 				>
 					<SettingTitle
-            class="
+						class="
               tw-space-y-3
               mobile:tw-space-y-0
               mobile:tw-space-x-3
               tw-justify-between
               tw-items-center
             "
-            titleClass="
+						titleClass="
               tw-text-center
               mobile:tw-text-start
             "
-            title="Dark theme"
-          >
-            <Toggle
-              bind:toggled={$themeStore.darkTheme}
-              class="custom-toggle"
-              hideLabel
-              labelA=""
-              labelB=""
-            />
-          </SettingTitle>
+						title="Dark theme"
+					>
+						<Toggle
+							bind:toggled={$themeStore.darkTheme}
+							class="custom-toggle"
+							hideLabel
+							labelA=""
+							labelB=""
+						/>
+					</SettingTitle>
 
-          <SettingTitle
-            class="
+					<SettingTitle
+						class="
               tw-space-y-3
               mobile:tw-space-y-0
               mobile:tw-space-x-3
               tw-justify-between
               tw-items-center
             "
-            titleClass="
+						titleClass="
               tw-text-center
               mobile:tw-text-start
             "
-            title="System preferences"
-          >
-            <Toggle
-              bind:toggled={$themeStore.systemPreferences}
-              class="custom-toggle"
-              hideLabel
-              labelA=""
-              labelB=""
-            />
-          </SettingTitle>
+						title="System preferences"
+					>
+						<Toggle
+							bind:toggled={$themeStore.systemPreferences}
+							class="custom-toggle"
+							hideLabel
+							labelA=""
+							labelB=""
+						/>
+					</SettingTitle>
 				</SettingTitle>
 
 				<SettingTitle
@@ -716,27 +716,27 @@
 					title="Other"
 				>
 					<SettingTitle
-            class="
+						class="
               tw-space-y-3
               mobile:tw-space-y-0
               mobile:tw-space-x-3
               tw-justify-between
               tw-items-center
             "
-            titleClass="
+						titleClass="
               tw-text-center
               mobile:tw-text-start
             "
-            title="Toasts with color"
-          >
-            <Toggle
-              bind:toggled={$svelteToastStore}
-              class="custom-toggle"
-              hideLabel
-              labelA=""
-              labelB=""
-            />
-          </SettingTitle>
+						title="Toasts with color"
+					>
+						<Toggle
+							bind:toggled={$svelteToastStore}
+							class="custom-toggle"
+							hideLabel
+							labelA=""
+							labelB=""
+						/>
+					</SettingTitle>
 				</SettingTitle>
 			</div>
 		</div>

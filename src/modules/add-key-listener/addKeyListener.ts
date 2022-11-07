@@ -1,8 +1,8 @@
-import type { KeyListenerParams } from './types/Params.type';
+import type { IKeyListenerParams } from './types/Params';
 
 import redirectKeyEvent from './redirectKeyEvent';
 
-const addKeyListener = (params: KeyListenerParams) => {
+const addKeyListener = (params: IKeyListenerParams) => {
 	const {
 		callback,
 		target,

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import type { PaginationQuery } from '@/types/API/Pagination';
-
 	import MultiSelect from 'svelte-multiselect';
 	import debounce from 'lodash-es/debounce';
 	import { Moon } from 'svelte-loading-spinners';

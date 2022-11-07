@@ -1,18 +1,7 @@
-import type { PaginationQuery } from '@/types/API/Pagination/PaginationQuery';
+import type { IPaginationParams } from './types/Params'
+import type { ReturnHandlerType, FetchCallbackType } from './types/Types'
 
-type FetchCallbackType = <R>(props: PaginationQuery) => Promise<R>;
-type ReturnHandlerType<T> = {
-	data?: T;
-	nextPaginate: boolean;
-};
-
-interface PaginationProps {
-	totalPages: number;
-	startPage: number;
-	step: number;
-}
-
-const paginate = (props: PaginationProps, callback: FetchCallbackType) => {
+const paginate = (props: IPaginationParams, callback: FetchCallbackType) => {
 	const { totalPages, startPage, step } = props;
 
 	let currentPage = startPage;

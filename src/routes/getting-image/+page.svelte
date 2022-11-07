@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ImageData } from '@/types/API/DataTypes/ImageData';
+	import type { IImageData } from '@/types/API/Unsplash/DataTypes/IImageData';
 
 	import { onMount, tick } from 'svelte';
 	import lazyLoad from '@/actions/lazy-load';
@@ -11,15 +11,17 @@
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
-	import data from './data.json';
 
 	let blockedLoading = false;
-	let uniqueImages: ImageData[] = [];
+	let uniqueImages: IImageData[] = [];
 	let imagesIdxes: string[] = [];
 	let windowInnerBlockSize = 0;
 	let windowInnerInlineSize = 0;
 
-	$: selectedImagesCount = $sourceTypeStore.type === 'internet' ? $sourceTypeStore.sourcesStack.size : 0;
+	$: selectedImagesCount =
+		$sourceTypeStore.type === 'internet'
+			? $sourceTypeStore.sourcesStack.size
+			: 0;
 	$: postChangeOrientScroll = -(windowInnerBlockSize / 2);
 	$: isTablet = windowInnerInlineSize > 1280;
 	$: minColWidth = isTablet ? 400 : 130;
@@ -49,7 +51,7 @@
 			$sourceTypeStore.sourcesStack = new Set();
 		}
 
-		const imageData = image as ImageData;
+		const imageData = image as IImageData;
 		const imageURI = imageData.urls[$unsplashImageQualityStore];
 
 		if ($sourceTypeStore.sourcesStack.has(imageURI)) {
@@ -97,26 +99,26 @@
       tw-justify-between
       tw-z-50
     "
-    style:padding-inline={`${gap * 2}px`}
-    style:padding-block-start={`${gap}px`}
+		style:padding-inline={`${gap * 2}px`}
+		style:padding-block-start={`${gap}px`}
 	>
-    <BaseTablet>
-      <h3
-        class="
+		<BaseTablet>
+			<h3
+				class="
           tw-text-xs
           mobile:tw-text-sm
           tablet:tw-text-lg
           tw-px-4
           tw-py-2
         "
-      >
-        Selected images: {selectedImagesCount}
-      </h3>
-    </BaseTablet>
+			>
+				Selected images: {selectedImagesCount}
+			</h3>
+		</BaseTablet>
 
-    <BaseTablet>
-      <button 
-        class="
+		<BaseTablet>
+			<button
+				class="
           tw-block
           tw-h-full
           tw-w-full
@@ -127,12 +129,12 @@
           tw-py-2
           disabled:tw-opacity-[0.75]
         "
-        disabled={!$sourceTypeStore.sourcesStack.size}
-        on:click={sourceTypeStore.clear}
-      >
-        Unselected all
-      </button>
-    </BaseTablet>
+				disabled={!$sourceTypeStore.sourcesStack.size}
+				on:click={sourceTypeStore.clear}
+			>
+				Unselected all
+			</button>
+		</BaseTablet>
 	</div>
 
 	{#await promiseGetRandomImages}
@@ -197,7 +199,7 @@
 						...item,
 						src: item?.urls?.[$unsplashImageQualityStore],
 						parentPreloaderClass: ['tw-animate-pulse'],
-            imagePreloaderClass: ['tw-opacity-0'],
+						imagePreloaderClass: ['tw-opacity-0'],
 						defaultAlt: 'Colored image',
 						defaultColorPlug: 'rgb(146 144 146)'
 					}}

@@ -1,12 +1,12 @@
-import type { RGBData } from './types/RGBData.type';
+import type { IRGBData } from './types/Types';
 import colorRange from './colorRange';
 import getColor from './getColor';
 
 const quantization = (
-	RGBValues?: RGBData[],
+	RGBValues?: IRGBData[],
 	depth = 1,
 	maxDepth = 1
-): RGBData[] | undefined => {
+): IRGBData[] | undefined => {
 	if (!RGBValues) return;
 
 	if (depth === maxDepth || !RGBValues.length) {

@@ -1,11 +1,4 @@
-type OrientType = string;
-
-interface OrientProps {
-	width?: number;
-	height?: number;
-	naturalWidth?: number;
-	naturalHeight?: number;
-}
+import type { IOrientParams } from './types/Params'
 
 const gcd = (a: number, b: number): number => {
 	if (!b) {
@@ -15,7 +8,7 @@ const gcd = (a: number, b: number): number => {
 	return gcd(b, a % b);
 };
 
-const imageOrient = (imgObj: OrientProps): OrientType => {
+const imageOrient = (imgObj: IOrientParams): string => {
 	const inlineSize = imgObj?.naturalWidth ?? imgObj.width ?? 0;
 	const blockSize = imgObj?.naturalHeight ?? imgObj.height ?? 0;
 
@@ -25,4 +18,3 @@ const imageOrient = (imgObj: OrientProps): OrientType => {
 };
 
 export default imageOrient;
-export type { OrientType, OrientProps };

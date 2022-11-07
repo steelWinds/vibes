@@ -1,7 +1,7 @@
 <script lang="ts"></script>
 
 <div
-  class="
+	class="
     tw-bg-white
     dark:tw-bg-raisin-black
     tw-text-raisin-black
@@ -12,5 +12,5 @@
     tw-rounded
   "
 >
-  <slot />
+	<slot />
 </div>

@@ -1,4 +1,4 @@
-interface ImageData {
+interface IImageData {
 	id: string;
 	src: string;
 	urls: {
@@ -15,4 +15,4 @@ interface ImageData {
 	alt_description?: string;
 }
 
-export type { ImageData };
+export type { IImageData };

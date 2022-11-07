@@ -3,14 +3,14 @@ import { writable } from 'svelte/store';
 
 type SourceType = 'uploading' | 'started' | 'internet';
 
-interface SourceTypeStoreType {
+interface SourceTypeProps {
 	sourcesStack: Set<string>;
 	type: SourceType;
 }
 
 const createSourceTypeStore = () => {
 	const { subscribe, update, set } = persist(
-		writable<SourceTypeStoreType>({
+		writable<SourceTypeProps>({
 			sourcesStack: new Set(),
 			type: 'started'
 		}),
@@ -32,23 +32,23 @@ const createSourceTypeStore = () => {
 
 			return store;
 		});
-  };
-  
-  const clear = () => {
-    update((store) => {
-      store.sourcesStack.clear();
+	};
 
-      return store;
-    })
-  }
+	const clear = () => {
+		update((store) => {
+			store.sourcesStack.clear();
+
+			return store;
+		});
+	};
 
 	return {
 		subscribe,
 		update,
 		set,
 		deleteURI,
-    addURI,
-    clear
+		addURI,
+		clear
 	};
 };
 

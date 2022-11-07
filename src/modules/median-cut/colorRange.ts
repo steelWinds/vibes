@@ -1,6 +1,6 @@
-import type { RGBData } from './types/RGBData.type';
+import type { IRGBData } from './types/Types';
 
-const colorRange = (RGBValues: RGBData[]) => {
+const colorRange = (RGBValues: IRGBData[]) => {
 	let rMin = Number.MAX_VALUE;
 	let gMin = Number.MAX_VALUE;
 	let bMin = Number.MAX_VALUE;
