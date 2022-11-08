@@ -1,12 +1,13 @@
 import type { ICollectionData } from '@/types/API/Unsplash/DataTypes/ICollectionData';
+import type { ObjectOption } from 'svelte-multiselect';
 
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import { writable, get } from 'svelte/store';
 import uniq from 'lodash-es/uniq';
 
-const createSelectedCollectionsStore = () => {
+const createSelectedCollectionsStore = <T>() => {
 	const { subscribe, update, set } = persist(
-		writable<ICollectionData[]>([]),
+		writable<Array<ObjectOption & ICollectionData>>([]),
 		createLocalStorage(),
 		'selected-collections'
 	);

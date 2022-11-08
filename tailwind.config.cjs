@@ -21,10 +21,14 @@ module.exports = {
 			white: 'rgb(255 255 255)',
 			'white-crystal': 'rgb(255 255 255 / .9)',
 			'electric-blue': 'rgb(44 117 255)',
-			'electric-blue-crystal': 'rgb(44 117 255 / .3)'
+			'electric-blue-crystal': 'rgb(44 117 255 / .3)',
+      'red-pre-crystal': 'rgb(207 0 15 / .9)',
+      'green-pre-crystal': 'rgb(22 160 133 / .9)'
 		},
 
-		transitionDuration: {
+    transitionDuration: {
+      50: '50ms',
+      150: '150ms',
 			250: '250ms',
 			500: '500ms'
 		}

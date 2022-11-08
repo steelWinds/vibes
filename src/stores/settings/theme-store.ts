@@ -1,7 +1,7 @@
 import type { ThemeModeType } from '@/modules/use-switch-theme/types/Types';
 
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 import useSwitchTheme from '@/modules/use-switch-theme';
 
 interface ThemeProps {
@@ -15,7 +15,7 @@ const defaultSettings: ThemeProps = {
 };
 
 const createThemeStore = () => {
-	const switchTheme = useSwitchTheme({
+	const themeSwitcher = useSwitchTheme({
 		dark: 'tw-dark',
 		light: 'tw-light'
 	});
@@ -24,10 +24,10 @@ const createThemeStore = () => {
 		writable(defaultSettings),
 		createLocalStorage(),
 		'theme'
-	);
-
-	subscribe((store) => {
-		let selectedThemeMode: ThemeModeType = 'default';
+  );
+  
+  const switchTheme = (store: ThemeProps) => {
+    let selectedThemeMode: ThemeModeType = 'default';
 
 		if (store.systemPreferences) {
 			store.darkTheme = false;
@@ -35,13 +35,20 @@ const createThemeStore = () => {
 			selectedThemeMode = store.darkTheme ? 'dark' : 'light';
 		}
 
-		switchTheme(selectedThemeMode);
-	});
+		themeSwitcher(selectedThemeMode);
+  }
+
+  const init = () => {
+    switchTheme(get({ subscribe }))
+  }
+
+	subscribe(switchTheme);
 
 	return {
 		subscribe,
 		update,
-		set
+    init,
+    set
 	};
 };
 

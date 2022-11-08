@@ -13,6 +13,7 @@
 	};
 
 	export let title = 'Default text';
+	export let toastId: string;
 </script>
 
 <button
@@ -26,6 +27,7 @@
     tw-pb-3
     tw-px-3
   "
+  data-toast-id={toastId}
 	on:click={onCopy}
 >
 	{#if !copied}

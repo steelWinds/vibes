@@ -1,7 +1,7 @@
 <script lang="ts"></script>
 
 <div
-	class="
+	class={`
     tw-bg-white
     dark:tw-bg-raisin-black
     tw-text-raisin-black
@@ -9,8 +9,9 @@
     tw-shadow-md
     tw-shadow-raisin-black-crystal
     dark:tw-shadow-electric-blue-crystal
-    tw-rounded
-  "
+    tw-rounded-md
+    ${$$restProps.class}
+  `}
 >
 	<slot />
 </div>

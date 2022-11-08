@@ -9,13 +9,14 @@
 	import searchCollections from '@/api/unsplash/search-collections';
 	import getImgURL from '@/modules/get-img-url';
 	import addKeyListener from '@/modules/add-key-listener/addKeyListener';
-	import copyToast from '@/modules/svelte-toast-types/copy-toast';
+	import toastConnector from '@/modules/toast-connector';
 	import debounce from 'lodash-es/debounce';
 	import themeStore from '@/stores/settings/theme-store';
 	import svelteToastStore from '@/stores/settings/svelte-toast-store';
 	import sourceTypeStore from '@/stores/settings/source-type';
 	import selectedCollectionsStore from '@/stores/settings/selected-collections';
 	import unsplashImageQualityStore from '@/stores/settings/unsplash-image-quality';
+	import unsplashQualities from '@/configs/unsplash-qualities';
 	import { SwiperSlide } from 'swiper/svelte';
 	import { Navigation } from 'swiper';
 	import { Modal } from 'carbon-components-svelte';
@@ -28,7 +29,7 @@
 	import Slider from '@/lib/modules/Slider.svelte';
 	import SettingTitle from '@/lib/UI/SettingTitle.svelte';
 	import Tabs from '@/lib/UI/Tabs.svelte';
-	import unsplashQualities from '@/configs/unsplash-qualities';
+  import ToastCopy from '@/lib/modules/Toasts/ToastCopy.svelte';
 
 	type MenuType = 'sources' | 'settings';
 
@@ -89,9 +90,12 @@
 			}
 		});
 
-		console.log('color', currentColor);
-
-		copyToast(currentColor, 3000, true);
+    toastConnector(ToastCopy, {
+      duration: 3000,
+      title: currentColor,
+      limit: true,
+      classes: ['toast', 'copy'],
+    })
 	}, 250);
 
 	const changeImage = (event: CustomEvent) => {
@@ -163,7 +167,8 @@
 	{#if showOptions}
 		<div
 			transition:scale={{
-				duration: 250
+				duration: 250,
+        easing: cubicInOut
 			}}
 			class="
         tw-flex
@@ -178,7 +183,8 @@
 			<SwitchBtn
 				transitionType={scale}
 				transitionProps={{
-					duration: 250
+					duration: 250,
+          easing: cubicInOut
 				}}
 				switchValue={drawerMenuVisible && menuType === 'sources'}
 				class={`
@@ -238,7 +244,8 @@
 			<SwitchBtn
 				transitionType={scale}
 				transitionProps={{
-					duration: 250
+					duration: 250,
+          easing: cubicInOut
 				}}
 				switchValue={drawerMenuVisible && menuType === 'settings'}
 				class="
@@ -305,7 +312,8 @@
 		{#if showOptions}
 			<div
 				transition:scale={{
-					duration: 250
+					duration: 250,
+          easing: cubicInOut
 				}}
 				class="
           tw-flex

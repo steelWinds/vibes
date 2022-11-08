@@ -2,6 +2,8 @@
 	import type { IImageData } from '@/types/API/Unsplash/DataTypes/IImageData';
 
 	import { onMount, tick } from 'svelte';
+  import { scale } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
 	import lazyLoad from '@/actions/lazy-load';
 	import getRandomImages from '@/api/unsplash/get-random-images';
 	import sourceTypeStore from '@/stores/settings/source-type';
@@ -11,6 +13,8 @@
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
+  import CircleBtn from '@/lib/UI/CircleBtn.svelte'
+  import data from './data.json'
 
 	let blockedLoading = false;
 	let uniqueImages: IImageData[] = [];
@@ -28,19 +32,19 @@
 	$: gap = isTablet ? 20 : 10;
 
 	const getImages = async () => {
-		let images = await getRandomImages({
-			count: 30,
-			collections: selectedCollectionsStore.getIdx().join(',')
-		});
+		//let images = await getRandomImages({
+		//	count: 30,
+		//	collections: selectedCollectionsStore.getIdx().join(',')
+		//});
 
-		const newImages = images.filter((image) => {
-			return !imagesIdxes.includes(image.id);
-		});
+		//const newImages = images.filter((image) => {
+		//	return !imagesIdxes.includes(image.id);
+		//});
 
-		const newIdxes = uniq(images.map((image) => image.id));
-		imagesIdxes = [...imagesIdxes, ...newIdxes];
+		//const newIdxes = uniq(images.map((image) => image.id));
+		//imagesIdxes = [...imagesIdxes, ...newIdxes];
 
-		uniqueImages = [...uniqueImages, ...newImages];
+		//uniqueImages = [...uniqueImages, ...newImages];
 	};
 
 	let promiseGetRandomImages: ReturnType<typeof getImages>;
@@ -83,78 +87,89 @@
 />
 
 <div>
-	<div
-		class="
-      tw-sticky
-      tw-top-0
-      tw-flex
-      tw-flex-col
-      tw-space-y-3
-      tw-items-stretch
-      tw-text-center
-      tablet:tw-flex-row
-      tablet:tw-space-y-0
-      tablet:tw-space-x-3
-      tablet:tw-items-center
-      tw-justify-between
-      tw-z-50
-    "
-		style:padding-inline={`${gap * 2}px`}
-		style:padding-block-start={`${gap}px`}
-	>
-		<BaseTablet>
-			<h3
-				class="
-          tw-text-xs
-          mobile:tw-text-sm
-          tablet:tw-text-lg
-          tw-px-4
-          tw-py-2
-        "
-			>
-				Selected images: {selectedImagesCount}
-			</h3>
-		</BaseTablet>
-
-		<BaseTablet>
-			<button
-				class="
-          tw-block
-          tw-h-full
-          tw-w-full
-          tw-text-xs
-          mobile:tw-text-sm
-          tablet:tw-text-lg
-          tw-px-4
-          tw-py-2
-          disabled:tw-opacity-[0.75]
-        "
-				disabled={!$sourceTypeStore.sourcesStack.size}
-				on:click={sourceTypeStore.clear}
-			>
-				Unselected all
-			</button>
-		</BaseTablet>
-	</div>
-
 	{#await promiseGetRandomImages}
 		<div
 			class="
+          tw-fixed
+          tw-w-full
+          tw-top-0
+          tw-left-0
           tw-grid
           tw-place-items-center
           tw-w-full
-          tw-h-screen
+          tw-min-h-screen
+          tw-h-full
+          tw-bg-white
+          dark:tw-bg-raisin-black
+          tw-z-[9999]
         "
 		>
 			<BarLoader size="110" />
 		</div>
 	{:then}
+    <BaseTablet
+      class="
+        tw-fixed
+        tw-top-6
+        tw-left-1/2
+        tw--translate-x-1/2
+        tw-z-50
+      "
+    >
+      <h3
+        class="
+          tw-text-xs
+          mobile:tw-text-sm
+          tablet:tw-text-lg
+          tw-px-4
+          tw-py-2
+        "
+      >
+        Selected images: {selectedImagesCount}
+      </h3>
+    </BaseTablet>
+
+    {#if $sourceTypeStore.sourcesStack.size > 0}
+      <div
+        class="
+          tw-fixed
+          tw-bottom-12
+          tw-left-1/2
+          tw--translate-x-1/2
+          tablet:tw-left-auto
+          tablet:tw-right-12
+          tablet:tw-translate-x-0
+          tw-z-50
+        "
+      >
+        <div
+          transition:scale={{
+            duration: 250,
+            easing: cubicInOut
+          }}
+        >
+          <BaseTablet>
+            <button
+              class="
+                tw-text-xs
+                mobile:tw-text-sm
+                tablet:tw-text-lg
+                tw-px-4
+                tw-py-2
+              "
+              on:click={() => sourceTypeStore.clear()}
+            >
+              Unselected all
+            </button>
+          </BaseTablet>
+        </div>
+      </div>
+    {/if}
+
 		<!-- svelte-ignore a11y-missing-attribute -->
 		<LazyList
-			data={uniqueImages}
+			data={data}
 			class="
-          tw-min-h-screen
-          tw-h-full
         "
 			itemContainerClass="
         tw-rounded-xl
@@ -177,6 +192,8 @@
           tw-h-full
           tw-rounded-xl
           tw-overflow-hidden
+          tw-transition-all
+          tw-duration-50
           ${
 						$sourceTypeStore.sourcesStack.has(
 							item?.urls?.[$unsplashImageQualityStore]

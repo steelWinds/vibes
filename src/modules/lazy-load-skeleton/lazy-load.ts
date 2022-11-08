@@ -23,8 +23,8 @@ const lazyLoad = (source: string) => {
 			resolve(image);
 		};
 
-		image.onerror = () => {
-			reject(new Error("Image is don't load"));
+    image.onerror = () => {
+      reject(new Error("Image is don't load"));
 		};
 	});
 };

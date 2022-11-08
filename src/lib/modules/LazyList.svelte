@@ -1,84 +1,70 @@
 <script lang="ts">
-	import { onMount, createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
+  import { inview } from 'svelte-inview';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import Masonry from 'svelte-bricks';
 	import debounce from 'lodash-es/debounce';
 
 	type T = $$Generic;
 
-	let dispatch = createEventDispatcher();
-	let observer: IntersectionObserver;
-	let mainContainer: HTMLElement;
-	let footerTarget: HTMLElement;
-
-	$: if (hideFooter) {
-		observer?.disconnect();
-	}
-
-	const observerCallback = (entries: any[]) => {
-		const footerTarget = entries[0];
-
-		if (footerTarget.isIntersecting && !disableScrollEvent) {
-			onScrollEnd();
-		}
-	};
-
-	export let data: T[];
+  export let data: T[];
 	export let itemContainerClass = '';
-	export let disableScrollEvent = false;
-	export let hideFooter = false;
 	export let minColWidth = 150;
 	export let maxColWidth = 800;
 	export let gap = 20;
 	export let debouncedScrollEvent = 0;
-	export let thresholdFooter = 0;
+
+	let dispatch = createEventDispatcher();
+	let mainContainer: HTMLElement;
 
 	const onScrollEnd = debounce(() => {
 		dispatch('scrollEnd');
 	}, debouncedScrollEvent);
-
-	onMount(() => {
-		if (mainContainer && footerTarget) {
-			observer = new IntersectionObserver(observerCallback, {
-				threshold: thresholdFooter
-			});
-
-			observer.observe(footerTarget);
-		}
-
-		return () => {
-			observer?.disconnect();
-		};
-	});
 </script>
 
 <div
-	bind:this={mainContainer}
-	class="
+  bind:this={mainContainer}
+  class="
+    tw-h-full
     tw-w-full
   "
+  style:padding={`${gap}px`}
+  style:padding-bottom={0}
 >
-	{#if data?.length}
-		<div class={$$restProps.class} style:padding={`${gap}px`}>
-			<Masonry
-				items={data}
-				{minColWidth}
-				{maxColWidth}
-				{gap}
-				idKey="id"
-				let:item
-			>
-				<div class={itemContainerClass}>
-					<slot {item} />
-				</div>
-			</Masonry>
-		</div>
+  {#if data?.length}
+    <div class={$$restProps.class}>
+      <Masonry
+        items={data}
+        {minColWidth}
+        {maxColWidth}
+        {gap}
+        idKey="id"
+        let:item
+      >
+        <div class={itemContainerClass}>
+          <slot {item} />
+        </div>
+      </Masonry>
+    </div>
+  {/if}
 
-		<footer
-			bind:this={footerTarget}
-			class="tw-grid tw-place-items-center tw-p-6 tw-mb-4"
-		>
-			<BarLoader size="110" />
-		</footer>
-	{/if}
+  <footer
+    use:inview={{
+      threshold: 0.3
+    }}
+    on:enter={() => onScrollEnd()}
+    class="tw-grid tw-place-items-center tw-p-14"
+  >
+    <BarLoader size="110" />
+  </footer>
 </div>
+
+<style lang="postcss">
+  .lazy-list {
+    position: fixed;
+    bottom: 0;
+    block-size: 100%;
+    inline-size: 100%;
+    overflow: scroll;
+  }
+</style>
