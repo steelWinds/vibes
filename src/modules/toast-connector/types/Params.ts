@@ -1,11 +1,11 @@
 import type { SvelteToastOptions } from '@zerodevx/svelte-toast';
 
-type SvelteToastOptionsOmit = Omit<SvelteToastOptions, 'theme'>
+type SvelteToastOptionsOmit = Omit<SvelteToastOptions, 'theme'>;
 
 interface IToastConnector extends SvelteToastOptionsOmit {
-  title: string,
-  limit?: boolean,
-  intro?: SvelteToastOptions['intro'],
+	title: string;
+	limit?: boolean;
+	intro?: SvelteToastOptions['intro'];
 }
 
-export type { IToastConnector }
+export type { IToastConnector };

@@ -5,7 +5,7 @@ import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import { writable, get } from 'svelte/store';
 import uniq from 'lodash-es/uniq';
 
-const createSelectedCollectionsStore = <T>() => {
+const createSelectedCollectionsStore = () => {
 	const { subscribe, update, set } = persist(
 		writable<Array<ObjectOption & ICollectionData>>([]),
 		createLocalStorage(),

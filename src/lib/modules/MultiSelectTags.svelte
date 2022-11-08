@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { ObjectOption, Option } from 'svelte-multiselect';
+	import type { ObjectOption, Option } from 'svelte-multiselect';
 
 	import MultiSelect from 'svelte-multiselect';
 	import debounce from 'lodash-es/debounce';
 	import { Moon } from 'svelte-loading-spinners';
 
-  type T = $$Generic;
+	type T = $$Generic;
 
 	let pendingState = false;
 	let searchText = '';

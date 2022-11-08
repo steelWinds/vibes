@@ -29,7 +29,7 @@
 	import Slider from '@/lib/modules/Slider.svelte';
 	import SettingTitle from '@/lib/UI/SettingTitle.svelte';
 	import Tabs from '@/lib/UI/Tabs.svelte';
-  import ToastCopy from '@/lib/modules/Toasts/ToastCopy.svelte';
+	import ToastCopy from '@/lib/modules/Toasts/ToastCopy.svelte';
 
 	type MenuType = 'sources' | 'settings';
 
@@ -90,12 +90,12 @@
 			}
 		});
 
-    toastConnector(ToastCopy, {
-      duration: 3000,
-      title: currentColor,
-      limit: true,
-      classes: ['toast', 'copy'],
-    })
+		toastConnector(ToastCopy, {
+			duration: 3000,
+			title: currentColor,
+			limit: true,
+			classes: ['toast', 'copy']
+		});
 	}, 250);
 
 	const changeImage = (event: CustomEvent) => {
@@ -168,7 +168,7 @@
 		<div
 			transition:scale={{
 				duration: 250,
-        easing: cubicInOut
+				easing: cubicInOut
 			}}
 			class="
         tw-flex
@@ -184,7 +184,7 @@
 				transitionType={scale}
 				transitionProps={{
 					duration: 250,
-          easing: cubicInOut
+					easing: cubicInOut
 				}}
 				switchValue={drawerMenuVisible && menuType === 'sources'}
 				class={`
@@ -245,7 +245,7 @@
 				transitionType={scale}
 				transitionProps={{
 					duration: 250,
-          easing: cubicInOut
+					easing: cubicInOut
 				}}
 				switchValue={drawerMenuVisible && menuType === 'settings'}
 				class="
@@ -313,7 +313,7 @@
 			<div
 				transition:scale={{
 					duration: 250,
-          easing: cubicInOut
+					easing: cubicInOut
 				}}
 				class="
           tw-flex

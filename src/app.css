@@ -14,7 +14,7 @@
 	--c-electric-blue: rgb(44 117 255);
 	--c-raisin-gray: rgb(146 144 146);
 
-  --toastContainerTop: auto;
+	--toastContainerTop: auto;
 	--toastContainerRight: auto;
 	--toastContainerBottom: 4rem;
 	--toastContainerLeft: calc(50vw - 8rem);
@@ -46,34 +46,34 @@ input {
 		align-self: stretch;
 	}
 
-  &.copy {
-    & ._toastItem {
-      @apply tw-rounded
+	&.copy {
+		& ._toastItem {
+			@apply tw-rounded
         tw-duration-250
         tw-text-raisin-black
         dark:tw-text-white
         tw-bg-white-crystal
         dark:tw-bg-raisin-black-pre-crystal;
-    }
-  }
+		}
+	}
 
-  &.connection-broken {
-    & ._toastItem {
-      @apply tw-rounded
+	&.connection-broken {
+		& ._toastItem {
+			@apply tw-rounded
         tw-duration-250
         tw-text-white
-        tw-bg-red-pre-crystal
-    }
-  }
+        tw-bg-red-pre-crystal;
+		}
+	}
 
-  &.connection-restored {
-    & ._toastItem {
-      @apply tw-rounded
+	&.connection-restored {
+		& ._toastItem {
+			@apply tw-rounded
         tw-duration-250
         tw-text-white
-        tw-bg-green-pre-crystal
-    }
-  }
+        tw-bg-green-pre-crystal;
+		}
+	}
 }
 
 .out-in-transition {

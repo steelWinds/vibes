@@ -2,7 +2,7 @@
 	import type { IImageData } from '@/types/API/Unsplash/DataTypes/IImageData';
 
 	import { onMount, tick } from 'svelte';
-  import { scale } from 'svelte/transition';
+	import { scale } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import lazyLoad from '@/actions/lazy-load';
 	import getRandomImages from '@/api/unsplash/get-random-images';
@@ -13,8 +13,7 @@
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
-  import CircleBtn from '@/lib/UI/CircleBtn.svelte'
-  import data from './data.json'
+	import data from './data.json';
 
 	let blockedLoading = false;
 	let uniqueImages: IImageData[] = [];
@@ -32,19 +31,16 @@
 	$: gap = isTablet ? 20 : 10;
 
 	const getImages = async () => {
-		//let images = await getRandomImages({
-		//	count: 30,
-		//	collections: selectedCollectionsStore.getIdx().join(',')
-		//});
-
-		//const newImages = images.filter((image) => {
-		//	return !imagesIdxes.includes(image.id);
-		//});
-
-		//const newIdxes = uniq(images.map((image) => image.id));
-		//imagesIdxes = [...imagesIdxes, ...newIdxes];
-
-		//uniqueImages = [...uniqueImages, ...newImages];
+		let images = await getRandomImages({
+			count: 30,
+			collections: selectedCollectionsStore.getIdx().join(',')
+		});
+		const newImages = images.filter((image) => {
+			return !imagesIdxes.includes(image.id);
+		});
+		const newIdxes = uniq(images.map((image) => image.id));
+		imagesIdxes = [...imagesIdxes, ...newIdxes];
+		uniqueImages = [...uniqueImages, ...newImages];
 	};
 
 	let promiseGetRandomImages: ReturnType<typeof getImages>;
@@ -107,31 +103,31 @@
 			<BarLoader size="110" />
 		</div>
 	{:then}
-    <BaseTablet
-      class="
+		<BaseTablet
+			class="
         tw-fixed
         tw-top-6
         tw-left-1/2
         tw--translate-x-1/2
         tw-z-50
       "
-    >
-      <h3
-        class="
+		>
+			<h3
+				class="
           tw-text-xs
           mobile:tw-text-sm
           tablet:tw-text-lg
           tw-px-4
           tw-py-2
         "
-      >
-        Selected images: {selectedImagesCount}
-      </h3>
-    </BaseTablet>
+			>
+				Selected images: {selectedImagesCount}
+			</h3>
+		</BaseTablet>
 
-    {#if $sourceTypeStore.sourcesStack.size > 0}
-      <div
-        class="
+		{#if $sourceTypeStore.sourcesStack.size > 0}
+			<div
+				class="
           tw-fixed
           tw-bottom-12
           tw-left-1/2
@@ -141,34 +137,34 @@
           tablet:tw-translate-x-0
           tw-z-50
         "
-      >
-        <div
-          transition:scale={{
-            duration: 250,
-            easing: cubicInOut
-          }}
-        >
-          <BaseTablet>
-            <button
-              class="
+			>
+				<div
+					transition:scale={{
+						duration: 250,
+						easing: cubicInOut
+					}}
+				>
+					<BaseTablet>
+						<button
+							class="
                 tw-text-xs
                 mobile:tw-text-sm
                 tablet:tw-text-lg
                 tw-px-4
                 tw-py-2
               "
-              on:click={() => sourceTypeStore.clear()}
-            >
-              Unselected all
-            </button>
-          </BaseTablet>
-        </div>
-      </div>
-    {/if}
+							on:click={() => sourceTypeStore.clear()}
+						>
+							Unselected all
+						</button>
+					</BaseTablet>
+				</div>
+			</div>
+		{/if}
 
 		<!-- svelte-ignore a11y-missing-attribute -->
 		<LazyList
-			data={data}
+			{data}
 			class="
         "
 			itemContainerClass="

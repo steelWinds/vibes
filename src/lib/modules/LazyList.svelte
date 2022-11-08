@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-  import { inview } from 'svelte-inview';
+	import { inview } from 'svelte-inview';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import Masonry from 'svelte-bricks';
 	import debounce from 'lodash-es/debounce';
 
 	type T = $$Generic;
 
-  export let data: T[];
+	export let data: T[];
 	export let itemContainerClass = '';
 	export let minColWidth = 150;
 	export let maxColWidth = 800;
@@ -23,48 +23,48 @@
 </script>
 
 <div
-  bind:this={mainContainer}
-  class="
+	bind:this={mainContainer}
+	class="
     tw-h-full
     tw-w-full
   "
-  style:padding={`${gap}px`}
-  style:padding-bottom={0}
+	style:padding={`${gap}px`}
+	style:padding-bottom={0}
 >
-  {#if data?.length}
-    <div class={$$restProps.class}>
-      <Masonry
-        items={data}
-        {minColWidth}
-        {maxColWidth}
-        {gap}
-        idKey="id"
-        let:item
-      >
-        <div class={itemContainerClass}>
-          <slot {item} />
-        </div>
-      </Masonry>
-    </div>
-  {/if}
+	{#if data?.length}
+		<div class={$$restProps.class}>
+			<Masonry
+				items={data}
+				{minColWidth}
+				{maxColWidth}
+				{gap}
+				idKey="id"
+				let:item
+			>
+				<div class={itemContainerClass}>
+					<slot {item} />
+				</div>
+			</Masonry>
+		</div>
+	{/if}
 
-  <footer
-    use:inview={{
-      threshold: 0.3
-    }}
-    on:enter={() => onScrollEnd()}
-    class="tw-grid tw-place-items-center tw-p-14"
-  >
-    <BarLoader size="110" />
-  </footer>
+	<footer
+		use:inview={{
+			threshold: 0.3
+		}}
+		on:enter={() => onScrollEnd()}
+		class="tw-grid tw-place-items-center tw-p-14"
+	>
+		<BarLoader size="110" />
+	</footer>
 </div>
 
 <style lang="postcss">
-  .lazy-list {
-    position: fixed;
-    bottom: 0;
-    block-size: 100%;
-    inline-size: 100%;
-    overflow: scroll;
-  }
+	.lazy-list {
+		position: fixed;
+		bottom: 0;
+		block-size: 100%;
+		inline-size: 100%;
+		overflow: scroll;
+	}
 </style>

@@ -18,7 +18,7 @@ const lazyHandler = async (props: ILazyHandlerParams) => {
 
 		img.setAttribute('src', loadedImage.src);
 	} catch (_) {
-    img.style.objectFit = 'cover';
+		img.style.objectFit = 'cover';
 
 		img.setAttribute('src', PlaceholderImage);
 	} finally {

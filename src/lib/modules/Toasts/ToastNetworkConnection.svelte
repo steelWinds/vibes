@@ -13,9 +13,9 @@
     tw-py-2
     tw-px-3
   "
-  data-toast-id={toastId}
+	data-toast-id={toastId}
 >
-  <h3>
-    { title }
-  </h3>
+	<h3>
+		{title}
+	</h3>
 </article>

@@ -24,10 +24,10 @@ const createThemeStore = () => {
 		writable(defaultSettings),
 		createLocalStorage(),
 		'theme'
-  );
-  
-  const switchTheme = (store: ThemeProps) => {
-    let selectedThemeMode: ThemeModeType = 'default';
+	);
+
+	const switchTheme = (store: ThemeProps) => {
+		let selectedThemeMode: ThemeModeType = 'default';
 
 		if (store.systemPreferences) {
 			store.darkTheme = false;
@@ -36,19 +36,19 @@ const createThemeStore = () => {
 		}
 
 		themeSwitcher(selectedThemeMode);
-  }
+	};
 
-  const init = () => {
-    switchTheme(get({ subscribe }))
-  }
+	const init = () => {
+		switchTheme(get({ subscribe }));
+	};
 
 	subscribe(switchTheme);
 
 	return {
 		subscribe,
 		update,
-    init,
-    set
+		init,
+		set
 	};
 };
 
