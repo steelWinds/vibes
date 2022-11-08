@@ -1,5 +1,8 @@
 import type { ICollectionData } from '@/types/API/Unsplash/DataTypes/ICollectionData';
-import type { IPaginationQueryProps, IPaginationObject } from '@/types/API/Unsplash/Pagination';
+import type {
+	IPaginationQueryProps,
+	IPaginationObject
+} from '@/types/API/Unsplash/Pagination';
 
 import useFetch from '@/modules/use-fetch';
 

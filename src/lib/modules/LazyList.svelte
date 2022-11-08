@@ -31,7 +31,7 @@
 	export let maxColWidth = 800;
 	export let gap = 20;
 	export let debouncedScrollEvent = 0;
-	export let thresholdFooter = 0.5;
+	export let thresholdFooter = 0;
 
 	const onScrollEnd = debounce(() => {
 		dispatch('scrollEnd');
@@ -76,7 +76,7 @@
 
 		<footer
 			bind:this={footerTarget}
-			class="tw-grid tw-place-items-center tw-p-4"
+			class="tw-grid tw-place-items-center tw-p-6 tw-mb-4"
 		>
 			<BarLoader size="110" />
 		</footer>

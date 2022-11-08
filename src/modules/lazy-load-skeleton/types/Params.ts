@@ -15,8 +15,8 @@ interface ILazyHandlerParams extends IPreloadersParams {
 	parent: HTMLElement;
 	source: string;
 	observer: IntersectionObserver;
-  alt: string;
-  loaded: Set<string>;
+	alt: string;
+	loaded: Set<string>;
 }
 
 interface IOrientParams {
@@ -26,4 +26,9 @@ interface IOrientParams {
 	naturalHeight?: number;
 }
 
-export type { IPreloadersParams, ILazyParams, ILazyHandlerParams, IOrientParams }
+export type {
+	IPreloadersParams,
+	ILazyParams,
+	ILazyHandlerParams,
+	IOrientParams
+};

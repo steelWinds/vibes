@@ -1,8 +1,8 @@
-import type { ILazyHandlerParams } from './types/Params'
+import type { ILazyHandlerParams } from './types/Params';
 
 import PlaceholderImage from '@/assets/png-images/image-placeholder.png';
 import lazyLoad from './lazy-load';
-import setPostImageData from './set-post-image-data'
+import setPostImageData from './set-post-image-data';
 
 const lazyHandler = async (props: ILazyHandlerParams) => {
 	const { img, source, loaded } = props;
@@ -26,4 +26,4 @@ const lazyHandler = async (props: ILazyHandlerParams) => {
 	}
 };
 
-export default lazyHandler
+export default lazyHandler;

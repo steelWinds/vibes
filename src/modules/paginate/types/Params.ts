@@ -4,4 +4,4 @@ interface IPaginationParams {
 	step: number;
 }
 
-export type { IPaginationParams }
+export type { IPaginationParams };

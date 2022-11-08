@@ -1,4 +1,4 @@
-import type { ILazyParams } from '@/modules/lazy-load-skeleton/types/Params'
+import type { ILazyParams } from '@/modules/lazy-load-skeleton/types/Params';
 
 import { lazyLoadSkeleton } from '@/modules/lazy-load-skeleton';
 

@@ -7,7 +7,7 @@ interface IExtractCanvasParams {
 interface IColorDepthParams {
 	depth: number;
 	maxDepth: number;
-};
+}
 
 interface IGetColorWithTypeParams extends IExtractCanvasParams {
 	type: 'hex';
@@ -18,5 +18,9 @@ interface IMedianCutParams extends IExtractCanvasParams {
 	colorDepth?: IColorDepthParams;
 }
 
-
-export type { IExtractCanvasParams, IColorDepthParams, IGetColorWithTypeParams, IMedianCutParams };
+export type {
+	IExtractCanvasParams,
+	IColorDepthParams,
+	IGetColorWithTypeParams,
+	IMedianCutParams
+};

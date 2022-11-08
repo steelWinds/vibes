@@ -1,5 +1,5 @@
 interface IKeyCodeHandlerType {
-  keyCode: string;
+	keyCode: string;
 	callback: () => void;
 }
 interface IRedirectEventParams extends IKeyCodeHandlerType {

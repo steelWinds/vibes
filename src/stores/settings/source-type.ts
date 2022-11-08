@@ -36,7 +36,8 @@ const createSourceTypeStore = () => {
 
 	const clear = () => {
 		update((store) => {
-			store.sourcesStack.clear();
+      store.sourcesStack.clear();
+      store.type = 'started';
 
 			return store;
 		});

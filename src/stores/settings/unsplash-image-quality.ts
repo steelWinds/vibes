@@ -1,4 +1,4 @@
-import type { IUnsplashQualities } from '@/types/API/Unsplash/DataTypes/IUnsplashQualities'
+import type { IUnsplashQualities } from '@/types/API/Unsplash/DataTypes/IUnsplashQualities';
 
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import { writable } from 'svelte/store';

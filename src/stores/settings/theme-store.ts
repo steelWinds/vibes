@@ -1,5 +1,5 @@
-import type { ThemeModeType } from '@/modules/use-switch-theme/types/Types' 
-  
+import type { ThemeModeType } from '@/modules/use-switch-theme/types/Types';
+
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import { writable } from 'svelte/store';
 import useSwitchTheme from '@/modules/use-switch-theme';

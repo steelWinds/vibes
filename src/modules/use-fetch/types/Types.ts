@@ -1,3 +1,3 @@
 type FetchDataType<T> = { data: T; headers: Headers };
 
-export type { FetchDataType }
+export type { FetchDataType };

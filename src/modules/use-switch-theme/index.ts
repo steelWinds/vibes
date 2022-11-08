@@ -1,5 +1,5 @@
-import type { ClassesForThemeParam } from './types/Params'
-import type { ThemeModeType } from './types/Types'
+import type { ClassesForThemeParam } from './types/Params';
+import type { ThemeModeType } from './types/Types';
 
 const useSwitchTheme = (classesForTheme: ClassesForThemeParam) => {
 	const themes = Object.values(classesForTheme);

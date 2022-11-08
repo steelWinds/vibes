@@ -1,5 +1,5 @@
-import type { IPaginationParams } from './types/Params'
-import type { ReturnHandlerType, FetchCallbackType } from './types/Types'
+import type { IPaginationParams } from './types/Params';
+import type { ReturnHandlerType, FetchCallbackType } from './types/Types';
 
 const paginate = (props: IPaginationParams, callback: FetchCallbackType) => {
 	const { totalPages, startPage, step } = props;

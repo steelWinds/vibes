@@ -1,16 +1,15 @@
-import type { ILazyParams } from './types/Params'
+import type { ILazyParams } from './types/Params';
 import {
-  DATA_ATTR_SRC,
-  DATA_ATTR_ALT,
-  DATA_ATTR_PARENT_PRELOADER,
-  DATA_ATTR_IMAGE_PRELOADER,
-  
-  PARENT_CLASS,
-} from './constants'
+	DATA_ATTR_SRC,
+	DATA_ATTR_ALT,
+	DATA_ATTR_PARENT_PRELOADER,
+	DATA_ATTR_IMAGE_PRELOADER,
+	PARENT_CLASS
+} from './constants';
 
 import imageOrient from './image-orient';
 import lazyLoad from './lazy-load';
-import lazyHandler from './lazy-handler'
+import lazyHandler from './lazy-handler';
 
 const observerCallback: IntersectionObserverCallback = (entries, observer) => {
 	for (const entry of entries) {
@@ -33,8 +32,8 @@ const observerCallback: IntersectionObserverCallback = (entries, observer) => {
 				alt,
 				observer,
 				parentPreloaderClass,
-        imagePreloaderClass,
-        loaded
+				imagePreloaderClass,
+				loaded
 			});
 		}
 	}

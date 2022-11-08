@@ -7,4 +7,4 @@ type ReturnHandlerType<T> = {
 
 type FetchCallbackType = <R>(props: IPaginationQueryProps) => Promise<R>;
 
-export type { ReturnHandlerType, FetchCallbackType }
+export type { ReturnHandlerType, FetchCallbackType };

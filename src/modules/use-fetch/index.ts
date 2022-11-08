@@ -1,5 +1,5 @@
 import type { FetchOptions } from 'ohmyfetch';
-import type { FetchDataType } from './types/Types'
+import type { FetchDataType } from './types/Types';
 
 import { $fetch as ohmyfetch } from 'ohmyfetch';
 

@@ -1,4 +1,4 @@
-import type { IOrientParams } from './types/Params'
+import type { IOrientParams } from './types/Params';
 
 const gcd = (a: number, b: number): number => {
 	if (!b) {
