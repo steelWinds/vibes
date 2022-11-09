@@ -1,8 +1,8 @@
 interface IExtractCanvasParams {
 	image: HTMLImageElement;
 	canvas: HTMLCanvasElement;
-  sizes?: { inline: number; block: number };
-  setCanvasSize?: boolean;
+	sizes?: { inline: number; block: number };
+	setCanvasSize?: boolean;
 }
 
 interface IColorDepthParams {

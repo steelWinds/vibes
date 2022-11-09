@@ -14,12 +14,14 @@
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
 	import UserItem from '@/lib/UI/UserItem.svelte';
+	import Link from '@/lib/UI/Link.svelte';
 
 	let blockedLoading = false;
 	let uniqueImages: IImageData[] = [];
 	let imagesIdxes: string[] = [];
 	let windowInnerBlockSize = 0;
 	let windowInnerInlineSize = 0;
+
 
 	$: selectedImagesCount =
 		$sourceTypeStore.type === 'internet'
@@ -125,42 +127,62 @@
 			</h3>
 		</BaseTablet>
 
-		{#if $sourceTypeStore.sourcesStack.size > 0}
-			<div
-				class="
-          tw-fixed
-          tw-bottom-12
-          tw-left-1/2
-          tw--translate-x-1/2
-          tablet:tw-left-auto
-          tablet:tw-right-12
-          tablet:tw-translate-x-0
-          tw-z-50
-        "
-			>
-				<div
-					transition:scale={{
-						duration: 250,
-						easing: cubicInOut
-					}}
-				>
-					<BaseTablet>
-						<button
-							class="
+    <div
+      class="
+        tw-fixed
+        tw-bottom-12
+        tw-left-1/2
+        tw--translate-x-1/2
+        tablet:tw-left-auto
+        tablet:tw-right-12
+        tablet:tw-translate-x-0
+        tw-flex
+        tw-flex-col
+        tw-items-center
+        tw-justify-center
+        tw-z-50
+      "
+    >
+      {#if selectedImagesCount > 0}
+        <div
+          transition:scale={{
+            duration: 250,
+            easing: cubicInOut
+          }}
+        >
+          <BaseTablet>
+            <button
+              class="
                 tw-text-xs
                 mobile:tw-text-sm
                 tablet:tw-text-lg
                 tw-px-4
                 tw-py-2
               "
-							on:click={() => sourceTypeStore.clear()}
-						>
-							Unselected all
-						</button>
-					</BaseTablet>
-				</div>
-			</div>
-		{/if}
+              on:click={sourceTypeStore.clear}
+            >
+              Unselected all
+            </button>
+          </BaseTablet>
+        </div>
+      {/if}
+
+      <BaseTablet class="tw-mt-3 tw-inline-flex">
+        <Link
+          link="/"
+          target="_self"
+          class="
+            tw-text-xs
+            mobile:tw-text-sm
+            tablet:tw-text-lg
+            tw-px-4
+            tw-py-2
+          "
+        >
+          Return home
+        </Link>
+      </BaseTablet>
+    </div>
 
 		<!-- svelte-ignore a11y-missing-attribute -->
 		<LazyList

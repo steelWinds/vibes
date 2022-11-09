@@ -12,10 +12,10 @@ const extractImage = async (
 	const inlineSize = sizes?.inline ?? image.naturalWidth ?? image.width;
 	const blockSize = sizes?.block ?? image.naturalHeight ?? image.height;
 
-  if (setCanvasSize) {
-    canvas.width = inlineSize;
-	  canvas.height = blockSize;
-  }
+	if (setCanvasSize) {
+		canvas.width = inlineSize;
+		canvas.height = blockSize;
+	}
 
 	const source = image.getAttribute('src') ?? '';
 

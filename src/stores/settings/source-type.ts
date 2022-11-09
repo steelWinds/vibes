@@ -1,4 +1,7 @@
-import { persist, createIndexedDBStorage} from '@macfja/svelte-persistent-store';
+import {
+	persist,
+	createIndexedDBStorage
+} from '@macfja/svelte-persistent-store';
 import { writable } from 'svelte/store';
 
 type SourceType = 'uploading' | 'started' | 'internet';
@@ -20,7 +23,11 @@ const createSourceTypeStore = () => {
 
 	const deleteURI = (URI: string) => {
 		update((store) => {
-			store.sourcesStack.delete(URI);
+      store.sourcesStack.delete(URI);
+      
+      if (!store.sourcesStack.size) {
+        store.type = 'started'
+      }
 
 			return store;
 		});
@@ -41,7 +48,7 @@ const createSourceTypeStore = () => {
 
 			return store;
 		});
-	};
+  };
 
 	return {
 		subscribe,

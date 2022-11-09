@@ -56,10 +56,7 @@
 		$sourceTypeStore.sourcesStack = new Set();
 
 		$sourceTypeStore.sourcesStack = new Set(
-			await getImgURL(
-				{ maxWidthOrHeight: 2440 },
-				...event.detail
-			)
+			await getImgURL({ maxWidthOrHeight: 2440 }, ...event.detail)
 		);
 
 		if (!$sourceTypeStore.sourcesStack.size) return;
@@ -84,7 +81,7 @@
 		Array.from($store.sourcesStack.values())
 	);
 
-  $: canvasSize = Math.round((windowBlockSize + windowInlineSize) / 100);
+	$: canvasSize = Math.round((windowBlockSize + windowInlineSize) / 100);
 
 	const changeColor = debounce(async () => {
 		currentColor = await getColorWithType({
@@ -142,12 +139,15 @@
 	});
 </script>
 
-<svelte:window bind:innerWidth={windowInlineSize} bind:innerHeight={windowBlockSize} />
+<svelte:window
+	bind:innerWidth={windowInlineSize}
+	bind:innerHeight={windowBlockSize}
+/>
 
 <canvas
 	bind:this={canvasRef}
-  width={`${canvasSize}px`}
-  height={`${canvasSize}px`}
+	width={`${canvasSize}px`}
+	height={`${canvasSize}px`}
 	class="
     tw-absolute
     tw-left-0
@@ -687,7 +687,7 @@
 							hideLabel
 							labelA=""
 							labelB=""
-              disabled={$themeStore.systemPreferences}
+							disabled={$themeStore.systemPreferences}
 						/>
 					</SettingTitle>
 
