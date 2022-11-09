@@ -54,7 +54,7 @@
 		const imageData = image as IImageData;
 		const imageURI = imageData.urls[$unsplashImageQualityStore];
 
-		if ($sourceTypeStore.sourcesStack.has(imageURI)) {
+		if ($sourceTypeStore.sourcesStack?.has(imageURI)) {
 			sourceTypeStore.deleteURI(imageURI);
 
 			return;
@@ -191,7 +191,7 @@
           tw-transition-all
           tw-duration-50
           ${
-						$sourceTypeStore.sourcesStack.has(
+						$sourceTypeStore.sourcesStack?.has(
 							item?.urls?.[$unsplashImageQualityStore]
 						)
 							? 'tw-border-4 tw-border-electric-blue'

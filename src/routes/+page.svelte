@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import { scale, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
+	import { derived } from 'svelte/store';
 	import { getColorWithType } from '@/modules/median-cut';
 	import searchCollections from '@/api/unsplash/search-collections';
 	import getImgURL from '@/modules/get-img-url';
@@ -78,6 +79,7 @@
 	let menuType: MenuType;
 	let unsplashCollections: Array<ObjectOption & ICollectionData> = [];
 	let windowInlineSize = 0;
+  let sourceStackAsArray = derived(sourceTypeStore, ($store) => Array.from($store.sourcesStack.values()))
 
 	const changeColor = debounce(async () => {
 		currentColor = await getColorWithType({
@@ -91,7 +93,7 @@
 		});
 
 		toastConnector(ToastCopy, {
-			duration: 3000,
+			duration: 2500,
 			title: currentColor,
 			limit: true,
 			classes: ['toast', 'copy']
@@ -447,7 +449,7 @@
 				on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
-				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`uploading-${i}`)}
+				{#each $sourceStackAsArray as image, i (`uploading-${i}`)}
 					<SwiperSlide>
 						<img
 							src={image}
@@ -480,7 +482,7 @@
 				on:afterInit={changeImage}
 				on:indexChanged={changeImage}
 			>
-				{#each Array.from($sourceTypeStore.sourcesStack.values()) as image, i (`internet-${i}`)}
+				{#each $sourceStackAsArray as image, i (`internet-${i}`)}
 					<SwiperSlide>
 						<img
 							src={image}
