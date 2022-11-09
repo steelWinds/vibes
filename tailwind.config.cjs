@@ -12,7 +12,7 @@ module.exports = {
 				tablet: '672px',
 				laptop: '1024px',
 				desktop: '1240px',
-				'ultra-desktop': '1440px',
+				'ultra-desktop': '1440px'
 			}
 		},
 

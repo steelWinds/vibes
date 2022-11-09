@@ -1,4 +1,4 @@
-import type { IUserData } from './IUserData'
+import type { IUserData } from './IUserData';
 
 interface IImageData {
 	id: string;
@@ -14,8 +14,8 @@ interface IImageData {
 	height: number;
 	color: string;
 	description?: string;
-  alt_description?: string;
-  user: IUserData;
+	alt_description?: string;
+	user: IUserData;
 }
 
 export type { IImageData };

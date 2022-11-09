@@ -135,8 +135,6 @@
 			keyCode: 'Space'
 		});
 
-		console.log($sourceTypeStore);
-
 		return removeListener;
 	});
 </script>

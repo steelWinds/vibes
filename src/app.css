@@ -34,7 +34,7 @@
 button,
 a {
 	user-select: none !important;
-  cursor: pointer !important;
+	cursor: pointer !important;
 }
 
 button,
@@ -43,18 +43,16 @@ input {
 }
 
 .custom-tag {
-  @apply
-    tw-cursor-pointer
+	@apply tw-cursor-pointer
     tw-bg-white-crystal
     tw-text-raisin-black
     dark:tw-bg-electric-blue-pre-crystal
     dark:tw-text-white;
 
-  & span {
-    @apply
-      tw-text-[10px]
+	& span {
+		@apply tw-text-[10px]
       ultra-desktop:tw-text-sm;
-  }
+	}
 }
 
 .toast {

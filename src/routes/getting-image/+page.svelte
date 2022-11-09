@@ -14,7 +14,6 @@
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
 	import UserItem from '@/lib/UI/UserItem.svelte';
-  import data from './data.json'
 
 	let blockedLoading = false;
 	let uniqueImages: IImageData[] = [];
@@ -32,16 +31,16 @@
 	$: gap = isTablet ? 20 : 10;
 
 	const getImages = async () => {
-		//let images = await getRandomImages({
-		//	count: 30,
-		//	collections: selectedCollectionsStore.getIdx().join(',')
-		//});
-		//const newImages = images.filter((image) => {
-		//	return !imagesIdxes.includes(image.id);
-		//});
-		//const newIdxes = uniq(images.map((image) => image.id));
-		//imagesIdxes = [...imagesIdxes, ...newIdxes];
-		//uniqueImages = [...uniqueImages, ...newImages];
+		let images = await getRandomImages({
+			count: 30,
+			collections: selectedCollectionsStore.getIdx().join(',')
+		});
+		const newImages = images.filter((image) => {
+			return !imagesIdxes.includes(image.id);
+		});
+		const newIdxes = uniq(images.map((image) => image.id));
+		imagesIdxes = [...imagesIdxes, ...newIdxes];
+		uniqueImages = [...uniqueImages, ...newImages];
 	};
 
 	let promiseGetRandomImages: ReturnType<typeof getImages>;
@@ -183,8 +182,8 @@
 			on:scrollEnd={getImages}
 		>
 			<UserItem user={item?.user}>
-        <button
-          class={`
+				<button
+					class={`
             tw-block
             tw-w-full
             tw-h-full
@@ -193,34 +192,34 @@
             tw-transition-all
             tw-duration-50
             ${
-              $sourceTypeStore.sourcesStack?.has(
-                item?.urls?.[$unsplashImageQualityStore]
-              )
-                ? 'tw-border-4 tw-border-electric-blue'
-                : ''
-            }  
+							$sourceTypeStore.sourcesStack?.has(
+								item?.urls?.[$unsplashImageQualityStore]
+							)
+								? 'tw-border-4 tw-border-electric-blue'
+								: ''
+						}  
           `}
-          on:click={() => addImage(item)}
-        >
-          <img
-            class="
+					on:click={() => addImage(item)}
+				>
+					<img
+						class="
                 img-hide-alt
                 tw-w-full
                 tw-h-full
                 tw-block
                 tw-object-fit
               "
-            use:lazyLoad={{
-              ...item,
-              src: item?.urls?.[$unsplashImageQualityStore],
-              parentPreloaderClass: ['tw-animate-pulse'],
-              imagePreloaderClass: ['tw-opacity-0'],
-              defaultAlt: 'Colored image',
-              defaultColorPlug: 'rgb(146 144 146)'
-            }}
-          />
-        </button>
-      </UserItem>
+						use:lazyLoad={{
+							...item,
+							src: item?.urls?.[$unsplashImageQualityStore],
+							parentPreloaderClass: ['tw-animate-pulse'],
+							imagePreloaderClass: ['tw-opacity-0'],
+							defaultAlt: 'Colored image',
+							defaultColorPlug: 'rgb(146 144 146)'
+						}}
+					/>
+				</button>
+			</UserItem>
 		</LazyList>
 	{/await}
 </div>
