@@ -5,15 +5,17 @@ import { lazyLoad } from '@/modules/lazy-load-skeleton';
 const extractImage = async (
 	props: IExtractCanvasParams
 ): Promise<ImageData | null> => {
-	const { image, canvas, sizes } = props;
+	const { image, canvas, sizes, setCanvasSize } = props;
 
 	image.setAttribute('crossOrigin', 'anonymous');
 
 	const inlineSize = sizes?.inline ?? image.naturalWidth ?? image.width;
 	const blockSize = sizes?.block ?? image.naturalHeight ?? image.height;
 
-	canvas.width = inlineSize;
-	canvas.height = blockSize;
+  if (setCanvasSize) {
+    canvas.width = inlineSize;
+	  canvas.height = blockSize;
+  }
 
 	const source = image.getAttribute('src') ?? '';
 

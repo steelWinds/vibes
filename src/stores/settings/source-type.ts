@@ -1,4 +1,4 @@
-import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
+import { persist, createIndexedDBStorage} from '@macfja/svelte-persistent-store';
 import { writable } from 'svelte/store';
 
 type SourceType = 'uploading' | 'started' | 'internet';
@@ -14,7 +14,7 @@ const createSourceTypeStore = () => {
 			sourcesStack: new Set(),
 			type: 'started'
 		}),
-		createLocalStorage(),
+		createIndexedDBStorage(),
 		'source-type'
 	);
 

@@ -57,7 +57,7 @@
 
 		$sourceTypeStore.sourcesStack = new Set(
 			await getImgURL(
-				{ maxWidthOrHeight: windowInlineSize / 3 },
+				{ maxWidthOrHeight: 2440 },
 				...event.detail
 			)
 		);
@@ -79,9 +79,12 @@
 	let menuType: MenuType;
 	let unsplashCollections: Array<ObjectOption & ICollectionData> = [];
 	let windowInlineSize = 0;
+	let windowBlockSize = 0;
 	let sourceStackAsArray = derived(sourceTypeStore, ($store) =>
 		Array.from($store.sourcesStack.values())
 	);
+
+  $: canvasSize = Math.round((windowBlockSize + windowInlineSize) / 100);
 
 	const changeColor = debounce(async () => {
 		currentColor = await getColorWithType({
@@ -89,8 +92,8 @@
 			canvas: canvasRef,
 			type: 'hex',
 			sizes: {
-				inline: 300,
-				block: 300
+				inline: canvasSize,
+				block: canvasSize
 			}
 		});
 
@@ -139,14 +142,16 @@
 	});
 </script>
 
-<svelte:window bind:innerWidth={windowInlineSize} />
+<svelte:window bind:innerWidth={windowInlineSize} bind:innerHeight={windowBlockSize} />
 
 <canvas
 	bind:this={canvasRef}
+  width={`${canvasSize}px`}
+  height={`${canvasSize}px`}
 	class="
     tw-absolute
-    tw-left-100
-    tw-right-100
+    tw-left-0
+    tw-right-0
     tw-invisible
     tw-opacity-0
   "
@@ -306,7 +311,7 @@
 		class="
       tw-relative
       tw-w-full
-      tw-max-w-[30vmax]
+      tw-max-w-xl
       tw-aspect-video
       tw-min-w-0
     "
@@ -682,6 +687,7 @@
 							hideLabel
 							labelA=""
 							labelB=""
+              disabled={$themeStore.systemPreferences}
 						/>
 					</SettingTitle>
 
@@ -785,7 +791,7 @@
 				<FileUploaderDropContainer
 					multiple
 					class="custom-uploader"
-					labelText="Drag and drop files here or click to upload"
+					labelText="Drag and drop no more than five files here or click to upload"
 					on:change={(event) => {
 						promiseSetUploadingImages = setUploadingImages(event);
 					}}

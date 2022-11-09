@@ -190,6 +190,11 @@ input {
 		background-color: var(--c-raisin-gray);
 	}
 
+  & .bx--toggle-input:disabled
+    + .bx--toggle-input__label {
+      opacity: 0.5;
+    }
+
 	&
 		.bx--toggle-input:checked
 		+ .bx--toggle-input__label

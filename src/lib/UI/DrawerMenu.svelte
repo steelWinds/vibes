@@ -73,7 +73,7 @@
 				<div class="tw-relative">
 					<button
 						class="
-              tw-absolute
+              tw-sticky
               tw-left-0
               tw-bottom-0
               tw-grid
