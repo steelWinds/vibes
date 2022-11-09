@@ -13,8 +13,8 @@
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
 	import Link from '@/lib/UI/Link.svelte';
-  import LazyImage from '@/lib/Partials/getting-image-page/LazyImage.svelte';
-  import data from './data.json'
+	import LazyImage from '@/lib/Partials/getting-image-page/LazyImage.svelte';
+	import data from './data.json';
 
 	let blockedLoading = false;
 	let uniqueImages: IImageData[] = [];
@@ -179,7 +179,7 @@
             tw-py-2
           "
 				>
-					{ selectedImagesCount ? 'Set this image(s)' : 'Return home' }
+					{selectedImagesCount ? 'Set this image(s)' : 'Return home'}
 				</Link>
 			</BaseTablet>
 		</div>
@@ -201,7 +201,7 @@
 			let:item
 			on:scrollEnd={getImages}
 		>
-      <LazyImage image={item} on:click={() => addImage(item)} />
+			<LazyImage image={item} on:click={() => addImage(item)} />
 		</LazyList>
 	{/await}
 </div>

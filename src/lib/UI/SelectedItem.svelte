@@ -1,11 +1,11 @@
 <script lang="ts">
-  export let state: boolean;
+	export let state: boolean;
 </script>
 
 <div class={`tw-relative ${$$restProps.class}`}>
-  <slot />
+	<slot />
 
-  {#if state}
-    <slot name="selected-state" />
-  {/if}
+	{#if state}
+		<slot name="selected-state" />
+	{/if}
 </div>

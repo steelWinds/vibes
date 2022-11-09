@@ -128,7 +128,7 @@
 		drawerMenuVisible = !drawerMenuVisible;
 	};
 
-  // TODO: create module for bind keys with modifiers
+	// TODO: create module for bind keys with modifiers
 
 	//onMount(async () => {
 	//	const removeListener = addKeyListener({
@@ -606,7 +606,7 @@
 							noMatchingOptionsMsg="Oh! Empty!"
 							promiseCallback={getCollections}
 							searchParam="query"
-              autocomplete
+							autocomplete
 						>
 							<svelte:fragment let:option slot="option">
 								<div>
