@@ -11,6 +11,7 @@
     dark:tw-shadow-electric-blue-crystal
     tw-rounded-md
     tw-text-center
+    tw-capitalize
     ${$$restProps.class}
   `}
 >

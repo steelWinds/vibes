@@ -1,6 +1,6 @@
 <script lang="ts"></script>
 
-<button
+<span
 	class={`
     tw-grid
     tw-place-items-center
@@ -14,7 +14,6 @@
     dark:tw-bg-raisin-black
     ${$$restProps.class}
   `}
-	on:click
 >
 	<slot />
-</button>
+</span>

@@ -9,7 +9,7 @@
 	import { getColorWithType } from '@/modules/median-cut';
 	import searchCollections from '@/api/unsplash/search-collections';
 	import getImgURL from '@/modules/get-img-url';
-	import addKeyListener from '@/modules/add-key-listener/addKeyListener';
+	//import addKeyListener from '@/modules/add-key-listener/addKeyListener';
 	import toastConnector from '@/modules/toast-connector';
 	import debounce from 'lodash-es/debounce';
 	import themeStore from '@/stores/settings/theme-store';
@@ -128,15 +128,17 @@
 		drawerMenuVisible = !drawerMenuVisible;
 	};
 
-	onMount(async () => {
-		const removeListener = addKeyListener({
-			callback: () => (showOptions = !showOptions),
-			target: window,
-			keyCode: 'Space'
-		});
+  // TODO: create module for bind keys with modifiers
 
-		return removeListener;
-	});
+	//onMount(async () => {
+	//	const removeListener = addKeyListener({
+	//		callback: () => (showOptions = !showOptions),
+	//		target: window,
+	//		keyCode: 'Space'
+	//	});
+
+	//	return removeListener;
+	//});
 </script>
 
 <svelte:window
@@ -604,6 +606,7 @@
 							noMatchingOptionsMsg="Oh! Empty!"
 							promiseCallback={getCollections}
 							searchParam="query"
+              autocomplete
 						>
 							<svelte:fragment let:option slot="option">
 								<div>

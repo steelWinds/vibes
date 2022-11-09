@@ -4,7 +4,6 @@
 	import { onMount, tick } from 'svelte';
 	import { scale } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
-	import lazyLoad from '@/actions/lazy-load';
 	import getRandomImages from '@/api/unsplash/get-random-images';
 	import sourceTypeStore from '@/stores/settings/source-type';
 	import selectedCollectionsStore from '@/stores/settings/selected-collections';
@@ -13,15 +12,15 @@
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
-	import UserItem from '@/lib/UI/UserItem.svelte';
 	import Link from '@/lib/UI/Link.svelte';
+  import LazyImage from '@/lib/Partials/getting-image-page/LazyImage.svelte';
+  import data from './data.json'
 
 	let blockedLoading = false;
 	let uniqueImages: IImageData[] = [];
 	let imagesIdxes: string[] = [];
 	let windowInnerBlockSize = 0;
 	let windowInnerInlineSize = 0;
-
 
 	$: selectedImagesCount =
 		$sourceTypeStore.type === 'internet'
@@ -127,8 +126,8 @@
 			</h3>
 		</BaseTablet>
 
-    <div
-      class="
+		<div
+			class="
         tw-fixed
         tw-bottom-12
         tw-left-1/2
@@ -139,57 +138,56 @@
         tw-flex
         tw-flex-col
         tw-items-center
+        tablet:tw-items-end
         tw-justify-center
         tw-z-50
       "
-    >
-      {#if selectedImagesCount > 0}
-        <div
-          transition:scale={{
-            duration: 250,
-            easing: cubicInOut
-          }}
-        >
-          <BaseTablet>
-            <button
-              class="
+		>
+			{#if selectedImagesCount > 0}
+				<div
+					transition:scale={{
+						duration: 250,
+						easing: cubicInOut
+					}}
+				>
+					<BaseTablet>
+						<button
+							class="
                 tw-text-xs
                 mobile:tw-text-sm
                 tablet:tw-text-lg
                 tw-px-4
                 tw-py-2
               "
-              on:click={sourceTypeStore.clear}
-            >
-              Unselected all
-            </button>
-          </BaseTablet>
-        </div>
-      {/if}
+							on:click={sourceTypeStore.clear}
+						>
+							Unselected all
+						</button>
+					</BaseTablet>
+				</div>
+			{/if}
 
-      <BaseTablet class="tw-mt-3 tw-inline-flex">
-        <Link
-          link="/"
-          target="_self"
-          class="
+			<BaseTablet class="tw-mt-3 tw-inline-flex">
+				<Link
+					link="/"
+					target="_self"
+					class="
             tw-text-xs
             mobile:tw-text-sm
             tablet:tw-text-lg
             tw-px-4
             tw-py-2
           "
-        >
-          Return home
-        </Link>
-      </BaseTablet>
-    </div>
+				>
+					{ selectedImagesCount ? 'Set this image(s)' : 'Return home' }
+				</Link>
+			</BaseTablet>
+		</div>
 
-		<!-- svelte-ignore a11y-missing-attribute -->
 		<LazyList
 			data={uniqueImages}
-			class="
-        "
 			itemContainerClass="
+        tw-relative
         tw-rounded-xl
         tw-overflow-hidden
         image-lazy-load-container
@@ -203,45 +201,7 @@
 			let:item
 			on:scrollEnd={getImages}
 		>
-			<UserItem user={item?.user}>
-				<button
-					class={`
-            tw-block
-            tw-w-full
-            tw-h-full
-            tw-rounded-xl
-            tw-overflow-hidden
-            tw-transition-all
-            tw-duration-50
-            ${
-							$sourceTypeStore.sourcesStack?.has(
-								item?.urls?.[$unsplashImageQualityStore]
-							)
-								? 'tw-border-4 tw-border-electric-blue'
-								: ''
-						}  
-          `}
-					on:click={() => addImage(item)}
-				>
-					<img
-						class="
-                img-hide-alt
-                tw-w-full
-                tw-h-full
-                tw-block
-                tw-object-fit
-              "
-						use:lazyLoad={{
-							...item,
-							src: item?.urls?.[$unsplashImageQualityStore],
-							parentPreloaderClass: ['tw-animate-pulse'],
-							imagePreloaderClass: ['tw-opacity-0'],
-							defaultAlt: 'Colored image',
-							defaultColorPlug: 'rgb(146 144 146)'
-						}}
-					/>
-				</button>
-			</UserItem>
+      <LazyImage image={item} on:click={() => addImage(item)} />
 		</LazyList>
 	{/await}
 </div>

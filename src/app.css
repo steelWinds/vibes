@@ -35,10 +35,13 @@ button,
 a {
 	user-select: none !important;
 	cursor: pointer !important;
+  text-transform: inherit !important;
 }
 
 button,
-input {
+label,
+input,
+a {
 	-webkit-tap-highlight-color: transparent !important;
 }
 

@@ -23,11 +23,11 @@ const createSourceTypeStore = () => {
 
 	const deleteURI = (URI: string) => {
 		update((store) => {
-      store.sourcesStack.delete(URI);
-      
-      if (!store.sourcesStack.size) {
-        store.type = 'started'
-      }
+			store.sourcesStack.delete(URI);
+
+			if (!store.sourcesStack.size) {
+				store.type = 'started';
+			}
 
 			return store;
 		});
@@ -48,7 +48,7 @@ const createSourceTypeStore = () => {
 
 			return store;
 		});
-  };
+	};
 
 	return {
 		subscribe,
