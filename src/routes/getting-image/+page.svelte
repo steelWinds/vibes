@@ -36,12 +36,18 @@
 			count: 30,
 			collections: selectedCollectionsStore.getIdx().join(',')
 		});
+
 		const newImages = images.filter((image) => {
 			return !imagesIdxes.includes(image.id);
 		});
+
+	    blockedLoading = Boolean(!newImages?.length);
+
 		const newIdxes = uniq(images.map((image) => image.id));
-		imagesIdxes = [...imagesIdxes, ...newIdxes];
-		uniqueImages = [...uniqueImages, ...newImages];
+		
+        imagesIdxes = [...imagesIdxes, ...newIdxes];
+		
+        uniqueImages = [...uniqueImages, ...newImages];
 	};
 
 	let promiseGetRandomImages: ReturnType<typeof getImages>;
@@ -192,8 +198,7 @@
         tw-overflow-hidden
         image-lazy-load-container
       "
-			disableScrollEvent={blockedLoading}
-			hideFooter={blockedLoading}
+			blockedScrollEvent={blockedLoading}
 			{minColWidth}
 			{gap}
 			maxColWidth={99999}

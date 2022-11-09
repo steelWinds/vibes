@@ -13,11 +13,16 @@
 	export let maxColWidth = 800;
 	export let gap = 20;
 	export let debouncedScrollEvent = 0;
+  export let blockedScrollEvent = false
 
 	let dispatch = createEventDispatcher();
 	let mainContainer: HTMLElement;
 
+  $: paddingBottom = blockedScrollEvent ? gap : 0
+
 	const onScrollEnd = debounce(() => {
+    if (blockedScrollEvent) return;
+
 		dispatch('scrollEnd');
 	}, debouncedScrollEvent);
 </script>
@@ -29,7 +34,7 @@
     tw-w-full
   "
 	style:padding={`${gap}px`}
-	style:padding-bottom={0}
+	style:padding-bottom={`${paddingBottom}px`}
 >
 	{#if data?.length}
 		<div class={$$restProps.class}>
@@ -48,15 +53,17 @@
 		</div>
 	{/if}
 
-	<footer
-		use:inview={{
-			threshold: 0.3
-		}}
-		on:enter={() => onScrollEnd()}
-		class="tw-grid tw-place-items-center tw-p-14"
-	>
-		<BarLoader size="110" />
-	</footer>
+	{#if !blockedScrollEvent}
+    <footer
+      use:inview={{
+        threshold: 0.3
+      }}
+      on:enter={() => onScrollEnd()}
+      class="tw-grid tw-place-items-center tw-p-14"
+    >
+      <BarLoader size="110" />
+    </footer>
+  {/if}
 </div>
 
 <style lang="postcss">
