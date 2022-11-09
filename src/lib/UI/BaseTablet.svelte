@@ -10,6 +10,7 @@
     tw-shadow-raisin-black-crystal
     dark:tw-shadow-electric-blue-crystal
     tw-rounded-md
+    tw-text-center
     ${$$restProps.class}
   `}
 >

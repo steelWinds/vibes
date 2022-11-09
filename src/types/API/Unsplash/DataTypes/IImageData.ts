@@ -1,3 +1,5 @@
+import type { IUserData } from './IUserData'
+
 interface IImageData {
 	id: string;
 	src: string;
@@ -12,7 +14,8 @@ interface IImageData {
 	height: number;
 	color: string;
 	description?: string;
-	alt_description?: string;
+  alt_description?: string;
+  user: IUserData;
 }
 
 export type { IImageData };

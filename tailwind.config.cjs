@@ -9,7 +9,10 @@ module.exports = {
 			screens: {
 				'ultra-mobile': '300px',
 				mobile: '464px',
-				tablet: '672px'
+				tablet: '672px',
+				laptop: '1024px',
+				desktop: '1240px',
+				'ultra-desktop': '1440px',
 			}
 		},
 
@@ -22,6 +25,7 @@ module.exports = {
 			'white-crystal': 'rgb(255 255 255 / .9)',
 			'electric-blue': 'rgb(44 117 255)',
 			'electric-blue-crystal': 'rgb(44 117 255 / .3)',
+			'electric-blue-pre-crystal': 'rgb(44 117 255 / .9)',
 			'red-pre-crystal': 'rgb(207 0 15 / .9)',
 			'green-pre-crystal': 'rgb(22 160 133 / .9)'
 		},
