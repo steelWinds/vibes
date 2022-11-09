@@ -79,7 +79,9 @@
 	let menuType: MenuType;
 	let unsplashCollections: Array<ObjectOption & ICollectionData> = [];
 	let windowInlineSize = 0;
-  let sourceStackAsArray = derived(sourceTypeStore, ($store) => Array.from($store.sourcesStack.values()))
+	let sourceStackAsArray = derived(sourceTypeStore, ($store) =>
+		Array.from($store.sourcesStack.values())
+	);
 
 	const changeColor = debounce(async () => {
 		currentColor = await getColorWithType({

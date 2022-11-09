@@ -13,7 +13,6 @@
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
-	import data from './data.json';
 
 	let blockedLoading = false;
 	let uniqueImages: IImageData[] = [];
@@ -164,7 +163,7 @@
 
 		<!-- svelte-ignore a11y-missing-attribute -->
 		<LazyList
-			{data}
+			data={uniqueImages}
 			class="
         "
 			itemContainerClass="
