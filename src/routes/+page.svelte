@@ -2,7 +2,7 @@
 	import type { ObjectOption } from 'svelte-multiselect';
 	import type { ICollectionData } from '@/types/API/Unsplash/DataTypes/ICollectionData';
 
-	import { onMount } from 'svelte';
+	//import { onMount } from 'svelte';
 	import { scale, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import { derived } from 'svelte/store';

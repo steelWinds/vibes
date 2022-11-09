@@ -14,7 +14,6 @@
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
 	import Link from '@/lib/UI/Link.svelte';
 	import LazyImage from '@/lib/Partials/getting-image-page/LazyImage.svelte';
-	import data from './data.json';
 
 	let blockedLoading = false;
 	let uniqueImages: IImageData[] = [];
@@ -41,13 +40,13 @@
 			return !imagesIdxes.includes(image.id);
 		});
 
-	    blockedLoading = Boolean(!newImages?.length);
+		blockedLoading = Boolean(!newImages?.length);
 
 		const newIdxes = uniq(images.map((image) => image.id));
-		
-        imagesIdxes = [...imagesIdxes, ...newIdxes];
-		
-        uniqueImages = [...uniqueImages, ...newImages];
+
+		imagesIdxes = [...imagesIdxes, ...newIdxes];
+
+		uniqueImages = [...uniqueImages, ...newImages];
 	};
 
 	let promiseGetRandomImages: ReturnType<typeof getImages>;
