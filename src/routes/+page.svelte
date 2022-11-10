@@ -346,7 +346,9 @@
               tw-duration-250
             "
 					>
-						<CircleIcon class="tw-w-[12vmin] mobile:tw-w-[7vmin] laptop:tw-w-[6vmin]">
+						<CircleIcon
+							class="tw-w-[12vmin] mobile:tw-w-[7vmin] laptop:tw-w-[6vmin]"
+						>
 							<svg
 								class="
                   tw-transition-all
@@ -375,7 +377,9 @@
               tw-duration-250
             "
 					>
-						<CircleIcon class="tw-w-[12vmin] mobile:tw-w-[7vmin] laptop:tw-w-[6vmin]">
+						<CircleIcon
+							class="tw-w-[12vmin] mobile:tw-w-[7vmin] laptop:tw-w-[6vmin]"
+						>
 							<svg
 								class="
                   tw-transition-all
