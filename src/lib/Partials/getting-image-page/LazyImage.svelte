@@ -10,7 +10,7 @@
 	import CircleIcon from '@/lib/UI/CircleIcon.svelte';
 
 	export let image: IImageData | any;
-  export let selected: any[];
+	export let selected: any[];
 </script>
 
 <SelectedItem

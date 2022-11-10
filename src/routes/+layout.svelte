@@ -6,12 +6,12 @@
 	import toastConnector from '@/modules/toast-connector';
 	import config from '@/configs/svelte-toast-config';
 	import ToastNetworkConnection from '@/lib/modules/Toasts/ToastNetworkConnection.svelte';
-  import Preloader from '@/lib/UI/Preloader.svelte';
-  import BarLoader from '@/lib/UI/BarLoader.svelte';
+	import Preloader from '@/lib/UI/Preloader.svelte';
+	import BarLoader from '@/lib/UI/BarLoader.svelte';
 
 	import '../app.css';
 
-  let pendingOnMount = true;
+	let pendingOnMount = true;
 
 	const showConnectionStatus = (status: boolean) => {
 		const title = status ? 'Connection restored' : 'Connection error';
@@ -29,7 +29,7 @@
 	onMount(() => {
 		themeStore.init();
 
-    pendingOnMount = false;
+		pendingOnMount = false;
 	});
 </script>
 
@@ -43,7 +43,7 @@
 />
 
 <Preloader state={pendingOnMount} zIndex="99999" position="fixed">
-  <BarLoader size="110" />
+	<BarLoader size="110" />
 </Preloader>
 
 <main

@@ -114,14 +114,13 @@ a {
       tw-shadow-xl;
 	}
 
-  &.active {
-    & > span {
-      @apply
-        tw-text-white
+	&.active {
+		& > span {
+			@apply tw-text-white
         tw-bg-raisin-black
         dark:tw-bg-electric-blue;
-    }
-  }
+		}
+	}
 }
 
 .custom-modal {

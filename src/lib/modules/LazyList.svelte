@@ -37,18 +37,12 @@
 	style:padding-bottom={`${paddingBottom}px`}
 >
 	<div class={$$restProps.class}>
-    <Masonry
-      items={data}
-      {minColWidth}
-      {maxColWidth}
-      {gap}
-      let:item
-    >
-      <div class={itemContainerClass}>
-        <slot {item} />
-      </div>
-    </Masonry>
-  </div>
+		<Masonry items={data} {minColWidth} {maxColWidth} {gap} let:item>
+			<div class={itemContainerClass}>
+				<slot {item} />
+			</div>
+		</Masonry>
+	</div>
 
 	{#if !blockedScrollEvent}
 		<footer
