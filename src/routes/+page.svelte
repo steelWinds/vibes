@@ -333,7 +333,8 @@
             tw-w-full
             tw-space-x-4
             tw-absolute
-            tw--bottom-20
+            tw--bottom-[18vmin]
+            mobile:tw--bottom-[10vmin]
             tw-z-10
           "
 				>
@@ -345,12 +346,14 @@
               tw-duration-250
             "
 					>
-						<CircleIcon class="tw-w-[48px]">
+						<CircleIcon class="tw-w-[12vmin] mobile:tw-w-[7vmin] laptop:tw-w-[6vmin]">
 							<svg
 								class="
                   tw-transition-all
                   tw-duration-500
-                  tw-w-[24px]
+                  tw-w-[6vmin]
+                  mobile:tw-w-[3.5vmin]
+                  laptop:tw-w-[3vmin]
                   tw-fill-raisin-black
                   dark:tw-fill-white
                 "
@@ -372,12 +375,14 @@
               tw-duration-250
             "
 					>
-						<CircleIcon class="tw-w-[48px]">
+						<CircleIcon class="tw-w-[12vmin] mobile:tw-w-[7vmin] laptop:tw-w-[6vmin]">
 							<svg
 								class="
                   tw-transition-all
                   tw-duration-500
-                  tw-w-[24px]
+                  tw-w-[6vmin]
+                  mobile:tw-w-[3.5vmin]
+                  laptop:tw-w-[3vmin]
                   tw-fill-raisin-black
                   dark:tw-fill-white
                 "
