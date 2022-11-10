@@ -1,6 +1,4 @@
 interface IPaginationQueryProps {
-	ids?: string | string[];
-	query?: string;
 	per_page?: number;
 	page?: number;
 }

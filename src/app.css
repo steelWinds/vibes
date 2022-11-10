@@ -113,6 +113,15 @@ a {
       dark:tw-shadow-electric-blue-crystal
       tw-shadow-xl;
 	}
+
+  &.active {
+    & > span {
+      @apply
+        tw-text-white
+        tw-bg-raisin-black
+        dark:tw-bg-electric-blue;
+    }
+  }
 }
 
 .custom-modal {

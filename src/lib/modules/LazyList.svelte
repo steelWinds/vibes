@@ -36,22 +36,19 @@
 	style:padding={`${gap}px`}
 	style:padding-bottom={`${paddingBottom}px`}
 >
-	{#if data?.length}
-		<div class={$$restProps.class}>
-			<Masonry
-				items={data}
-				{minColWidth}
-				{maxColWidth}
-				{gap}
-				idKey="id"
-				let:item
-			>
-				<div class={itemContainerClass}>
-					<slot {item} />
-				</div>
-			</Masonry>
-		</div>
-	{/if}
+	<div class={$$restProps.class}>
+    <Masonry
+      items={data}
+      {minColWidth}
+      {maxColWidth}
+      {gap}
+      let:item
+    >
+      <div class={itemContainerClass}>
+        <slot {item} />
+      </div>
+    </Masonry>
+  </div>
 
 	{#if !blockedScrollEvent}
 		<footer

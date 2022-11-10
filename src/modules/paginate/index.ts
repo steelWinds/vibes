@@ -1,36 +1,19 @@
-import type { IPaginationParams } from './types/Params';
-import type { ReturnHandlerType, FetchCallbackType } from './types/Types';
+import type { IPaginationQueryProps } from '@/types/API/Unsplash/Pagination';
 
-const paginate = (props: IPaginationParams, callback: FetchCallbackType) => {
-	const { totalPages, startPage, step } = props;
+import useFetch from '@/modules/use-fetch';
 
-	let currentPage = startPage;
+const paginate = <T extends IPaginationQueryProps, U extends { length: number }>(URI: string, props: T) => {
+  let currentPage = props?.page ?? 0;
 
-	const handler = async <R>(
-		query = '',
-		perPage: number
-	): Promise<ReturnHandlerType<R>> => {
-		if (currentPage >= totalPages) {
-			return {
-				nextPaginate: false
-			};
-		}
+  const handler = async (perPage: number) => {
+    const { data } = await useFetch<U>(URI, {
+      query: Object.assign(props, { page: currentPage++, per_page: perPage })
+    })
 
-		const result = await callback<R>({
-			query,
-			per_page: perPage,
-			page: currentPage
-		});
+    return data;
+  }
 
-		currentPage += step;
-
-		return {
-			data: result,
-			nextPaginate: true
-		};
-	};
-
-	return handler;
+  return handler
 };
 
 export default paginate;

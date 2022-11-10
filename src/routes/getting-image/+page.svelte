@@ -4,73 +4,88 @@
 	import { onMount, tick } from 'svelte';
 	import { scale } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
-	import getRandomImages from '@/api/unsplash/get-random-images';
+  import useGetCollectionsImages from '@/api/unsplash/use-get-collections-images'
 	import sourceTypeStore from '@/stores/settings/source-type';
 	import selectedCollectionsStore from '@/stores/settings/selected-collections';
-	import unsplashImageQualityStore from '@/stores/settings/unsplash-image-quality';
-	import uniq from 'lodash-es/uniq';
-	import BarLoader from '@/lib/UI/BarLoader.svelte';
+  import setPrevSelectedImagesStore from '@/stores/settings/set-prev-selected-images'
+  import sourceImagesURI from '@/stores/deriveds/source-images-uri'
+  import Preloader from '@/lib/UI/Preloader.svelte';
+  import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
 	import Link from '@/lib/UI/Link.svelte';
 	import LazyImage from '@/lib/Partials/getting-image-page/LazyImage.svelte';
 
 	let blockedLoading = false;
-	let uniqueImages: IImageData[] = [];
-	let imagesIdxes: string[] = [];
+	let uniqueImages: Map<IImageData['id'], IImageData> = new Map();
 	let windowInnerBlockSize = 0;
 	let windowInnerInlineSize = 0;
+  let pendingPreviousLoadingImages = true;
 
 	$: selectedImagesCount =
 		$sourceTypeStore.type === 'internet'
 			? $sourceTypeStore.sourcesStack.size
 			: 0;
 	$: postChangeOrientScroll = -(windowInnerBlockSize / 2);
-	$: isTablet = windowInnerInlineSize > 1280;
-	$: minColWidth = isTablet ? 400 : 130;
-	$: gap = isTablet ? 20 : 10;
+	$: isLaptop = windowInnerInlineSize > 1280;
+  $: imagesPerPageFactor = isLaptop ? 3 : 2; 
+	$: minColWidth = isLaptop ? 400 : 130;
+	$: gap = isLaptop ? 20 : 10;
+
+  const getCollectionsImages = useGetCollectionsImages($selectedCollectionsStore, {
+    page: 1,
+    per_page: 10
+  })
 
 	const getImages = async () => {
-		let images = await getRandomImages({
-			count: 30,
-			collections: selectedCollectionsStore.getIdx().join(',')
-		});
+		let fetchImages = await getCollectionsImages(imagesPerPageFactor * 10);
 
-		const newImages = images.filter((image) => {
-			return !imagesIdxes.includes(image.id);
-		});
+    if (!fetchImages.length) {
+      blockedLoading = true;
+    }
 
-		blockedLoading = Boolean(!newImages?.length);
+    if ($setPrevSelectedImagesStore && selectedImagesCount) {
+      const previousImages = Array.from($sourceTypeStore.sourcesStack.values()).filter(image => typeof(image) === 'object')
 
-		const newIdxes = uniq(images.map((image) => image.id));
+      previousImages.forEach((image) => {
+        const imageData = image as IImageData;
 
-		imagesIdxes = [...imagesIdxes, ...newIdxes];
+        if (uniqueImages.has(imageData.id)) return;
 
-		uniqueImages = [...uniqueImages, ...newImages];
+        uniqueImages.set(imageData.id, imageData);
+      })
+    }
+
+		fetchImages.forEach((image) => {
+      if (uniqueImages.has(image.id) || $sourceTypeStore.sourcesStack.has(image.id)) return;
+
+      uniqueImages.set(image.id, image);
+    })
+    
+    uniqueImages = uniqueImages
 	};
 
-	let promiseGetRandomImages: ReturnType<typeof getImages>;
+  const onMountLoading = async () => {
+    pendingPreviousLoadingImages = true;
+
+		await getImages();
+
+    pendingPreviousLoadingImages = false;
+  }
 
 	let addImage = (image: any) => {
 		if ($sourceTypeStore.type !== 'internet') {
 			$sourceTypeStore.type = 'internet';
-			$sourceTypeStore.sourcesStack = new Set();
+			$sourceTypeStore.sourcesStack = new Map();
 		}
 
 		const imageData = image as IImageData;
-		const imageURI = imageData.urls[$unsplashImageQualityStore];
 
-		if ($sourceTypeStore.sourcesStack?.has(imageURI)) {
-			sourceTypeStore.deleteURI(imageURI);
-
-			return;
-		}
-
-		sourceTypeStore.addURI(imageURI);
+		sourceTypeStore.addURI(imageData);
 	};
 
-	onMount(() => {
-		promiseGetRandomImages = getImages();
+	onMount(async () => {
+    onMountLoading()
 
 		window.screen.orientation.addEventListener('change', async () => {
 			await tick();
@@ -89,27 +104,12 @@
 />
 
 <div>
-	{#await promiseGetRandomImages}
-		<div
-			class="
-          tw-fixed
-          tw-w-full
-          tw-top-0
-          tw-left-0
-          tw-grid
-          tw-place-items-center
-          tw-w-full
-          tw-min-h-screen
-          tw-h-full
-          tw-bg-white
-          dark:tw-bg-raisin-black
-          tw-z-[9999]
-        "
-		>
-			<BarLoader size="110" />
-		</div>
-	{:then}
-		<BaseTablet
+  <Preloader state={pendingPreviousLoadingImages} zIndex="10000" position="fixed">
+    <BarLoader size="110" />
+  </Preloader>
+
+	{#if !pendingPreviousLoadingImages}
+    <BaseTablet
 			class="
         tw-fixed
         tw-top-6
@@ -190,7 +190,7 @@
 		</div>
 
 		<LazyList
-			data={uniqueImages}
+			data={Array.from(uniqueImages.values())}
 			itemContainerClass="
         tw-relative
         tw-rounded-xl
@@ -205,7 +205,11 @@
 			let:item
 			on:scrollEnd={getImages}
 		>
-			<LazyImage image={item} on:click={() => addImage(item)} />
+			<LazyImage
+        selected={$sourceImagesURI}
+        image={item}
+        on:click={() => addImage(item)}
+      />
 		</LazyList>
-	{/await}
+  {/if}
 </div>

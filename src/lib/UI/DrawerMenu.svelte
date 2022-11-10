@@ -58,6 +58,9 @@
 		>
 			<div
 				class={`
+          tw-shadow-md
+          tw-shadow-raisin-black-crystal
+          dark:tw-shadow-electric-blue-crystal
           tw-flex
           tw-flex-col
           tw-h-full

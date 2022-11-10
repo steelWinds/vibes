@@ -5,18 +5,16 @@
 	import { cubicInOut } from 'svelte/easing';
 	import lazyLoad from '@/actions/lazy-load';
 	import unsplashImageQualityStore from '@/stores/settings/unsplash-image-quality';
-	import sourceTypeStore from '@/stores/settings/source-type';
 	import SelectedItem from '@/lib/UI/SelectedItem.svelte';
 	import UserItem from '@/lib/UI/UserItem.svelte';
 	import CircleIcon from '@/lib/UI/CircleIcon.svelte';
 
 	export let image: IImageData | any;
+  export let selected: any[];
 </script>
 
 <SelectedItem
-	state={$sourceTypeStore.sourcesStack?.has(
-		image?.urls?.[$unsplashImageQualityStore]
-	)}
+	state={selected?.includes(image.urls[$unsplashImageQualityStore])}
 	class="tw-h-full"
 >
 	<!-- svelte-ignore missing-declaration -->

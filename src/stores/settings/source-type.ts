@@ -1,3 +1,5 @@
+import type { IImageData } from '@/types/API/Unsplash/DataTypes/IImageData'
+
 import {
 	persist,
 	createIndexedDBStorage
@@ -7,23 +9,23 @@ import { writable } from 'svelte/store';
 type SourceType = 'uploading' | 'started' | 'internet';
 
 interface SourceTypeProps {
-	sourcesStack: Set<string>;
+  sourcesStack: Map<string | number, IImageData | string>;
 	type: SourceType;
 }
 
 const createSourceTypeStore = () => {
 	const { subscribe, update, set } = persist(
 		writable<SourceTypeProps>({
-			sourcesStack: new Set(),
+			sourcesStack: new Map(),
 			type: 'started'
 		}),
 		createIndexedDBStorage(),
 		'source-type'
 	);
 
-	const deleteURI = (URI: string) => {
+	const deleteURI = (id: string) => {
 		update((store) => {
-			store.sourcesStack.delete(URI);
+			store.sourcesStack.delete(id);
 
 			if (!store.sourcesStack.size) {
 				store.type = 'started';
@@ -33,9 +35,15 @@ const createSourceTypeStore = () => {
 		});
 	};
 
-	const addURI = (URI: string) => {
-		update((store) => {
-			store.sourcesStack.add(URI);
+	const addURI = (image: IImageData | string) => {
+    update((store) => {
+      const key = typeof image === 'object' ? image.id : image
+
+      if (store.sourcesStack.has(key)) {
+        deleteURI(key)
+      } else {
+        store.sourcesStack.set(key, image)
+      }
 
 			return store;
 		});
@@ -48,7 +56,7 @@ const createSourceTypeStore = () => {
 
 			return store;
 		});
-	};
+  };
 
 	return {
 		subscribe,
@@ -56,7 +64,7 @@ const createSourceTypeStore = () => {
 		set,
 		deleteURI,
 		addURI,
-		clear
+    clear,
 	};
 };
 
