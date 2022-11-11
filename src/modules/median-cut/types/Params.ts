@@ -1,3 +1,5 @@
+import type { OutputColorType } from '@/configs/colors-output-type' 
+
 interface IExtractCanvasParams {
 	image: HTMLImageElement;
 	canvas: HTMLCanvasElement;
@@ -11,7 +13,7 @@ interface IColorDepthParams {
 }
 
 interface IGetColorWithTypeParams extends IExtractCanvasParams {
-	type: 'hex';
+	type: OutputColorType;
 	colorDepth?: IColorDepthParams;
 }
 

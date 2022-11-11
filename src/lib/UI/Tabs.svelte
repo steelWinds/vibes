@@ -1,12 +1,14 @@
 <script lang="ts">
 	import RadioBtn from '@/lib/UI/RadioBtn.svelte';
 
+  type T = $$Generic;
+
 	interface IValues {
-		value: string;
+		value: T;
 		title?: string;
 	}
 
-	export let group: any;
+	export let group: T;
 	export let values: IValues[];
 </script>
 

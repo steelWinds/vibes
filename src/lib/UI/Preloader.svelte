@@ -13,9 +13,8 @@
 			duration: 250,
 			easing: cubicInOut
 		}}
-		class="
+		class={`
       pending
-      tw-rounded-2xl
       tw-block
       tw-left-0
       tw-top-0
@@ -27,7 +26,8 @@
       tw-place-items-center
       tw-transition-color
       tw-duration-250
-    "
+      ${$$restProps.class}
+    `}
 		style:z-index={zIndex}
 		style:position
 	>

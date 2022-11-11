@@ -6,6 +6,7 @@ import cloneDeep from 'lodash-es/cloneDeep';
 import shuffle from 'lodash-es/shuffle';
 import paginate from '@/modules/paginate';
 
+type HandlerType = (perPage: number) => Promise<IImageData[]>
 interface IGetCollectionsImagesParams extends IPaginationQueryProps {
 	id: ICollectionData['id'];
 }
@@ -13,7 +14,7 @@ interface IGetCollectionsImagesParams extends IPaginationQueryProps {
 const useGetCollectionsImages = (
 	collections: ICollectionData[],
 	props: IPaginationQueryProps
-) => {
+): HandlerType => {
 	const paginates = collections.map((collection) =>
 		paginate<IGetCollectionsImagesParams, IImageData[]>(
 			`/collections/${collection.id}/photos`,

@@ -18,7 +18,9 @@
 	import setPrevSelectedImagesfrom from '@/stores/settings/set-prev-selected-images';
 	import sourceImagesURI from '@/stores/deriveds/source-images-uri';
 	import swiperControlsVisible from '@/stores/settings/swiper-controls-visible';
+	import outputColorType from '@/stores/settings/output-color-type';
 	import unsplashQualities from '@/configs/unsplash-qualities';
+	import colorsOutputType from '@/configs/colors-output-type';
 	import { SwiperSlide } from 'swiper/svelte';
 	import { Navigation } from 'swiper';
 	import { Modal } from 'carbon-components-svelte';
@@ -93,7 +95,7 @@
 		currentColor = await getColorWithType({
 			image: currentImageRef,
 			canvas: canvasRef,
-			type: 'hex',
+			type: $outputColorType,
 			sizes: {
 				inline: canvasSize,
 				block: canvasSize
@@ -319,7 +321,7 @@
         tw-min-w-0
       "
 		>
-			<Preloader state={pendingChangeColor} zIndex="50" position="absolute" />
+			<Preloader state={pendingChangeColor} zIndex="50" position="absolute" class="tw-rounded-2xl" />
 
 			{#if $swiperControlsVisible}
 				<div
@@ -815,6 +817,31 @@
 							hideLabel
 							labelA=""
 							labelB=""
+						/>
+					</SettingTitle>
+
+          <SettingTitle
+						class="
+              mobile:tw-flex-col
+              tw-items-center
+              mobile:tw-items-start
+              tw-space-y-3
+            "
+						titleClass="
+              tw-text-center
+              mobile:tw-text-start
+            "
+						title="Color output type"
+					>
+						<Tabs
+							class="
+                tw-grid
+                tw-grid-cols-1
+                mobile:tw-grid-cols-4
+                tw-gap-1.5
+              "
+							bind:group={$outputColorType}
+							values={colorsOutputType}
 						/>
 					</SettingTitle>
 				</SettingTitle>

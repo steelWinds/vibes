@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { IImageData } from '@/types/API/Unsplash/DataTypes/IImageData';
 
-	import { onMount, tick } from 'svelte';
+	import { onMount, tick, afterUpdate } from 'svelte';
 	import { scale } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import useGetCollectionsImages from '@/api/unsplash/use-get-collections-images';
@@ -21,6 +21,7 @@
 	let windowInnerBlockSize = 0;
 	let windowInnerInlineSize = 0;
 	let pendingPreviousLoadingImages = true;
+  let previousImagesIsSet = false;
 
 	$: selectedImagesCount =
 		$sourceTypeStore.type === 'internet'
@@ -45,20 +46,6 @@
 
 		if (!fetchImages.length) {
 			blockedLoading = true;
-		}
-
-		if ($setPrevSelectedImagesStore && selectedImagesCount) {
-			const previousImages = Array.from(
-				$sourceTypeStore.sourcesStack.values()
-			).filter((image) => typeof image === 'object');
-
-			previousImages.forEach((image) => {
-				const imageData = image as IImageData;
-
-				if (uniqueImages.has(imageData.id)) return;
-
-				uniqueImages.set(imageData.id, imageData);
-			});
 		}
 
 		fetchImages.forEach((image) => {
@@ -105,6 +92,24 @@
 			});
 		});
 	});
+
+  afterUpdate(() => {
+    if ($setPrevSelectedImagesStore && selectedImagesCount && !previousImagesIsSet) {
+			const previousImages = Array.from(
+				$sourceTypeStore.sourcesStack.values()
+			).filter((image) => typeof image === 'object');
+
+			previousImages.forEach((image) => {
+				const imageData = image as IImageData;
+
+				if (uniqueImages.has(imageData.id)) return;
+
+				uniqueImages.set(imageData.id, imageData);
+			});
+
+      previousImagesIsSet = true;
+		}
+  })
 </script>
 
 <svelte:window
