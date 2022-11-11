@@ -1,15 +1,15 @@
 <script lang="ts">
-  import { Modal } from 'carbon-components-svelte';
+	import { Modal } from 'carbon-components-svelte';
 
-  export let modalClass: string;
-  export let open: boolean;
+	export let modalClass: string;
+	export let open: boolean;
 </script>
 
 <Modal
-  bind:open
+	bind:open
 	class={`custom-modal ${modalClass}`}
 	{...$$restProps}
-  on:open
+	on:open
 	on:close
 	on:submit
 >

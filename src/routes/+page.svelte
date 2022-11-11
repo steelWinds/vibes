@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { scale, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
-  import { goto } from '$app/navigation'
+	import { goto } from '$app/navigation';
 	import { getColorWithType, median } from '@/modules/median-cut';
 	import getImgURL from '@/modules/get-img-url';
 	import toastConnector from '@/modules/toast-connector';
@@ -23,8 +23,8 @@
 	import ToastCopy from '@/lib/modules/Toasts/ToastCopy.svelte';
 	import Preloader from '@/lib/UI/Preloader.svelte';
 	import CircleIcon from '@/lib/UI/CircleIcon.svelte';
-  import ModalDefault from '@/lib/UI/Modals/ModalDefault.svelte';
-  import GlobalSettingsList from '@/lib/Partials/root/GlobalSettingsList.svelte'
+	import ModalDefault from '@/lib/UI/Modals/ModalDefault.svelte';
+	import GlobalSettingsList from '@/lib/Partials/root/GlobalSettingsList.svelte';
 
 	type MenuType = 'sources' | 'settings';
 
@@ -33,7 +33,7 @@
 	let canvasRef: HTMLCanvasElement;
 	let drawerMenuVisible = false;
 	let uploadingModal = false;
-  let warningEmptyCollectionModal = false;
+	let warningEmptyCollectionModal = false;
 	let showOptions = true;
 	let currentColor = 'transition';
 	let menuType: MenuType;
@@ -41,8 +41,8 @@
 	let windowBlockSize = 0;
 	let pendingChangeColor = false;
 	let pendingOnMount = true;
-  
-  const medianCut = median(true)
+
+	const medianCut = median(true);
 
 	$: canvasSize = Math.round((windowBlockSize + windowInlineSize) / 100);
 
@@ -51,9 +51,7 @@
 
 		const images = await getImgURL({ maxWidthOrHeight: 2440 }, ...event.detail);
 
-		$sourceTypeStackStore = new Map(
-			images.map((image, idx) => [idx, image])
-		);
+		$sourceTypeStackStore = new Map(images.map((image, idx) => [idx, image]));
 
 		if (!$sourceTypeStackStore.size) return;
 
@@ -86,9 +84,9 @@
 	}, 250);
 
 	const changeImage = (event: CustomEvent) => {
-    const { imagesToLoad, activeIndex } = event.detail;
+		const { imagesToLoad, activeIndex } = event.detail;
 
-    if (!imagesToLoad) return;
+		if (!imagesToLoad) return;
 
 		const image = imagesToLoad[activeIndex];
 
@@ -103,15 +101,15 @@
 		drawerMenuVisible = !drawerMenuVisible;
 	};
 
-  const goToInternetImages = () => {
-    if (!$selectedCollectionsStore.length) {
-      warningEmptyCollectionModal = true
+	const goToInternetImages = () => {
+		if (!$selectedCollectionsStore.length) {
+			warningEmptyCollectionModal = true;
 
-      return
-    }
+			return;
+		}
 
-    goto('/getting-images')
-  }
+		goto('/getting-images');
+	};
 
 	onMount(() => {
 		pendingOnMount = false;
@@ -535,7 +533,7 @@
           scaleable-shadow
           ${$sourceTypeStore === 'internet' ? 'active' : ''}
         `}
-        on:click={goToInternetImages}
+				on:click={goToInternetImages}
 			>
 				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
 					INTERNET
@@ -568,19 +566,19 @@
 			<h2 class="tw-text-2xl tw-text-center tw-mb-6">Settings</h2>
 
 			<div class="tw-space-y-3">
-        <GlobalSettingsList />
+				<GlobalSettingsList />
 			</div>
 		</div>
 	{/if}
 </DrawerMenu>
 
 <ModalDefault
-  bind:open={uploadingModal}
-  modalClass="no-footer adaptive-size"
-  modalHeading="Select files"
-  passiveModal
+	bind:open={uploadingModal}
+	modalClass="no-footer adaptive-size"
+	modalHeading="Select files"
+	passiveModal
 >
-  <div class="out-in-transition tw-h-full">
+	<div class="out-in-transition tw-h-full">
 		{#await promiseSetUploadingImages}
 			<div
 				class="tw-grid tw-place-items-center"
@@ -614,12 +612,12 @@
 </ModalDefault>
 
 <ModalDefault
-  bind:open={warningEmptyCollectionModal}
-  modalClass="no-footer auto-size warning"
-  modalHeading="Warning: empty collections"
-  passiveModal
+	bind:open={warningEmptyCollectionModal}
+	modalClass="no-footer auto-size warning"
+	modalHeading="Warning: empty collections"
+	passiveModal
 >
-  <span class="tw-text-base">
-    Unsplash collections is empty, please set them in settings!
-  </span>
+	<span class="tw-text-base">
+		Unsplash collections is empty, please set them in settings!
+	</span>
 </ModalDefault>

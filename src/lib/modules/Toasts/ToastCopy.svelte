@@ -39,7 +39,7 @@
 				x: 100,
 				easing: cubicInOut
 			}}
-      class="tw-truncate"
+			class="tw-truncate"
 		>
 			{title}
 		</span>

@@ -24,9 +24,7 @@
 	let previousImagesIsSet = false;
 
 	$: selectedImagesCount =
-		$sourceTypeStore === 'internet'
-			? $sourceTypeStackStore.size
-			: 0;
+		$sourceTypeStore === 'internet' ? $sourceTypeStackStore.size : 0;
 	$: postChangeOrientScroll = -(windowInnerBlockSize / 2);
 	$: isLaptop = windowInnerInlineSize > 1280;
 	$: imagesPerPageFactor = isLaptop ? 3 : 2;
@@ -49,10 +47,7 @@
 		}
 
 		fetchImages.forEach((image) => {
-			if (
-				uniqueImages.has(image.id) ||
-				$sourceTypeStackStore.has(image.id)
-			)
+			if (uniqueImages.has(image.id) || $sourceTypeStackStore.has(image.id))
 				return;
 
 			uniqueImages.set(image.id, image);
@@ -99,9 +94,9 @@
 			selectedImagesCount &&
 			!previousImagesIsSet
 		) {
-			const previousImages = Array.from(
-				$sourceTypeStackStore.values()
-			).filter((image) => typeof image === 'object');
+			const previousImages = Array.from($sourceTypeStackStore.values()).filter(
+				(image) => typeof image === 'object'
+			);
 
 			previousImages.forEach((image) => {
 				const imageData = image as IImageData;
@@ -206,7 +201,7 @@
           "
 				>
 					{selectedImagesCount ? 'Set this image(s)' : 'Return home'}
-        </a>
+				</a>
 			</BaseTablet>
 		</div>
 

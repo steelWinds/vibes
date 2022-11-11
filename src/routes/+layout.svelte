@@ -47,7 +47,7 @@
 </Preloader>
 
 <main
-  data-sveltekit-prefetch
+	data-sveltekit-prefetch
 	class="
     tw-h-screen
     tw-w-full

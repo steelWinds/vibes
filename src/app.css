@@ -124,13 +124,13 @@ a {
 }
 
 .custom-modal {
-  @apply tw-p-3;
+	@apply tw-p-3;
 
-  &.warning {
-    & h3.bx--modal-header__heading {
-      @apply tw-text-dark-orange dark:tw-text-orange;
-    }
-  }
+	&.warning {
+		& h3.bx--modal-header__heading {
+			@apply tw-text-dark-orange dark:tw-text-orange;
+		}
+	}
 
 	&.no-footer {
 		& .bx--modal-content {
@@ -138,22 +138,20 @@ a {
 		}
 	}
 
-  &.adaptive-size {
-    & .bx--modal-container {
-      @apply tw-h-fit
+	&.adaptive-size {
+		& .bx--modal-container {
+			@apply tw-h-fit
       mobile:tw-h-[30vmax]
       laptop:tw-h-[30vmin];
+		}
+	}
 
-    }
-  }
-
-  &.auto-size {
-    & .bx--modal-container {
-      @apply tw-h-auto
+	&.auto-size {
+		& .bx--modal-container {
+			@apply tw-h-auto
       tw-w-auto;
-
-    }
-  }
+		}
+	}
 
 	& .bx--modal-container {
 		@apply tw-bg-white-crystal

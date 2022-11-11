@@ -1,5 +1,5 @@
 import type { OutputColorType } from '@/configs/colors-output-type';
-import type { IRGBData } from './Types'
+import type { IRGBData } from './Types';
 
 interface IExtractCanvasParams {
 	image: HTMLImageElement;
@@ -14,23 +14,25 @@ interface IColorDepthParams {
 }
 
 interface IColorFunctionParams {
-  colorDepth?: IColorDepthParams;
+	colorDepth?: IColorDepthParams;
 }
 
-interface IGetColorWithTypeParams extends IExtractCanvasParams, IColorFunctionParams {
+interface IGetColorWithTypeParams
+	extends IExtractCanvasParams,
+		IColorFunctionParams {
 	type: OutputColorType;
 }
 
-type IMedianCutParams = IExtractCanvasParams & IColorFunctionParams
+type IMedianCutParams = IExtractCanvasParams & IColorFunctionParams;
 
 interface IQuantizationParams extends IColorFunctionParams {
-  RGBValues: IRGBData[]
+	RGBValues: IRGBData[];
 }
 
 export type {
 	IExtractCanvasParams,
 	IColorDepthParams,
 	IGetColorWithTypeParams,
-  IMedianCutParams,
-  IQuantizationParams
+	IMedianCutParams,
+	IQuantizationParams
 };

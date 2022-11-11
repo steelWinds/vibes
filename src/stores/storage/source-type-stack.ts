@@ -1,16 +1,13 @@
 import type { IImageData } from '@/types/API/Unsplash/DataTypes/IImageData';
 
-import {
-	persist,
-	createLocalStorage
-} from '@macfja/svelte-persistent-store';
-import sourceTypeStore from '@/stores/settings/source-type'
+import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
+import sourceTypeStore from '@/stores/settings/source-type';
 import { writable, get } from 'svelte/store';
 
 const createSourceTypeStore = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let $sourceTypeStore = get(sourceTypeStore)
-  
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	let $sourceTypeStore = get(sourceTypeStore);
+
 	const { subscribe, update, set } = persist(
 		writable<Map<string | number, IImageData | string>>(new Map()),
 		createLocalStorage(),
@@ -46,8 +43,8 @@ const createSourceTypeStore = () => {
 	const clear = () => {
 		update((store) => {
 			store.clear();
-			
-      $sourceTypeStore = 'started';
+
+			$sourceTypeStore = 'started';
 
 			return store;
 		});

@@ -3,9 +3,11 @@ import type { IQuantizationParams } from './types/Params';
 import colorRange from './colorRange';
 import getColor from './getColor';
 
-const quantization = (props: IQuantizationParams): IQuantizationParams['RGBValues'] => {
-  const { RGBValues, colorDepth = { depth: 1, maxDepth: 1 } } = props 
-  const { depth, maxDepth } = colorDepth
+const quantization = (
+	props: IQuantizationParams
+): IQuantizationParams['RGBValues'] => {
+	const { RGBValues, colorDepth = { depth: 1, maxDepth: 1 } } = props;
+	const { depth, maxDepth } = colorDepth;
 
 	if (depth === maxDepth || !RGBValues.length) {
 		return getColor(RGBValues);
@@ -22,8 +24,14 @@ const quantization = (props: IQuantizationParams): IQuantizationParams['RGBValue
 	const mid = RGBValues.length / 2;
 
 	return [
-		...(quantization({ RGBValues: RGBValues.slice(0, mid), colorDepth: { depth: depth + 1, maxDepth }}) ?? []),
-		...(quantization({ RGBValues: RGBValues.slice(mid + 1), colorDepth: { depth: depth + 1, maxDepth }}) ?? [])
+		...(quantization({
+			RGBValues: RGBValues.slice(0, mid),
+			colorDepth: { depth: depth + 1, maxDepth }
+		}) ?? []),
+		...(quantization({
+			RGBValues: RGBValues.slice(mid + 1),
+			colorDepth: { depth: depth + 1, maxDepth }
+		}) ?? [])
 	];
 };
 
