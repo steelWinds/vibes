@@ -11,6 +11,6 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/steelWinds/vibes)
 ![GitHub](https://img.shields.io/github/license/steelWinds/vibes)
 
-# vibes
+# Vibes
 
-Project only for vibe and perfomance.
+Vibes is web-app for help get color from any image. [Try it!](https://vibes-cyan.vercel.app/)
