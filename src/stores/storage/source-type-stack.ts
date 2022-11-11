@@ -1,6 +1,9 @@
 import type { IImageData } from '@/types/API/Unsplash/DataTypes/IImageData';
 
-import { persist, createIndexedDBStorage } from '@macfja/svelte-persistent-store';
+import {
+	persist,
+	createIndexedDBStorage
+} from '@macfja/svelte-persistent-store';
 import sourceTypeStore from '@/stores/settings/source-type';
 import { writable, get } from 'svelte/store';
 
