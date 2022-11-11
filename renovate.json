@@ -16,5 +16,7 @@
     }
   ],
   "automerge": true,
-  "automergeType": "branch"
+  "automergeType": "branch",
+  "schedule": "after 11am and before 6am",
+   "automergeSchedule": "after 11am and before 6am"
 }
