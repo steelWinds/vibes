@@ -5,12 +5,9 @@ import {
 	createIndexedDBStorage
 } from '@macfja/svelte-persistent-store';
 import sourceTypeStore from '@/stores/settings/source-type';
-import { writable, get } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 const createSourceTypeStore = () => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	let $sourceTypeStore = get(sourceTypeStore);
-
 	const { subscribe, update, set } = persist(
 		writable<Map<string | number, IImageData | string>>(new Map()),
 		createIndexedDBStorage(),
@@ -22,7 +19,7 @@ const createSourceTypeStore = () => {
 			store.delete(id);
 
 			if (!store.size) {
-				$sourceTypeStore = 'started';
+				sourceTypeStore.update(() => 'started');
 			}
 
 			return store;
@@ -54,7 +51,7 @@ const createSourceTypeStore = () => {
 		update((store) => {
 			store.clear();
 
-			$sourceTypeStore = 'started';
+			sourceTypeStore.update(() => 'started');
 
 			return store;
 		});
