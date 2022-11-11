@@ -35,12 +35,15 @@ const createSourceTypeStore = () => {
 
 			if (store.has(key)) {
 				deleteURI(key);
-      } else {
-        const setItem = [key, image];
-        const prevStack = store.entries();
-        const newStack = [setItem, ...prevStack] as Iterable<readonly [string | number, string | IImageData]> | null | undefined
+			} else {
+				const setItem = [key, image];
+				const prevStack = store.entries();
+				const newStack = [setItem, ...prevStack] as
+					| Iterable<readonly [string | number, string | IImageData]>
+					| null
+					| undefined;
 
-        store = new Map(newStack);
+				store = new Map(newStack);
 			}
 
 			return store;
