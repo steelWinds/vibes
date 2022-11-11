@@ -1,12 +1,14 @@
 import type { IGetColorWithTypeParams } from './types/Params';
+import type { median } from '@/modules/median-cut';
 
 import Color from 'color';
-import { median } from '@/modules/median-cut';
 
-const getColorWithType = async (props: IGetColorWithTypeParams) => {
-	const { type } = props;
+const getColorWithType = async (medianFn: ReturnType<typeof median>, props: IGetColorWithTypeParams) => {
+  const { type } = props;
+  
+  if (!medianFn) return;
 
-	const RGBColor = await median(props);
+	const RGBColor = await medianFn(props);
 
 	return Color(RGBColor?.[0])?.[type]();
 };

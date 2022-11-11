@@ -16,7 +16,7 @@
 
 	--toastContainerTop: auto;
 	--toastContainerRight: auto;
-	--toastContainerBottom: 4rem;
+	--toastContainerBottom: 5vmin;
 	--toastContainerLeft: calc(50vw - 8rem);
 	--toastContainerZIndex: 50;
 
@@ -124,18 +124,43 @@ a {
 }
 
 .custom-modal {
+  @apply tw-p-3;
+
+  &.warning {
+    & h3.bx--modal-header__heading {
+      @apply tw-text-dark-orange dark:tw-text-orange;
+    }
+  }
+
 	&.no-footer {
 		& .bx--modal-content {
 			@apply tw-m-0 tw-py-3;
 		}
 	}
 
+  &.adaptive-size {
+    & .bx--modal-container {
+      @apply tw-h-fit
+      mobile:tw-h-[30vmax]
+      laptop:tw-h-[30vmin];
+
+    }
+  }
+
+  &.auto-size {
+    & .bx--modal-container {
+      @apply tw-h-auto
+      tw-w-auto;
+
+    }
+  }
+
 	& .bx--modal-container {
 		@apply tw-bg-white-crystal
       dark:tw-bg-raisin-black-pre-crystal
       tw-backdrop-blur
-      tablet:tw-rounded-xl
-      tablet:tw-h-[20vmax];
+      tw-rounded-xl
+      tw-static;
 
 		& *:not(button) {
 			@apply tw-text-raisin-black
@@ -158,7 +183,7 @@ a {
 		}
 
 		& .bx--modal-close {
-			@apply tablet:tw-rounded-tr-xl
+			@apply tw-rounded-tr-xl
         focus:tw-border-raisin-black;
 
 			& svg {

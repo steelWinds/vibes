@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Swiper as ISwiper } from 'swiper/types';
+	import sourceStackStore from '@/stores/storage/source-type-stack';
 
 	import debounced from 'lodash-es/debounce';
 	import { createEventDispatcher } from 'svelte';

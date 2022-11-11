@@ -5,15 +5,15 @@
 	import { scale } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import useGetCollectionsImages from '@/api/unsplash/use-get-collections-images';
+	import sourceTypeStackStore from '@/stores/storage/source-type-stack';
 	import sourceTypeStore from '@/stores/settings/source-type';
-	import selectedCollectionsStore from '@/stores/settings/selected-collections';
+	import selectedCollectionsStore from '@/stores/storage/selected-collections';
 	import setPrevSelectedImagesStore from '@/stores/settings/set-prev-selected-images';
 	import sourceImagesURI from '@/stores/deriveds/source-images-uri';
 	import Preloader from '@/lib/UI/Preloader.svelte';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
 	import LazyList from '@/lib/modules/LazyList.svelte';
 	import BaseTablet from '@/lib/UI/BaseTablet.svelte';
-	import Link from '@/lib/UI/Link.svelte';
 	import LazyImage from '@/lib/Partials/getting-image-page/LazyImage.svelte';
 
 	let blockedLoading = false;
@@ -24,8 +24,8 @@
 	let previousImagesIsSet = false;
 
 	$: selectedImagesCount =
-		$sourceTypeStore.type === 'internet'
-			? $sourceTypeStore.sourcesStack.size
+		$sourceTypeStore === 'internet'
+			? $sourceTypeStackStore.size
 			: 0;
 	$: postChangeOrientScroll = -(windowInnerBlockSize / 2);
 	$: isLaptop = windowInnerInlineSize > 1280;
@@ -51,7 +51,7 @@
 		fetchImages.forEach((image) => {
 			if (
 				uniqueImages.has(image.id) ||
-				$sourceTypeStore.sourcesStack.has(image.id)
+				$sourceTypeStackStore.has(image.id)
 			)
 				return;
 
@@ -70,14 +70,14 @@
 	};
 
 	let addImage = (image: any) => {
-		if ($sourceTypeStore.type !== 'internet') {
-			$sourceTypeStore.type = 'internet';
-			$sourceTypeStore.sourcesStack = new Map();
+		if ($sourceTypeStore !== 'internet') {
+			$sourceTypeStore = 'internet';
+			$sourceTypeStackStore = new Map();
 		}
 
 		const imageData = image as IImageData;
 
-		sourceTypeStore.addURI(imageData);
+		sourceTypeStackStore.addURI(imageData);
 	};
 
 	onMount(async () => {
@@ -100,7 +100,7 @@
 			!previousImagesIsSet
 		) {
 			const previousImages = Array.from(
-				$sourceTypeStore.sourcesStack.values()
+				$sourceTypeStackStore.values()
 			).filter((image) => typeof image === 'object');
 
 			previousImages.forEach((image) => {
@@ -186,7 +186,7 @@
                 tw-px-4
                 tw-py-2
               "
-							on:click={sourceTypeStore.clear}
+							on:click={sourceTypeStackStore.clear}
 						>
 							Unselected all
 						</button>
@@ -195,9 +195,8 @@
 			{/if}
 
 			<BaseTablet class="tw-mt-3 tw-inline-flex">
-				<Link
-					link="/"
-					target="_self"
+				<a
+					href="/"
 					class="
             tw-text-xs
             mobile:tw-text-sm
@@ -207,7 +206,7 @@
           "
 				>
 					{selectedImagesCount ? 'Set this image(s)' : 'Return home'}
-				</Link>
+        </a>
 			</BaseTablet>
 		</div>
 

@@ -21,6 +21,7 @@
     out-in-transition
     tw-justify-start
     tw-items-center
+    tw-text-start
     tw-w-full
     tw-h-full
     tw-py-2
@@ -38,6 +39,7 @@
 				x: 100,
 				easing: cubicInOut
 			}}
+      class="tw-truncate"
 		>
 			{title}
 		</span>

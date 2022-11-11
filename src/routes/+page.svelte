@@ -1,41 +1,30 @@
 <script lang="ts">
-	import type { ObjectOption } from 'svelte-multiselect';
-	import type { ICollectionData } from '@/types/API/Unsplash/DataTypes/ICollectionData';
-
 	import { onMount } from 'svelte';
 	import { scale, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
-	import { getColorWithType } from '@/modules/median-cut';
-	import searchCollections from '@/api/unsplash/search-collections';
+  import { goto } from '$app/navigation'
+	import { getColorWithType, median } from '@/modules/median-cut';
 	import getImgURL from '@/modules/get-img-url';
 	import toastConnector from '@/modules/toast-connector';
 	import debounce from 'lodash-es/debounce';
-	import themeStore from '@/stores/settings/theme-store';
-	import svelteToastStore from '@/stores/settings/svelte-toast-store';
+	import sourceTypeStackStore from '@/stores/storage/source-type-stack';
 	import sourceTypeStore from '@/stores/settings/source-type';
-	import selectedCollectionsStore from '@/stores/settings/selected-collections';
-	import unsplashImageQualityStore from '@/stores/settings/unsplash-image-quality';
-	import setPrevSelectedImagesfrom from '@/stores/settings/set-prev-selected-images';
+	import selectedCollectionsStore from '@/stores/storage/selected-collections';
 	import sourceImagesURI from '@/stores/deriveds/source-images-uri';
 	import swiperControlsVisible from '@/stores/settings/swiper-controls-visible';
 	import outputColorType from '@/stores/settings/output-color-type';
-	import unsplashQualities from '@/configs/unsplash-qualities';
-	import colorsOutputType from '@/configs/colors-output-type';
 	import { SwiperSlide } from 'swiper/svelte';
 	import { Navigation } from 'swiper';
-	import { Modal } from 'carbon-components-svelte';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
-	import { FileUploaderDropContainer, Toggle } from 'carbon-components-svelte';
-	import MultiSelectTags from '@/lib/modules/MultiSelectTags.svelte';
+	import { FileUploaderDropContainer } from 'carbon-components-svelte';
 	import DrawerMenu from '@/lib/UI/DrawerMenu.svelte';
-	import Link from '@/lib/UI/Link.svelte';
 	import SwitchBtn from '@/lib/UI/SwitchBtn.svelte';
 	import Slider from '@/lib/modules/Slider.svelte';
-	import SettingTitle from '@/lib/UI/SettingTitle.svelte';
-	import Tabs from '@/lib/UI/Tabs.svelte';
 	import ToastCopy from '@/lib/modules/Toasts/ToastCopy.svelte';
 	import Preloader from '@/lib/UI/Preloader.svelte';
 	import CircleIcon from '@/lib/UI/CircleIcon.svelte';
+  import ModalDefault from '@/lib/UI/Modals/ModalDefault.svelte';
+  import GlobalSettingsList from '@/lib/Partials/root/GlobalSettingsList.svelte'
 
 	type MenuType = 'sources' | 'settings';
 
@@ -43,56 +32,40 @@
 	let currentImageRef: HTMLImageElement;
 	let canvasRef: HTMLCanvasElement;
 	let drawerMenuVisible = false;
-	let uploadingModalState = false;
+	let uploadingModal = false;
+  let warningEmptyCollectionModal = false;
 	let showOptions = true;
 	let currentColor = 'transition';
 	let menuType: MenuType;
-	let unsplashCollections: Array<ObjectOption & ICollectionData> = [];
 	let windowInlineSize = 0;
 	let windowBlockSize = 0;
 	let pendingChangeColor = false;
 	let pendingOnMount = true;
+  
+  const medianCut = median(true)
 
 	$: canvasSize = Math.round((windowBlockSize + windowInlineSize) / 100);
 
-	const getCollections = async (query: string) => {
-		const paginate = await searchCollections({
-			query,
-			per_page: 100
-		});
-
-		unsplashCollections = paginate.results.map((collection) => {
-			const username = collection.user.username ?? 'No-Name';
-			const label = `${username}: ${collection.title}`;
-
-			return {
-				label,
-				username,
-				...collection
-			};
-		});
-	};
-
 	const setUploadingImages = async (event: CustomEvent) => {
-		$sourceTypeStore.sourcesStack = new Map();
+		$sourceTypeStackStore = new Map();
 
 		const images = await getImgURL({ maxWidthOrHeight: 2440 }, ...event.detail);
 
-		$sourceTypeStore.sourcesStack = new Map(
+		$sourceTypeStackStore = new Map(
 			images.map((image, idx) => [idx, image])
 		);
 
-		if (!$sourceTypeStore.sourcesStack.size) return;
+		if (!$sourceTypeStackStore.size) return;
 
-		$sourceTypeStore.type = 'uploading';
+		$sourceTypeStore = 'uploading';
 
-		uploadingModalState = false;
+		uploadingModal = false;
 	};
 
 	const changeColor = debounce(async () => {
 		pendingChangeColor = true;
 
-		currentColor = await getColorWithType({
+		currentColor = await getColorWithType(medianCut, {
 			image: currentImageRef,
 			canvas: canvasRef,
 			type: $outputColorType,
@@ -113,23 +86,15 @@
 	}, 250);
 
 	const changeImage = (event: CustomEvent) => {
-		const { imagesToLoad, activeIndex } = event.detail;
+    const { imagesToLoad, activeIndex } = event.detail;
+
+    if (!imagesToLoad) return;
 
 		const image = imagesToLoad[activeIndex];
 
-		if (!image) return;
-
 		currentImageRef = image;
 
-		if (image.complete) {
-			changeColor();
-
-			return;
-		}
-
-		image.onload = () => {
-			changeColor();
-		};
+		changeColor();
 	};
 
 	const toggleMenu = (type: MenuType) => {
@@ -137,6 +102,16 @@
 
 		drawerMenuVisible = !drawerMenuVisible;
 	};
+
+  const goToInternetImages = () => {
+    if (!$selectedCollectionsStore.length) {
+      warningEmptyCollectionModal = true
+
+      return
+    }
+
+    goto('/getting-images')
+  }
 
 	onMount(() => {
 		pendingOnMount = false;
@@ -409,7 +384,7 @@
 				</div>
 			{/if}
 
-			{#if $sourceTypeStore.type === 'started' && !$sourceTypeStore.sourcesStack.size}
+			{#if $sourceTypeStore === 'started' || !$sourceTypeStore}
 				<Slider
 					modules={[Navigation]}
 					navigation={showOptions
@@ -429,10 +404,9 @@
           "
 					loop
 					slidesPerView={1}
-					on:afterInit={changeImage}
 					on:indexChanged={changeImage}
 				>
-					{#if $sourceTypeStore.type === 'started'}
+					{#if $sourceTypeStore === 'started'}
 						{#each [...Array(3).keys()] as _, i (`image-${i}`)}
 							<SwiperSlide>
 								<img
@@ -444,7 +418,7 @@
 						{/each}
 					{/if}
 				</Slider>
-			{:else if $sourceTypeStore.type === 'uploading' && $sourceTypeStore.sourcesStack.size}
+			{:else if $sourceTypeStore === 'uploading' && $sourceTypeStackStore.size}
 				<Slider
 					modules={[Navigation]}
 					navigation={showOptions
@@ -464,7 +438,6 @@
           "
 					slidesPerView={1}
 					loop
-					on:afterInit={changeImage}
 					on:indexChanged={changeImage}
 				>
 					{#each $sourceImagesURI as image, i (`uploading-${i}`)}
@@ -477,7 +450,7 @@
 						</SwiperSlide>
 					{/each}
 				</Slider>
-			{:else if $sourceTypeStore.type === 'internet' && $sourceTypeStore.sourcesStack.size}
+			{:else if $sourceTypeStore === 'internet' && $sourceTypeStackStore.size}
 				<Slider
 					modules={[Navigation]}
 					navigation={showOptions
@@ -497,7 +470,6 @@
             "
 					slidesPerView={1}
 					loop
-					on:afterInit={changeImage}
 					on:indexChanged={changeImage}
 				>
 					{#each $sourceImagesURI as image, i (`internet-${i}`)}
@@ -529,6 +501,7 @@
     dark:tw-text-white
     tw-rounded-none
     tablet:tw-rounded-xl
+    tablet:tw-overflow-hidden
   "
 	containerVisibleClasses="tw-backdrop-blur-lg"
 	positionSide="left"
@@ -545,36 +518,35 @@
 		>
 			<button
 				class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
-				class:active={$sourceTypeStore.type === 'started'}
-				on:click={() => ($sourceTypeStore.type = 'started')}
+				class:active={$sourceTypeStore === 'started'}
+				on:click={() => ($sourceTypeStore = 'started')}
 			>
 				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
 					STARTED
 				</span>
 			</button>
 
-			<Link
-				link="/getting-image"
-				target="_self"
+			<button
 				class={`
           tw-text-xl
           tw-w-full
           tw-h-full
           tw-rounded-xl
           scaleable-shadow
-          ${$sourceTypeStore.type === 'internet' ? 'active' : ''}
+          ${$sourceTypeStore === 'internet' ? 'active' : ''}
         `}
+        on:click={goToInternetImages}
 			>
 				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
 					INTERNET
 				</span>
-			</Link>
+			</button>
 
 			<button
 				class="tw-text-xl tw-w-full tw-h-full tw-rounded-xl scaleable-shadow"
-				class:active={$sourceTypeStore.type === 'uploading'}
+				class:active={$sourceTypeStore === 'uploading'}
 				on:click={() => {
-					uploadingModalState = true;
+					uploadingModal = true;
 				}}
 			>
 				<span class="tw-grid tw-place-items-center tw-w-full tw-h-full">
@@ -588,6 +560,7 @@
         tw-h-full
         tw-p-6
         tw-overflow-y-scroll
+        tw-overscroll-contain
         mobile:tw-overflow-y-auto
         tw-shrink-1
       "
@@ -595,276 +568,19 @@
 			<h2 class="tw-text-2xl tw-text-center tw-mb-6">Settings</h2>
 
 			<div class="tw-space-y-3">
-				<SettingTitle
-					class="
-            tw-space-y-3
-            mobile:tw-flex-col
-            tw-justify-between
-            tw-items-center
-            mobile:tw-items-start
-          "
-					titleClass="
-            tw-font-bold
-            tw-text-center
-            tw-text-2xl
-            mobile:tw-text-start
-          "
-					title="Unsplash"
-				>
-					<SettingTitle
-						class="
-              mobile:tw-flex-col
-              tw-items-center
-              mobile:tw-items-start
-              tw-space-y-3
-            "
-						title="Collections"
-					>
-						<MultiSelectTags
-							bind:options={unsplashCollections}
-							bind:selected={$selectedCollectionsStore}
-							class="tw-self-stretch"
-							maxSelect={5}
-							noMatchingOptionsMsg="Oh! Empty!"
-							promiseCallback={getCollections}
-							searchParam="query"
-							autocomplete
-						>
-							<svelte:fragment let:option slot="option">
-								<div>
-									<h4 class="tw-font-bold tw-font-lg tw-inline-block">
-										{option.username}:
-									</h4>
-
-									<span class="tw-bg-electric-blue-crystal tw-font-bold">
-										{option.title}
-									</span>
-
-									<div>
-										Total images: <span class="tw-underline"
-											>{option.total_photos}</span
-										>
-									</div>
-								</div>
-							</svelte:fragment>
-						</MultiSelectTags>
-					</SettingTitle>
-
-					<SettingTitle
-						class="
-              mobile:tw-flex-col
-              tw-items-center
-              mobile:tw-items-start
-              tw-space-y-3
-            "
-						titleClass="
-              tw-text-center
-              mobile:tw-text-start
-            "
-						title="Image's quality"
-					>
-						<Tabs
-							class="
-                tw-grid
-                tw-grid-cols-1
-                mobile:tw-grid-cols-4
-                tw-gap-1.5
-              "
-							bind:group={$unsplashImageQualityStore}
-							values={unsplashQualities}
-						/>
-					</SettingTitle>
-				</SettingTitle>
-
-				<SettingTitle
-					class="
-            tw-space-y-3
-            mobile:tw-flex-col
-            tw-justify-between
-            tw-items-center
-            mobile:tw-items-start
-          "
-					titleClass="
-            tw-font-bold
-            tw-text-center
-            tw-text-2xl
-            mobile:tw-text-start
-          "
-					title="Theme"
-				>
-					<SettingTitle
-						class="
-              tw-space-y-3
-              mobile:tw-space-y-0
-              mobile:tw-space-x-3
-              tw-justify-between
-              tw-items-center
-            "
-						titleClass="
-              tw-text-center
-              mobile:tw-text-start
-            "
-						title="Dark theme"
-					>
-						<Toggle
-							bind:toggled={$themeStore.darkTheme}
-							class="custom-toggle"
-							hideLabel
-							labelA=""
-							labelB=""
-							disabled={$themeStore.systemPreferences}
-						/>
-					</SettingTitle>
-
-					<SettingTitle
-						class="
-              tw-space-y-3
-              mobile:tw-space-y-0
-              mobile:tw-space-x-3
-              tw-justify-between
-              tw-items-center
-            "
-						titleClass="
-              tw-text-center
-              mobile:tw-text-start
-            "
-						title="System preferences"
-					>
-						<Toggle
-							bind:toggled={$themeStore.systemPreferences}
-							class="custom-toggle"
-							hideLabel
-							labelA=""
-							labelB=""
-						/>
-					</SettingTitle>
-				</SettingTitle>
-
-				<SettingTitle
-					class="
-            tw-space-y-3
-            mobile:tw-flex-col
-            tw-justify-between
-            tw-items-center
-            mobile:tw-items-start
-          "
-					titleClass="
-            tw-font-bold
-            tw-text-center
-            tw-text-2xl
-            mobile:tw-text-start
-          "
-					title="Other"
-				>
-					<SettingTitle
-						class="
-              tw-space-y-3
-              mobile:tw-space-y-0
-              mobile:tw-space-x-3
-              tw-justify-between
-              tw-items-center
-            "
-						titleClass="
-              tw-text-center
-              mobile:tw-text-start
-            "
-						title="Toasts with color"
-					>
-						<Toggle
-							bind:toggled={$svelteToastStore}
-							class="custom-toggle"
-							hideLabel
-							labelA=""
-							labelB=""
-						/>
-					</SettingTitle>
-
-					<SettingTitle
-						class="
-              tw-space-y-3
-              mobile:tw-space-y-0
-              mobile:tw-space-x-3
-              tw-justify-between
-              tw-items-center
-            "
-						titleClass="
-              tw-text-center
-              mobile:tw-text-start
-            "
-						title="Show prev selected images from internet in the list"
-					>
-						<Toggle
-							bind:toggled={$setPrevSelectedImagesfrom}
-							class="custom-toggle"
-							hideLabel
-							labelA=""
-							labelB=""
-						/>
-					</SettingTitle>
-
-					<SettingTitle
-						class="
-              tw-space-y-3
-              mobile:tw-space-y-0
-              mobile:tw-space-x-3
-              tw-justify-between
-              tw-items-center
-            "
-						titleClass="
-              tw-text-center
-              mobile:tw-text-start
-            "
-						title="Controls of slider visible"
-					>
-						<Toggle
-							bind:toggled={$swiperControlsVisible}
-							class="custom-toggle"
-							hideLabel
-							labelA=""
-							labelB=""
-						/>
-					</SettingTitle>
-
-					<SettingTitle
-						class="
-              mobile:tw-flex-col
-              tw-items-center
-              mobile:tw-items-start
-              tw-space-y-3
-            "
-						titleClass="
-              tw-text-center
-              mobile:tw-text-start
-            "
-						title="Color output type"
-					>
-						<Tabs
-							class="
-                tw-grid
-                tw-grid-cols-1
-                mobile:tw-grid-cols-4
-                tw-gap-1.5
-              "
-							bind:group={$outputColorType}
-							values={colorsOutputType}
-						/>
-					</SettingTitle>
-				</SettingTitle>
+        <GlobalSettingsList />
 			</div>
 		</div>
 	{/if}
 </DrawerMenu>
 
-<Modal
-	bind:open={uploadingModalState}
-	class="custom-modal no-footer"
-	modalHeading="Upload file(s)"
-	passiveModal
-	on:open
-	on:close
-	on:submit
+<ModalDefault
+  bind:open={uploadingModal}
+  modalClass="no-footer adaptive-size"
+  modalHeading="Select files"
+  passiveModal
 >
-	<div class="out-in-transition tw-h-full">
+  <div class="out-in-transition tw-h-full">
 		{#await promiseSetUploadingImages}
 			<div
 				class="tw-grid tw-place-items-center"
@@ -887,7 +603,7 @@
 				<FileUploaderDropContainer
 					multiple
 					class="custom-uploader"
-					labelText="Drag and drop no more than five files here or click to upload"
+					labelText="Drag and drop files here or click to upload"
 					on:change={(event) => {
 						promiseSetUploadingImages = setUploadingImages(event);
 					}}
@@ -895,4 +611,15 @@
 			</div>
 		{/await}
 	</div>
-</Modal>
+</ModalDefault>
+
+<ModalDefault
+  bind:open={warningEmptyCollectionModal}
+  modalClass="no-footer auto-size warning"
+  modalHeading="Warning: empty collections"
+  passiveModal
+>
+  <span class="tw-text-base">
+    Unsplash collections is empty, please set them in settings!
+  </span>
+</ModalDefault>

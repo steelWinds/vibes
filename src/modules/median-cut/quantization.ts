@@ -1,13 +1,11 @@
-import type { IRGBData } from './types/Types';
+import type { IQuantizationParams } from './types/Params';
+
 import colorRange from './colorRange';
 import getColor from './getColor';
 
-const quantization = (
-	RGBValues?: IRGBData[],
-	depth = 1,
-	maxDepth = 1
-): IRGBData[] | undefined => {
-	if (!RGBValues) return;
+const quantization = (props: IQuantizationParams): IQuantizationParams['RGBValues'] => {
+  const { RGBValues, colorDepth = { depth: 1, maxDepth: 1 } } = props 
+  const { depth, maxDepth } = colorDepth
 
 	if (depth === maxDepth || !RGBValues.length) {
 		return getColor(RGBValues);
@@ -24,8 +22,8 @@ const quantization = (
 	const mid = RGBValues.length / 2;
 
 	return [
-		...(quantization(RGBValues.slice(0, mid), depth + 1, maxDepth) ?? []),
-		...(quantization(RGBValues.slice(mid + 1), depth + 1, maxDepth) ?? [])
+		...(quantization({ RGBValues: RGBValues.slice(0, mid), colorDepth: { depth: depth + 1, maxDepth }}) ?? []),
+		...(quantization({ RGBValues: RGBValues.slice(mid + 1), colorDepth: { depth: depth + 1, maxDepth }}) ?? [])
 	];
 };
 

@@ -23,6 +23,7 @@ specifiers:
   eslint-plugin-svelte3: ^4.0.0
   husky: ^8.0.2
   lodash-es: ^4.17.21
+  module-workers-polyfill: ^0.3.2
   ohmyfetch: ^0.4.21
   postcss: ^8.4.18
   postcss-import: ^15.0.0
@@ -49,6 +50,7 @@ dependencies:
   color: 4.2.3
   copy-to-clipboard: 3.3.2
   lodash-es: 4.17.21
+  module-workers-polyfill: 0.3.2
   ohmyfetch: 0.4.21
   svelte-inview: 3.0.1_svelte@3.52.0
   swiper: 8.4.4
@@ -2325,6 +2327,10 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dev: true
+
+  /module-workers-polyfill/0.3.2:
+    resolution: {integrity: sha512-zcEMj8vUGYu1Tc5s2GK84MBzRSweec/Ef6F7phRF8QlTfTf2upFNsR3W0lDhvN2E6o1TTXbFIYynD0rQSlynPw==}
+    dev: false
 
   /mri/1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}

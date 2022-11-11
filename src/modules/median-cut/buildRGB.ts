@@ -1,8 +1,6 @@
 import type { IRGBData } from './types/Types';
 
-const buildRGB = (imageData?: ImageData['data']) => {
-	if (!imageData) return;
-
+const buildRGB = (imageData: ImageData['data']) => {
 	const rgbValues: IRGBData[] = [];
 
 	for (let i = 0; i < imageData.length; i += 4) {

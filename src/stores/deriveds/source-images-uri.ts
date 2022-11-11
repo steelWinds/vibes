@@ -1,11 +1,11 @@
-import sourceTypeStore from '@/stores/settings/source-type';
+import sourceTypeStackStore from '@/stores/storage/source-type-stack';
 import unsplashImageQualityStore from '@/stores/settings/unsplash-image-quality';
 import { derived } from 'svelte/store';
 
 const sourceImagesURI = derived(
-	[sourceTypeStore, unsplashImageQualityStore],
+	[sourceTypeStackStore, unsplashImageQualityStore],
 	([$images, $quality]) => {
-		return Array.from($images.sourcesStack.values()).map((image) => {
+		return Array.from($images.values()).map((image) => {
 			switch (typeof image) {
 				case 'object':
 					return image.urls[$quality];

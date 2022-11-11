@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { Tag } from 'carbon-components-svelte';
-	import Link from '@/lib/UI/Link.svelte';
 
 	export let link = '';
 </script>
 
-<Link {link} target="_blank">
+<a href={link} target="_blank" rel="noreferrer noopener">
 	<Tag class="custom-tag">
 		<slot />
 	</Tag>
-</Link>
+</a>
