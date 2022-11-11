@@ -1,5 +1,5 @@
 type ConfigObj<T> = {
-  value: T
-}
+	value: T;
+};
 
-export type { ConfigObj }
+export type { ConfigObj };

@@ -21,7 +21,7 @@
 	let windowInnerBlockSize = 0;
 	let windowInnerInlineSize = 0;
 	let pendingPreviousLoadingImages = true;
-  let previousImagesIsSet = false;
+	let previousImagesIsSet = false;
 
 	$: selectedImagesCount =
 		$sourceTypeStore.type === 'internet'
@@ -93,8 +93,12 @@
 		});
 	});
 
-  afterUpdate(() => {
-    if ($setPrevSelectedImagesStore && selectedImagesCount && !previousImagesIsSet) {
+	afterUpdate(() => {
+		if (
+			$setPrevSelectedImagesStore &&
+			selectedImagesCount &&
+			!previousImagesIsSet
+		) {
 			const previousImages = Array.from(
 				$sourceTypeStore.sourcesStack.values()
 			).filter((image) => typeof image === 'object');
@@ -107,9 +111,9 @@
 				uniqueImages.set(imageData.id, imageData);
 			});
 
-      previousImagesIsSet = true;
+			previousImagesIsSet = true;
 		}
-  })
+	});
 </script>
 
 <svelte:window

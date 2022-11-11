@@ -11,8 +11,8 @@ const paginate = <
 ) => {
 	let currentPage = props?.page ?? 0;
 
-  const handler = async (perPage: number) => {
-    console.log(currentPage)
+	const handler = async (perPage: number) => {
+		console.log(currentPage);
 
 		const { data } = await useFetch<U>(URI, {
 			query: Object.assign(props, { page: currentPage++, per_page: perPage })

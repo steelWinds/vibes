@@ -1,7 +1,7 @@
 <script lang="ts">
 	import RadioBtn from '@/lib/UI/RadioBtn.svelte';
 
-  type T = $$Generic;
+	type T = $$Generic;
 
 	interface IValues {
 		value: T;

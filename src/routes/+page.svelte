@@ -321,7 +321,12 @@
         tw-min-w-0
       "
 		>
-			<Preloader state={pendingChangeColor} zIndex="50" position="absolute" class="tw-rounded-2xl" />
+			<Preloader
+				state={pendingChangeColor}
+				zIndex="50"
+				position="absolute"
+				class="tw-rounded-2xl"
+			/>
 
 			{#if $swiperControlsVisible}
 				<div
@@ -820,7 +825,7 @@
 						/>
 					</SettingTitle>
 
-          <SettingTitle
+					<SettingTitle
 						class="
               mobile:tw-flex-col
               tw-items-center

@@ -1,4 +1,4 @@
-import type { OutputColorType } from '@/configs/colors-output-type' 
+import type { OutputColorType } from '@/configs/colors-output-type';
 
 interface IExtractCanvasParams {
 	image: HTMLImageElement;

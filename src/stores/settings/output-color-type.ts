@@ -1,4 +1,4 @@
-import type { OutputColorType } from '@/configs/colors-output-type'
+import type { OutputColorType } from '@/configs/colors-output-type';
 
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import { writable } from 'svelte/store';
