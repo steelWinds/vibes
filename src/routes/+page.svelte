@@ -320,14 +320,19 @@
 				>
 					<button
 						class="
+              tw-group
               prev-arr
               tw--rotate-90
-              active:tw-translate-x-2
-              tw-duration-250
             "
 					>
 						<CircleIcon
-							class="tw-w-[12vmin] mobile:tw-w-[7vmin] laptop:tw-w-[6vmin]"
+							class="
+                tw-w-[12vmin]
+                mobile:tw-w-[7vmin]
+                laptop:tw-w-[6vmin]
+                group-active:tw-translate-y-2
+                tw-duration-250
+              "
 						>
 							<svg
 								class="
@@ -351,14 +356,19 @@
 
 					<button
 						class="
+              tw-group
               next-arr
               tw-rotate-90
-              active:tw--translate-x-2
-              tw-duration-250
             "
 					>
 						<CircleIcon
-							class="tw-w-[12vmin] mobile:tw-w-[7vmin] laptop:tw-w-[6vmin]"
+							class="
+                tw-w-[12vmin]
+                mobile:tw-w-[7vmin]
+                laptop:tw-w-[6vmin]
+                group-active:tw--translate-y-2
+                tw-duration-250
+              "
 						>
 							<svg
 								class="

@@ -1,6 +1,6 @@
 import type { IImageData } from '@/types/API/Unsplash/DataTypes/IImageData';
 
-import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
+import { persist, createIndexedDBStorage } from '@macfja/svelte-persistent-store';
 import sourceTypeStore from '@/stores/settings/source-type';
 import { writable, get } from 'svelte/store';
 
@@ -10,7 +10,7 @@ const createSourceTypeStore = () => {
 
 	const { subscribe, update, set } = persist(
 		writable<Map<string | number, IImageData | string>>(new Map()),
-		createLocalStorage(),
+		createIndexedDBStorage(),
 		'source-type-stack'
 	);
 
