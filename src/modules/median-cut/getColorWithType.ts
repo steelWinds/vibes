@@ -11,7 +11,7 @@ const getColorWithType = async (
 
 	if (!medianFn) return;
 
-	const RGBColor = await medianFn(props);
+  const RGBColor = await medianFn(props);
 
 	return Color(RGBColor?.[0])?.[type]();
 };
