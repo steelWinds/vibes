@@ -104,11 +104,11 @@
 	const goToInternetImages = () => {
 		if (!$selectedCollectionsStore.length) {
 			modalConnectorStore.openModal('warning-collections', {
-        modalHeading: 'Warning: empty collections',
-        content: 'Unsplash collections is empty, please set them in settings!',
-        modalClass: 'no-footer auto-size warning',
-        passiveModal: true
-      })
+				modalHeading: 'Warning: empty collections',
+				content: 'Unsplash collections is empty, please set them in settings!',
+				modalClass: 'no-footer auto-size warning',
+				passiveModal: true
+			});
 
 			return;
 		}

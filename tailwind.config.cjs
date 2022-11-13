@@ -27,7 +27,7 @@ module.exports = {
 			'electric-blue-crystal': 'rgb(44 117 255 / .3)',
 			'electric-blue-pre-crystal': 'rgb(44 117 255 / .9)',
 			'red-pre-crystal': 'rgb(204 51 0 / .9)',
-			'red': 'rgb(204 51 0)',
+			red: 'rgb(204 51 0)',
 			'green-pre-crystal': 'rgb(51 153 0 / .9)',
 			orange: 'rgb(255 204 0)',
 			'dark-orange': 'rgb(204 163 0)'

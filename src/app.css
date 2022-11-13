@@ -196,24 +196,24 @@ a {
 		}
 	}
 
-  &.warning {
+	&.warning {
 		& h3.bx--modal-header__heading {
 			@apply tw-text-dark-orange dark:tw-text-orange;
 		}
 
-    & .bx--modal-content {
-      @apply tw-text-base;
-    }
+		& .bx--modal-content {
+			@apply tw-text-base;
+		}
 	}
 
-  &.error {
+	&.error {
 		& h3.bx--modal-header__heading {
 			@apply tw-text-red;
 		}
 
-    & .bx--modal-content {
-      @apply tw-text-base;
-    }
+		& .bx--modal-content {
+			@apply tw-text-base;
+		}
 	}
 }
 
