@@ -2,19 +2,6 @@
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": ["config:base"],
 	"prHourlyLimit": 3,
-	"lockFileMaintenance": {
-		"enabled": true,
-		"automerge": true
-	},
-	"packageRules": [
-		{
-			"matchDepTypes": ["devDependencies"],
-			"matchPackagePatterns": ["lint", "prettier"],
-			"automerge": true
-		}
-	],
 	"automerge": true,
 	"automergeType": "branch",
-	"schedule": "after 11am and before 6am",
-	"automergeSchedule": "after 11am and before 6am"
 }
