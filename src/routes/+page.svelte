@@ -13,6 +13,7 @@
 	import sourceImagesURI from '@/stores/deriveds/source-images-uri';
 	import swiperControlsVisible from '@/stores/settings/swiper-controls-visible';
 	import outputColorType from '@/stores/settings/output-color-type';
+	import modalConnectorStore from '@/stores/modules/modal-connector';
 	import { SwiperSlide } from 'swiper/svelte';
 	import { Navigation } from 'swiper';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
@@ -33,7 +34,6 @@
 	let canvasRef: HTMLCanvasElement;
 	let drawerMenuVisible = false;
 	let uploadingModal = false;
-	let warningEmptyCollectionModal = false;
 	let showOptions = true;
 	let currentColor = 'transition';
 	let menuType: MenuType;
@@ -103,7 +103,12 @@
 
 	const goToInternetImages = () => {
 		if (!$selectedCollectionsStore.length) {
-			warningEmptyCollectionModal = true;
+			modalConnectorStore.openModal('warning-collections', {
+        modalHeading: 'Warning: empty collections',
+        content: 'Unsplash collections is empty, please set them in settings!',
+        modalClass: 'no-footer auto-size warning',
+        passiveModal: true
+      })
 
 			return;
 		}
@@ -330,7 +335,7 @@
                 tw-w-[12vmin]
                 mobile:tw-w-[7vmin]
                 laptop:tw-w-[6vmin]
-                group-active:tw-translate-y-2
+                group-active:tw--translate-y-2
                 tw-duration-250
               "
 						>
@@ -619,15 +624,4 @@
 			</div>
 		{/await}
 	</div>
-</ModalDefault>
-
-<ModalDefault
-	bind:open={warningEmptyCollectionModal}
-	modalClass="no-footer auto-size warning"
-	modalHeading="Warning: empty collections"
-	passiveModal
->
-	<span class="tw-text-base">
-		Unsplash collections is empty, please set them in settings!
-	</span>
 </ModalDefault>

@@ -1,8 +1,11 @@
+<svelte:options immutable={true}/>
+
 <script lang="ts">
 	import { Modal } from 'carbon-components-svelte';
 
-	export let modalClass: string;
 	export let open: boolean;
+	export let modalClass = '';
+  export let content = '';
 </script>
 
 <Modal
@@ -13,5 +16,7 @@
 	on:close
 	on:submit
 >
-	<slot />
+	{ content }
+
+  <slot />
 </Modal>

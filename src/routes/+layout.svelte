@@ -8,6 +8,7 @@
 	import ToastNetworkConnection from '@/lib/modules/Toasts/ToastNetworkConnection.svelte';
 	import Preloader from '@/lib/UI/Preloader.svelte';
 	import BarLoader from '@/lib/UI/BarLoader.svelte';
+	import ModalConnector from '@/lib/modules/ModalConnector.svelte';
 
 	import '../app.css';
 
@@ -45,6 +46,8 @@
 <Preloader state={pendingOnMount} zIndex="99999" position="fixed">
 	<BarLoader size="110" />
 </Preloader>
+
+<ModalConnector />
 
 <main
 	data-sveltekit-prefetch

@@ -133,12 +133,6 @@ a {
 .custom-modal {
 	@apply tw-p-3;
 
-	&.warning {
-		& h3.bx--modal-header__heading {
-			@apply tw-text-dark-orange dark:tw-text-orange;
-		}
-	}
-
 	&.no-footer {
 		& .bx--modal-content {
 			@apply tw-m-0 tw-py-3;
@@ -200,6 +194,26 @@ a {
 				@apply tw-fill-white dark:tw-fill-raisin-black;
 			}
 		}
+	}
+
+  &.warning {
+		& h3.bx--modal-header__heading {
+			@apply tw-text-dark-orange dark:tw-text-orange;
+		}
+
+    & .bx--modal-content {
+      @apply tw-text-base;
+    }
+	}
+
+  &.error {
+		& h3.bx--modal-header__heading {
+			@apply tw-text-red;
+		}
+
+    & .bx--modal-content {
+      @apply tw-text-base;
+    }
 	}
 }
 
