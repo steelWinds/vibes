@@ -36,7 +36,7 @@ specifiers:
   svelte-check: ^2.9.2
   svelte-inview: ^3.0.1
   svelte-loading-spinners: ^0.3.4
-  svelte-multiselect: ^8.0.2
+  svelte-multiselect: ^8.1.0
   svelte-preprocess: ^4.10.7
   swiper: ^8.4.5
   tailwindcss: ^3.2.4
@@ -84,7 +84,7 @@ devDependencies:
   svelte-bricks: 0.1.7
   svelte-check: 2.9.2_mocwzvuqzrhb37u7s4hjvvzl3i
   svelte-loading-spinners: 0.3.4
-  svelte-multiselect: 8.0.2
+  svelte-multiselect: 8.1.0
   svelte-preprocess: 4.10.7_j5pxud3sqxrswhsagm6naoo5gu
   tailwindcss: 3.2.4_postcss@8.4.19
   tslib: 2.4.1
@@ -3032,8 +3032,8 @@ packages:
     resolution: {integrity: sha512-vKaW71QMCBcTNijAGc0mUl8k3DQ66iYmp6MB8BMGCXyWk82bTrcLy8FOnSm9fE+8q6TwzD6PLUoYFHt0II93Xw==}
     dev: true
 
-  /svelte-multiselect/8.0.2:
-    resolution: {integrity: sha512-BLMZ/sT6Uvgt/9BHmoPzer897tFTtAhhSbj8JY2PUetTzXZ6Vrv5NiykBq0iYEc8zSmJN7sfHrgqp0saAzdhnw==}
+  /svelte-multiselect/8.1.0:
+    resolution: {integrity: sha512-YTzZ1s3VF+kGcz6DEZzc/sO1+mh6BT664D04rjvod5stJDpMENRkq3vBKSvrr89t193oWqPvJ0mQI5wEXUPI6w==}
     dev: true
 
   /svelte-preprocess/4.10.7_j5pxud3sqxrswhsagm6naoo5gu:
