@@ -30,7 +30,7 @@ specifiers:
   postcss-nesting: ^10.2.0
   postcss-preset-env: ^7.8.3
   prettier: ^2.7.1
-  prettier-plugin-svelte: ^2.8.0
+  prettier-plugin-svelte: ^2.8.1
   svelte: ^3.52.0
   svelte-bricks: ^0.1.7
   svelte-check: ^2.9.2
@@ -79,7 +79,7 @@ devDependencies:
   postcss-nesting: 10.2.0_postcss@8.4.19
   postcss-preset-env: 7.8.3_postcss@8.4.19
   prettier: 2.7.1
-  prettier-plugin-svelte: 2.8.0_lrllcp5xtrkmmdzifit4hd52ze
+  prettier-plugin-svelte: 2.8.1_lrllcp5xtrkmmdzifit4hd52ze
   svelte: 3.52.0
   svelte-bricks: 0.1.7
   svelte-check: 2.9.2_ihqewwycgzwzieh4kifndbsfy4
@@ -2701,8 +2701,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier-plugin-svelte/2.8.0_lrllcp5xtrkmmdzifit4hd52ze:
-    resolution: {integrity: sha512-QlXv/U3bUszks3XYDPsk1fsaQC+fo2lshwKbcbO+lrSVdJ+40mB1BfL8OCAk1W9y4pJxpqO/4gqm6NtF3zNGCw==}
+  /prettier-plugin-svelte/2.8.1_lrllcp5xtrkmmdzifit4hd52ze:
+    resolution: {integrity: sha512-KA3K1J3/wKDnCxW7ZDRA/QL2Q67N7Xs3gOERqJ5X1qFjq1DdnN3K1R29scSKwh+kA8FF67pXbYytUpvN/i3iQw==}
     peerDependencies:
       prettier: ^1.16.4 || ^2.0.0
       svelte: ^3.2.0
