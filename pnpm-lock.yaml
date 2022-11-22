@@ -28,7 +28,7 @@ specifiers:
   postcss: ^8.4.19
   postcss-import: ^15.0.0
   postcss-nesting: ^10.2.0
-  postcss-preset-env: ^7.8.2
+  postcss-preset-env: ^7.8.3
   prettier: ^2.7.1
   prettier-plugin-svelte: ^2.8.0
   svelte: ^3.52.0
@@ -77,7 +77,7 @@ devDependencies:
   postcss: 8.4.19
   postcss-import: 15.0.0_postcss@8.4.19
   postcss-nesting: 10.2.0_postcss@8.4.19
-  postcss-preset-env: 7.8.2_postcss@8.4.19
+  postcss-preset-env: 7.8.3_postcss@8.4.19
   prettier: 2.7.1
   prettier-plugin-svelte: 2.8.0_lrllcp5xtrkmmdzifit4hd52ze
   svelte: 3.52.0
@@ -2589,8 +2589,8 @@ packages:
       postcss-value-parser: 4.2.0
     dev: true
 
-  /postcss-preset-env/7.8.2_postcss@8.4.19:
-    resolution: {integrity: sha512-rSMUEaOCnovKnwc5LvBDHUDzpGP+nrUeWZGWt9M72fBvckCi45JmnJigUr4QG4zZeOHmOCNCZnd2LKDvP++ZuQ==}
+  /postcss-preset-env/7.8.3_postcss@8.4.19:
+    resolution: {integrity: sha512-T1LgRm5uEVFSEF83vHZJV2z19lHg4yJuZ6gXZZkqVsqv63nlr6zabMH3l4Pc01FQCyfWVrh2GaUeCVy9Po+Aag==}
     engines: {node: ^12 || ^14 || >=16}
     peerDependencies:
       postcss: ^8.2
