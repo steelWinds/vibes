@@ -53,7 +53,7 @@
 	"dependencies": {
 		"browser-image-compression": "^2.0.0",
 		"color": "^4.2.3",
-		"copy-to-clipboard": "^3.3.2",
+		"copy-to-clipboard": "^3.3.3",
 		"lodash-es": "^4.17.21",
 		"module-workers-polyfill": "^0.3.2",
 		"ohmyfetch": "^0.4.21",

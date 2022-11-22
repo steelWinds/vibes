@@ -13,7 +13,7 @@ specifiers:
   browser-image-compression: ^2.0.0
   carbon-components-svelte: ^0.70.12
   color: ^4.2.3
-  copy-to-clipboard: ^3.3.2
+  copy-to-clipboard: ^3.3.3
   eslint: ^8.27.0
   eslint-config-prettier: ^8.5.0
   eslint-config-standard-with-typescript: ^23.0.0
@@ -48,7 +48,7 @@ specifiers:
 dependencies:
   browser-image-compression: 2.0.0
   color: 4.2.3
-  copy-to-clipboard: 3.3.2
+  copy-to-clipboard: 3.3.3
   lodash-es: 4.17.21
   module-workers-polyfill: 0.3.2
   ohmyfetch: 0.4.21
@@ -862,8 +862,8 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /copy-to-clipboard/3.3.2:
-    resolution: {integrity: sha512-Vme1Z6RUDzrb6xAI7EZlVZ5uvOk2F//GaxKUxajDqm9LhOVM1inxNAD2vy+UZDYsd0uyA9s7b3/FVZPSxqrCfg==}
+  /copy-to-clipboard/3.3.3:
+    resolution: {integrity: sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==}
     dependencies:
       toggle-selection: 1.0.6
     dev: false
