@@ -39,7 +39,7 @@
 		"prettier-plugin-svelte": "^2.8.1",
 		"svelte": "^3.53.1",
 		"svelte-bricks": "^0.1.7",
-		"svelte-check": "^2.10.0",
+		"svelte-check": "^2.10.1",
 		"svelte-loading-spinners": "^0.3.4",
 		"svelte-multiselect": "^8.2.0",
 		"svelte-preprocess": "^4.10.7",
