@@ -33,7 +33,7 @@ specifiers:
   prettier-plugin-svelte: ^2.8.1
   svelte: ^3.54.0
   svelte-bricks: ^0.1.7
-  svelte-check: ^2.10.1
+  svelte-check: ^2.10.2
   svelte-inview: ^3.0.1
   svelte-loading-spinners: ^0.3.4
   svelte-multiselect: ^8.2.0
@@ -82,7 +82,7 @@ devDependencies:
   prettier-plugin-svelte: 2.8.1_sro2v6ld777payjtkjtiuogcxi
   svelte: 3.54.0
   svelte-bricks: 0.1.7
-  svelte-check: 2.10.1_krf6rbbde7xhpjgb5hctrpnlbe
+  svelte-check: 2.10.2_krf6rbbde7xhpjgb5hctrpnlbe
   svelte-loading-spinners: 0.3.4
   svelte-multiselect: 8.2.0
   svelte-preprocess: 4.10.7_7e2edak4tqhfihu2y2hbzyk2ra
@@ -2992,8 +2992,8 @@ packages:
     resolution: {integrity: sha512-2wJseuhlVYVRoCKJGQuwCySTMsvBVS4dchah6Ecz9RNng0zufx6NxToXc7iGf0QOHjo9wwAsOczRI+Ou2q4gEg==}
     dev: true
 
-  /svelte-check/2.10.1_krf6rbbde7xhpjgb5hctrpnlbe:
-    resolution: {integrity: sha512-uscZovyuOPA89NuAkc4vO27mzx//2wFBNtwTsgYcNs7JwaFpJ2TqBawQ/avG7gkieYQ3QXqFUggJZ+s51fQGDQ==}
+  /svelte-check/2.10.2_krf6rbbde7xhpjgb5hctrpnlbe:
+    resolution: {integrity: sha512-h1Tuiir0m8J5yqN+Vx6qgKKk1L871e6a9o7rMwVWfu8Qs6Wg7x2R+wcxS3SO3VpW5JCxCat90rxPsZMYgz+HaQ==}
     hasBin: true
     peerDependencies:
       svelte: ^3.24.0
