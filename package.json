@@ -22,7 +22,7 @@
 		"@typescript-eslint/parser": "^5.46.0",
 		"@zerodevx/svelte-toast": "^0.8.2",
 		"autoprefixer": "^10.4.13",
-		"carbon-components-svelte": "^0.70.12",
+		"carbon-components-svelte": "^0.73.1",
 		"eslint": "^8.29.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-config-standard-with-typescript": "^23.0.0",
