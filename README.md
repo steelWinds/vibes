@@ -13,7 +13,7 @@
 
 # WARNING! ALERT! STOP!
 
-***Project was made with SvelteKit beta-version, so it may including some bugs and errors, sorry!*** 
+***Project was made with SvelteKit beta-version, so now it may including some bugs and errors, sorry!*** 
 
 # Vibes
 
